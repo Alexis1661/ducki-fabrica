@@ -1,0 +1,35 @@
+{
+ "slug": "3-formas-de-declararte",
+ "gancho": {
+  "titulo": "3 FORMAS",
+  "sub": "de declararte en",
+  "etiqueta": null
+ },
+ "intro": "¿Te gusta alguien de la U? Tres formas de decírselo en Ducki, sin morirte de pena.",
+ "puntos": [
+  {
+   "funcion": "carta",
+   "texto": "Uno, déjale una carta en su casillero, firmada o anónima, tú decides.",
+   "favorita": false
+  },
+  {
+   "funcion": "crush",
+   "texto": "Dos, márcalo como crush. Tu nombre queda en secreto, y si te marca también, es match.",
+   "favorita": false
+  },
+  {
+   "funcion": "sala",
+   "texto": "Y tres, invítalo a una Duckisala y hablen por voz toda la noche.",
+   "favorita": false
+  }
+ ],
+ "cierre_todo": null,
+ "cierre": "Descarga Ducki gratis. Aquí todos somos patos.",
+ "caption": "Tres formas de declararte sin morirte de pena. ¿Cuál usarías tú?",
+ "hashtags": [
+  "#Ducki",
+  "#Crush",
+  "#UniversitariosCali",
+  "#VidaUniversitaria"
+ ]
+}
