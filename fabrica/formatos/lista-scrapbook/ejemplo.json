@@ -1,0 +1,20 @@
+{
+ "slug": "9-cosas-en-ducki",
+ "gancho": { "titulo": "9 COSAS", "sub": "que puedes hacer en", "etiqueta": "la nº 9 = mi favorita" },
+ "intro": "Nueve cosas que puedes hacer en Ducki. La número nueve es mi favorita.",
+ "puntos": [
+  { "funcion": "publica", "texto": "Uno, publica lo que pasa en tu U… y si te da pena, en anónimo.", "favorita": false },
+  { "funcion": "mapa", "texto": "Dos, mira en el mapa dónde andan tus amigos.", "favorita": false },
+  { "funcion": "pato", "texto": "Tres, arma tu pato con cientos de accesorios.", "favorita": false },
+  { "funcion": "arte", "texto": "Cuatro, dibuja en DuckiArt. Y si ganas, tu dibujo sale en el celular de todos.", "favorita": false },
+  { "funcion": "parche", "texto": "Cinco, encuentra tu parche. Gente con tus mismos gustos de cualquier universidad.", "favorita": false },
+  { "funcion": "carta", "texto": "Seis, déjale una carta a alguien en su casillero, firmada o anónima.", "favorita": false },
+  { "funcion": "crush", "texto": "Siete, ¿te gusta alguien? Márcalo como crush. Si te marca también, match.", "favorita": false },
+  { "funcion": "sala", "texto": "Ocho, arma una Duckisala y hablen por voz con tus amigos.", "favorita": false },
+  { "funcion": "juegos", "texto": "Y nueve, mi favorita, los juegos. Ducki Kart, minigolf, juego del impostor, ¿quién soy?, todo por voz.", "favorita": true }
+ ],
+ "cierre_todo": "Todo eso en una sola app para los universitarios de Cali.",
+ "cierre": "Descarga Ducki gratis. Aquí todos somos patos.",
+ "caption": "Publicas, ves a tus amigos en el mapa, dibujas, encuentras tu parche, mandas cartas, le cuentas a tu crush y juegas con tus amigos por voz. Todo en una sola app, hecha para los universitarios de Cali. ¿Cuál es tu favorita? La mía es la 9.",
+ "hashtags": ["#Ducki", "#UniversitariosCali", "#Cali", "#VidaUniversitaria", "#AppsQueDebesTener"]
+}

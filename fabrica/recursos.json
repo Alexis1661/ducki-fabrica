@@ -1,0 +1,2288 @@
+{
+ "generado_por": "promo/scripts/fabrica/catalogo.py",
+ "categorias": {
+  "cabezas": {
+   "uso": "Cabezas del catálogo (495x446 originales, aquí a 330 px). Mismo encuadre: ojos y pico en el mismo sitio.",
+   "items": [
+    {
+     "id": "h000",
+     "origen": "Head/Normal2/Flux2_dev_00001__387687.png",
+     "pub": "fabrica/piezas/h000.png"
+    },
+    {
+     "id": "h001",
+     "origen": "Head/Normal2/Flux2_dev_00007__983843.png",
+     "pub": "fabrica/piezas/h001.png"
+    },
+    {
+     "id": "h002",
+     "origen": "Head/Normal2/Flux2_dev_00008__866126.png",
+     "pub": "fabrica/piezas/h002.png"
+    },
+    {
+     "id": "h003",
+     "origen": "Head/Normal2/Flux2_dev_00009__719796.png",
+     "pub": "fabrica/piezas/h003.png"
+    },
+    {
+     "id": "h004",
+     "origen": "Head/Normal2/Flux2_dev_00011__299360.png",
+     "pub": "fabrica/piezas/h004.png"
+    },
+    {
+     "id": "h005",
+     "origen": "Head/Normal2/Flux2_dev_00012__863463.png",
+     "pub": "fabrica/piezas/h005.png"
+    },
+    {
+     "id": "h006",
+     "origen": "Head/Normal2/Flux2_dev_00013__494974.png",
+     "pub": "fabrica/piezas/h006.png"
+    },
+    {
+     "id": "h007",
+     "origen": "Head/Normal2/Flux2_dev_00018__334979.png",
+     "pub": "fabrica/piezas/h007.png"
+    },
+    {
+     "id": "h008",
+     "origen": "Head/Normal2/Flux2_dev_00020__145023.png",
+     "pub": "fabrica/piezas/h008.png"
+    },
+    {
+     "id": "h009",
+     "origen": "Head/Normal2/Flux2_dev_00021__319157.png",
+     "pub": "fabrica/piezas/h009.png"
+    },
+    {
+     "id": "h010",
+     "origen": "Head/Normal2/Flux2_dev_00023__901032.png",
+     "pub": "fabrica/piezas/h010.png"
+    },
+    {
+     "id": "h011",
+     "origen": "Head/Normal2/Flux2_dev_00024__954267.png",
+     "pub": "fabrica/piezas/h011.png"
+    },
+    {
+     "id": "h012",
+     "origen": "Head/Normal2/Flux2_dev_00025__409822.png",
+     "pub": "fabrica/piezas/h012.png"
+    },
+    {
+     "id": "h013",
+     "origen": "Head/Normal2/Flux2_dev_00029__989543.png",
+     "pub": "fabrica/piezas/h013.png"
+    },
+    {
+     "id": "h014",
+     "origen": "Head/Normal2/Flux2_dev_00032__299148.png",
+     "pub": "fabrica/piezas/h014.png"
+    },
+    {
+     "id": "h015",
+     "origen": "Head/Normal2/Flux2_dev_00033__798828.png",
+     "pub": "fabrica/piezas/h015.png"
+    },
+    {
+     "id": "h016",
+     "origen": "Head/Normal/Flux2_dev_00001__865701.png",
+     "pub": "fabrica/piezas/h016.png"
+    },
+    {
+     "id": "h017",
+     "origen": "Head/Normal/Flux2_dev_00002__928671.png",
+     "pub": "fabrica/piezas/h017.png"
+    },
+    {
+     "id": "h018",
+     "origen": "Head/Normal/Flux2_dev_00003__732302.png",
+     "pub": "fabrica/piezas/h018.png"
+    },
+    {
+     "id": "h019",
+     "origen": "Head/Normal/Flux2_dev_00003__dup1_470008.png",
+     "pub": "fabrica/piezas/h019.png"
+    },
+    {
+     "id": "h020",
+     "origen": "Head/Normal/Flux2_dev_00004__568159.png",
+     "pub": "fabrica/piezas/h020.png"
+    },
+    {
+     "id": "h021",
+     "origen": "Head/Normal/Flux2_dev_00006__525352.png",
+     "pub": "fabrica/piezas/h021.png"
+    },
+    {
+     "id": "h022",
+     "origen": "Head/Normal/Flux2_dev_00006__dup1_738322.png",
+     "pub": "fabrica/piezas/h022.png"
+    },
+    {
+     "id": "h023",
+     "origen": "Head/Normal/Flux2_dev_00007__828146.png",
+     "pub": "fabrica/piezas/h023.png"
+    },
+    {
+     "id": "h024",
+     "origen": "Head/Normal/Flux2_dev_00008__468783.png",
+     "pub": "fabrica/piezas/h024.png"
+    },
+    {
+     "id": "h025",
+     "origen": "Head/Normal/Flux2_dev_00009__144656.png",
+     "pub": "fabrica/piezas/h025.png"
+    },
+    {
+     "id": "h026",
+     "origen": "Head/Normal/Flux2_dev_00011__483659.png",
+     "pub": "fabrica/piezas/h026.png"
+    },
+    {
+     "id": "h027",
+     "origen": "Head/Normal/Flux2_dev_00012__252503.png",
+     "pub": "fabrica/piezas/h027.png"
+    },
+    {
+     "id": "h028",
+     "origen": "Head/Normal/Flux2_dev_00013__351829.png",
+     "pub": "fabrica/piezas/h028.png"
+    },
+    {
+     "id": "h029",
+     "origen": "Head/Normal/Flux2_dev_00014__553690.png",
+     "pub": "fabrica/piezas/h029.png"
+    },
+    {
+     "id": "h030",
+     "origen": "Head/Normal/Flux2_dev_00015__243285.png",
+     "pub": "fabrica/piezas/h030.png"
+    },
+    {
+     "id": "h031",
+     "origen": "Head/Normal/Flux2_dev_00016__193227.png",
+     "pub": "fabrica/piezas/h031.png"
+    },
+    {
+     "id": "h032",
+     "origen": "Head/Normal/Flux2_dev_00017__915946.png",
+     "pub": "fabrica/piezas/h032.png"
+    },
+    {
+     "id": "h033",
+     "origen": "Head/Normal/Flux2_dev_00018__679945.png",
+     "pub": "fabrica/piezas/h033.png"
+    },
+    {
+     "id": "h034",
+     "origen": "Head/Normal/Flux2_dev_00019__306743.png",
+     "pub": "fabrica/piezas/h034.png"
+    },
+    {
+     "id": "h035",
+     "origen": "Head/Normal/Flux2_dev_00020__678940.png",
+     "pub": "fabrica/piezas/h035.png"
+    },
+    {
+     "id": "h036",
+     "origen": "Head/Normal/Flux2_dev_00021__685384.png",
+     "pub": "fabrica/piezas/h036.png"
+    },
+    {
+     "id": "h037",
+     "origen": "Head/Normal/Flux2_dev_00022__202007.png",
+     "pub": "fabrica/piezas/h037.png"
+    },
+    {
+     "id": "h038",
+     "origen": "Head/Normal/Flux2_dev_00023__627354.png",
+     "pub": "fabrica/piezas/h038.png"
+    },
+    {
+     "id": "h039",
+     "origen": "Head/Normal/Flux2_dev_00024__530803.png",
+     "pub": "fabrica/piezas/h039.png"
+    },
+    {
+     "id": "h040",
+     "origen": "Head/Normal/Flux2_dev_00025__934762.png",
+     "pub": "fabrica/piezas/h040.png"
+    },
+    {
+     "id": "h041",
+     "origen": "Head/Normal/Flux2_dev_00027__834669.png",
+     "pub": "fabrica/piezas/h041.png"
+    },
+    {
+     "id": "h042",
+     "origen": "Head/Normal/Flux2_dev_00028__101226.png",
+     "pub": "fabrica/piezas/h042.png"
+    },
+    {
+     "id": "h043",
+     "origen": "Head/Normal/Flux2_dev_00029__420880.png",
+     "pub": "fabrica/piezas/h043.png"
+    },
+    {
+     "id": "h044",
+     "origen": "Head/Normal/Flux2_dev_00032__615311.png",
+     "pub": "fabrica/piezas/h044.png"
+    },
+    {
+     "id": "h045",
+     "origen": "Head/Normal/Flux2_dev_00033__816194.png",
+     "pub": "fabrica/piezas/h045.png"
+    },
+    {
+     "id": "h046",
+     "origen": "Head/Normal/Flux2_dev_00034__545821.png",
+     "pub": "fabrica/piezas/h046.png"
+    },
+    {
+     "id": "h047",
+     "origen": "Head/Normal/Flux2_dev_00035__197349.png",
+     "pub": "fabrica/piezas/h047.png"
+    },
+    {
+     "id": "h048",
+     "origen": "Head/Normal/Flux2_dev_00036__868409.png",
+     "pub": "fabrica/piezas/h048.png"
+    },
+    {
+     "id": "h049",
+     "origen": "Head/University/Flux2_dev_00037__752241.png",
+     "pub": "fabrica/piezas/h049.png"
+    },
+    {
+     "id": "h050",
+     "origen": "Head/University/Flux2_dev_00038__598403.png",
+     "pub": "fabrica/piezas/h050.png"
+    },
+    {
+     "id": "h051",
+     "origen": "Head/University/Flux2_dev_00039__430364.png",
+     "pub": "fabrica/piezas/h051.png"
+    },
+    {
+     "id": "h052",
+     "origen": "Head/University/Flux2_dev_00040__936472.png",
+     "pub": "fabrica/piezas/h052.png"
+    },
+    {
+     "id": "h053",
+     "origen": "Head/University/Flux2_dev_00043__651653.png",
+     "pub": "fabrica/piezas/h053.png"
+    },
+    {
+     "id": "h054",
+     "origen": "Head/University/Flux2_dev_00048__741660.png",
+     "pub": "fabrica/piezas/h054.png"
+    },
+    {
+     "id": "h055",
+     "origen": "Head/University/Flux2_dev_00049__422415.png",
+     "pub": "fabrica/piezas/h055.png"
+    },
+    {
+     "id": "h056",
+     "origen": "Head/University/Flux2_dev_00050__158009.png",
+     "pub": "fabrica/piezas/h056.png"
+    },
+    {
+     "id": "h057",
+     "origen": "Head/University/Flux2_dev_00052__861700.png",
+     "pub": "fabrica/piezas/h057.png"
+    },
+    {
+     "id": "h058",
+     "origen": "Head/University/Flux2_dev_00053__593009.png",
+     "pub": "fabrica/piezas/h058.png"
+    },
+    {
+     "id": "h059",
+     "origen": "Head/University/Flux2_dev_00060__338383.png",
+     "pub": "fabrica/piezas/h059.png"
+    },
+    {
+     "id": "h060",
+     "origen": "Head/University/Flux2_dev_00061__562454.png",
+     "pub": "fabrica/piezas/h060.png"
+    },
+    {
+     "id": "h061",
+     "origen": "Head/University/Flux2_dev_00064__816172.png",
+     "pub": "fabrica/piezas/h061.png"
+    },
+    {
+     "id": "h062",
+     "origen": "Head/University/Flux2_dev_00068__188384.png",
+     "pub": "fabrica/piezas/h062.png"
+    },
+    {
+     "id": "h063",
+     "origen": "Head/University/Flux2_dev_00071__634797.png",
+     "pub": "fabrica/piezas/h063.png"
+    },
+    {
+     "id": "h064",
+     "origen": "Head/University/Flux2_dev_00072__326339.png",
+     "pub": "fabrica/piezas/h064.png"
+    },
+    {
+     "id": "h065",
+     "origen": "Head/men/Flux2_dev_00102__238498.png",
+     "pub": "fabrica/piezas/h065.png"
+    },
+    {
+     "id": "h066",
+     "origen": "Head/men/Flux2_dev_00104__733099.png",
+     "pub": "fabrica/piezas/h066.png"
+    },
+    {
+     "id": "h067",
+     "origen": "Head/men/Flux2_dev_00105__600799.png",
+     "pub": "fabrica/piezas/h067.png"
+    },
+    {
+     "id": "h068",
+     "origen": "Head/men/Flux2_dev_00107__445803.png",
+     "pub": "fabrica/piezas/h068.png"
+    },
+    {
+     "id": "h069",
+     "origen": "Head/men/Flux2_dev_00108__355593.png",
+     "pub": "fabrica/piezas/h069.png"
+    },
+    {
+     "id": "h070",
+     "origen": "Head/men/Flux2_dev_00109__653356.png",
+     "pub": "fabrica/piezas/h070.png"
+    },
+    {
+     "id": "h071",
+     "origen": "Head/men/Flux2_dev_00110__141911.png",
+     "pub": "fabrica/piezas/h071.png"
+    },
+    {
+     "id": "h072",
+     "origen": "Head/men/Flux2_dev_00111__203907.png",
+     "pub": "fabrica/piezas/h072.png"
+    },
+    {
+     "id": "h073",
+     "origen": "Head/men/Flux2_dev_00112__352929.png",
+     "pub": "fabrica/piezas/h073.png"
+    },
+    {
+     "id": "h074",
+     "origen": "Head/men/Flux2_dev_00113__310749.png",
+     "pub": "fabrica/piezas/h074.png"
+    },
+    {
+     "id": "h075",
+     "origen": "Head/men/Flux2_dev_00114__302736.png",
+     "pub": "fabrica/piezas/h075.png"
+    },
+    {
+     "id": "h076",
+     "origen": "Head/men/Flux2_dev_00116__240388.png",
+     "pub": "fabrica/piezas/h076.png"
+    },
+    {
+     "id": "h077",
+     "origen": "Head/men/Flux2_dev_00117__763552.png",
+     "pub": "fabrica/piezas/h077.png"
+    },
+    {
+     "id": "h078",
+     "origen": "Head/men/Flux2_dev_00118__476471.png",
+     "pub": "fabrica/piezas/h078.png"
+    },
+    {
+     "id": "h079",
+     "origen": "Head/men/Flux2_dev_00119__252086.png",
+     "pub": "fabrica/piezas/h079.png"
+    },
+    {
+     "id": "h080",
+     "origen": "Head/men/Flux2_dev_00120__988504.png",
+     "pub": "fabrica/piezas/h080.png"
+    },
+    {
+     "id": "h081",
+     "origen": "Head/men/Flux2_dev_00121__894199.png",
+     "pub": "fabrica/piezas/h081.png"
+    },
+    {
+     "id": "h082",
+     "origen": "Head/men/Flux2_dev_00122__760800.png",
+     "pub": "fabrica/piezas/h082.png"
+    },
+    {
+     "id": "h083",
+     "origen": "Head/men/Flux2_dev_00123__923376.png",
+     "pub": "fabrica/piezas/h083.png"
+    },
+    {
+     "id": "h084",
+     "origen": "Head/men/Flux2_dev_00124__614382.png",
+     "pub": "fabrica/piezas/h084.png"
+    },
+    {
+     "id": "h085",
+     "origen": "Head/men/Flux2_dev_00125__164393.png",
+     "pub": "fabrica/piezas/h085.png"
+    },
+    {
+     "id": "h086",
+     "origen": "Head/men/Flux2_dev_00126__477670.png",
+     "pub": "fabrica/piezas/h086.png"
+    },
+    {
+     "id": "h087",
+     "origen": "Head/men/Flux2_dev_00127__742188.png",
+     "pub": "fabrica/piezas/h087.png"
+    },
+    {
+     "id": "h088",
+     "origen": "Head/men/Flux2_dev_00128__357283.png",
+     "pub": "fabrica/piezas/h088.png"
+    },
+    {
+     "id": "h089",
+     "origen": "Head/men/Flux2_dev_00130__256710.png",
+     "pub": "fabrica/piezas/h089.png"
+    },
+    {
+     "id": "h090",
+     "origen": "Head/men/Flux2_dev_00131__763167.png",
+     "pub": "fabrica/piezas/h090.png"
+    },
+    {
+     "id": "h091",
+     "origen": "Head/men/Flux2_dev_00132__271507.png",
+     "pub": "fabrica/piezas/h091.png"
+    },
+    {
+     "id": "h092",
+     "origen": "Head/men/Flux2_dev_00133__892339.png",
+     "pub": "fabrica/piezas/h092.png"
+    },
+    {
+     "id": "h093",
+     "origen": "Head/men/Flux2_dev_00135__947840.png",
+     "pub": "fabrica/piezas/h093.png"
+    },
+    {
+     "id": "h094",
+     "origen": "Head/men/Flux2_dev_00137__248111.png",
+     "pub": "fabrica/piezas/h094.png"
+    },
+    {
+     "id": "h095",
+     "origen": "Head/men/new/Flux2_dev_00059_.png",
+     "pub": "fabrica/piezas/h095.png"
+    },
+    {
+     "id": "h096",
+     "origen": "Head/men/new/Flux2_dev_00064_.png",
+     "pub": "fabrica/piezas/h096.png"
+    },
+    {
+     "id": "h097",
+     "origen": "Head/men/new/Flux2_dev_00065_.png",
+     "pub": "fabrica/piezas/h097.png"
+    },
+    {
+     "id": "h098",
+     "origen": "Head/men/new/Flux2_dev_00066_.png",
+     "pub": "fabrica/piezas/h098.png"
+    },
+    {
+     "id": "h099",
+     "origen": "Head/men/new/Flux2_dev_00068_.png",
+     "pub": "fabrica/piezas/h099.png"
+    },
+    {
+     "id": "h100",
+     "origen": "Head/men/new/Flux2_dev_00069_.png",
+     "pub": "fabrica/piezas/h100.png"
+    },
+    {
+     "id": "h101",
+     "origen": "Head/men/new/Flux2_dev_00071_.png",
+     "pub": "fabrica/piezas/h101.png"
+    },
+    {
+     "id": "h102",
+     "origen": "Head/men/new/Flux2_dev_00073_.png",
+     "pub": "fabrica/piezas/h102.png"
+    },
+    {
+     "id": "h103",
+     "origen": "Head/men/new/Flux2_dev_00074_.png",
+     "pub": "fabrica/piezas/h103.png"
+    },
+    {
+     "id": "h104",
+     "origen": "Head/men/new/Flux2_dev_00079_.png",
+     "pub": "fabrica/piezas/h104.png"
+    },
+    {
+     "id": "h105",
+     "origen": "Head/men/new/Flux2_dev_00080_.png",
+     "pub": "fabrica/piezas/h105.png"
+    },
+    {
+     "id": "h106",
+     "origen": "Head/men/new/Flux2_dev_00082_.png",
+     "pub": "fabrica/piezas/h106.png"
+    },
+    {
+     "id": "h107",
+     "origen": "Head/men/new/Flux2_dev_00083_.png",
+     "pub": "fabrica/piezas/h107.png"
+    },
+    {
+     "id": "h108",
+     "origen": "Head/men/new/Flux2_dev_00088_.png",
+     "pub": "fabrica/piezas/h108.png"
+    },
+    {
+     "id": "h109",
+     "origen": "Head/men/new/Flux2_dev_00089_.png",
+     "pub": "fabrica/piezas/h109.png"
+    },
+    {
+     "id": "h110",
+     "origen": "Head/men/new/Flux2_dev_00090_.png",
+     "pub": "fabrica/piezas/h110.png"
+    },
+    {
+     "id": "h111",
+     "origen": "Head/men/new/Flux2_dev_00091_.png",
+     "pub": "fabrica/piezas/h111.png"
+    },
+    {
+     "id": "h112",
+     "origen": "Head/men/new/Flux2_dev_00095_.png",
+     "pub": "fabrica/piezas/h112.png"
+    },
+    {
+     "id": "h113",
+     "origen": "Head/men/new/Flux2_dev_00099_.png",
+     "pub": "fabrica/piezas/h113.png"
+    },
+    {
+     "id": "h114",
+     "origen": "Head/men/new/Flux2_dev_00100_.png",
+     "pub": "fabrica/piezas/h114.png"
+    },
+    {
+     "id": "h115",
+     "origen": "Head/men/new/Flux2_dev_00101_.png",
+     "pub": "fabrica/piezas/h115.png"
+    },
+    {
+     "id": "h116",
+     "origen": "Head/men/new/Flux2_dev_00102_.png",
+     "pub": "fabrica/piezas/h116.png"
+    },
+    {
+     "id": "h117",
+     "origen": "Head/women/Flux2_dev_00001__155388.png",
+     "pub": "fabrica/piezas/h117.png"
+    },
+    {
+     "id": "h118",
+     "origen": "Head/women/Flux2_dev_00002__493264.png",
+     "pub": "fabrica/piezas/h118.png"
+    },
+    {
+     "id": "h119",
+     "origen": "Head/women/Flux2_dev_00003__833625.png",
+     "pub": "fabrica/piezas/h119.png"
+    },
+    {
+     "id": "h120",
+     "origen": "Head/women/Flux2_dev_00003__dup1_680773.png",
+     "pub": "fabrica/piezas/h120.png"
+    },
+    {
+     "id": "h121",
+     "origen": "Head/women/Flux2_dev_00006__854708.png",
+     "pub": "fabrica/piezas/h121.png"
+    },
+    {
+     "id": "h122",
+     "origen": "Head/women/Flux2_dev_00006__dup1_668359.png",
+     "pub": "fabrica/piezas/h122.png"
+    },
+    {
+     "id": "h123",
+     "origen": "Head/women/Flux2_dev_00008__741451.png",
+     "pub": "fabrica/piezas/h123.png"
+    },
+    {
+     "id": "h124",
+     "origen": "Head/women/Flux2_dev_00009__439585.png",
+     "pub": "fabrica/piezas/h124.png"
+    },
+    {
+     "id": "h125",
+     "origen": "Head/women/Flux2_dev_00010__357002.png",
+     "pub": "fabrica/piezas/h125.png"
+    },
+    {
+     "id": "h126",
+     "origen": "Head/women/Flux2_dev_00012__343826.png",
+     "pub": "fabrica/piezas/h126.png"
+    },
+    {
+     "id": "h127",
+     "origen": "Head/women/Flux2_dev_00013__264417.png",
+     "pub": "fabrica/piezas/h127.png"
+    },
+    {
+     "id": "h128",
+     "origen": "Head/women/Flux2_dev_00014__617507.png",
+     "pub": "fabrica/piezas/h128.png"
+    },
+    {
+     "id": "h129",
+     "origen": "Head/women/Flux2_dev_00022__794459.png",
+     "pub": "fabrica/piezas/h129.png"
+    },
+    {
+     "id": "h130",
+     "origen": "Head/women/Flux2_dev_00024__791721.png",
+     "pub": "fabrica/piezas/h130.png"
+    },
+    {
+     "id": "h131",
+     "origen": "Head/women/Flux2_dev_00025__751188.png",
+     "pub": "fabrica/piezas/h131.png"
+    },
+    {
+     "id": "h132",
+     "origen": "Head/women/Flux2_dev_00026__481331.png",
+     "pub": "fabrica/piezas/h132.png"
+    },
+    {
+     "id": "h133",
+     "origen": "Head/women/Flux2_dev_00028__442998.png",
+     "pub": "fabrica/piezas/h133.png"
+    },
+    {
+     "id": "h134",
+     "origen": "Head/women/Flux2_dev_00033__387696.png",
+     "pub": "fabrica/piezas/h134.png"
+    },
+    {
+     "id": "h135",
+     "origen": "Head/women/Flux2_dev_00035__291449.png",
+     "pub": "fabrica/piezas/h135.png"
+    },
+    {
+     "id": "h136",
+     "origen": "Head/women/new/Flux2_dev_00001_.png",
+     "pub": "fabrica/piezas/h136.png"
+    },
+    {
+     "id": "h137",
+     "origen": "Head/women/new/Flux2_dev_00003_.png",
+     "pub": "fabrica/piezas/h137.png"
+    },
+    {
+     "id": "h138",
+     "origen": "Head/women/new/Flux2_dev_00005_.png",
+     "pub": "fabrica/piezas/h138.png"
+    },
+    {
+     "id": "h139",
+     "origen": "Head/women/new/Flux2_dev_00006_.png",
+     "pub": "fabrica/piezas/h139.png"
+    },
+    {
+     "id": "h140",
+     "origen": "Head/women/new/Flux2_dev_00011_.png",
+     "pub": "fabrica/piezas/h140.png"
+    },
+    {
+     "id": "h141",
+     "origen": "Head/women/new/Flux2_dev_00014_.png",
+     "pub": "fabrica/piezas/h141.png"
+    },
+    {
+     "id": "h142",
+     "origen": "Head/women/new/Flux2_dev_00019_.png",
+     "pub": "fabrica/piezas/h142.png"
+    },
+    {
+     "id": "h143",
+     "origen": "Head/women/new/Flux2_dev_00021_.png",
+     "pub": "fabrica/piezas/h143.png"
+    },
+    {
+     "id": "h144",
+     "origen": "Head/women/new/Flux2_dev_00025_.png",
+     "pub": "fabrica/piezas/h144.png"
+    },
+    {
+     "id": "h145",
+     "origen": "Head/women/new/Flux2_dev_00026_.png",
+     "pub": "fabrica/piezas/h145.png"
+    },
+    {
+     "id": "h146",
+     "origen": "Head/women/new/Flux2_dev_00028_.png",
+     "pub": "fabrica/piezas/h146.png"
+    },
+    {
+     "id": "h147",
+     "origen": "Head/women/new/Flux2_dev_00030_.png",
+     "pub": "fabrica/piezas/h147.png"
+    },
+    {
+     "id": "h148",
+     "origen": "Head/women/new/Flux2_dev_00031_.png",
+     "pub": "fabrica/piezas/h148.png"
+    },
+    {
+     "id": "h149",
+     "origen": "Head/women/new/Flux2_dev_00032_.png",
+     "pub": "fabrica/piezas/h149.png"
+    },
+    {
+     "id": "h150",
+     "origen": "Head/women/new/Flux2_dev_00033_.png",
+     "pub": "fabrica/piezas/h150.png"
+    },
+    {
+     "id": "h151",
+     "origen": "Head/women/new/Flux2_dev_00034_.png",
+     "pub": "fabrica/piezas/h151.png"
+    },
+    {
+     "id": "h152",
+     "origen": "Head/women/new/Flux2_dev_00035_ (1).png",
+     "pub": "fabrica/piezas/h152.png"
+    },
+    {
+     "id": "h153",
+     "origen": "Head/women/new/Flux2_dev_00036_.png",
+     "pub": "fabrica/piezas/h153.png"
+    },
+    {
+     "id": "h154",
+     "origen": "Head/women/new/Flux2_dev_00037_.png",
+     "pub": "fabrica/piezas/h154.png"
+    },
+    {
+     "id": "h155",
+     "origen": "Head/women/new/Flux2_dev_00038_.png",
+     "pub": "fabrica/piezas/h155.png"
+    },
+    {
+     "id": "h156",
+     "origen": "Head/women/new/Flux2_dev_00040_.png",
+     "pub": "fabrica/piezas/h156.png"
+    },
+    {
+     "id": "h157",
+     "origen": "Head/women/new/Flux2_dev_00042_.png",
+     "pub": "fabrica/piezas/h157.png"
+    },
+    {
+     "id": "h158",
+     "origen": "Head/women/new/Flux2_dev_00044_.png",
+     "pub": "fabrica/piezas/h158.png"
+    },
+    {
+     "id": "h159",
+     "origen": "Head/women/new/Flux2_dev_00049_.png",
+     "pub": "fabrica/piezas/h159.png"
+    },
+    {
+     "id": "h160",
+     "origen": "Head/women/new/Flux2_dev_00052_.png",
+     "pub": "fabrica/piezas/h160.png"
+    },
+    {
+     "id": "h161",
+     "origen": "Head/women/new/Flux2_dev_00055_.png",
+     "pub": "fabrica/piezas/h161.png"
+    }
+   ]
+  },
+  "cuerpos": {
+   "uso": "Cuerpos del catálogo (495x529, aquí a 330 px); van debajo de una cabeza.",
+   "items": [
+    {
+     "id": "b000",
+     "origen": "Body/Normal/Flux2_dev_00084__798382.png",
+     "pub": "fabrica/piezas/b000.png"
+    },
+    {
+     "id": "b001",
+     "origen": "Body/Normal/Flux2_dev_00086__400810.png",
+     "pub": "fabrica/piezas/b001.png"
+    },
+    {
+     "id": "b002",
+     "origen": "Body/Normal/Flux2_dev_00087__306766.png",
+     "pub": "fabrica/piezas/b002.png"
+    },
+    {
+     "id": "b003",
+     "origen": "Body/Normal/Flux2_dev_00090__697364.png",
+     "pub": "fabrica/piezas/b003.png"
+    },
+    {
+     "id": "b004",
+     "origen": "Body/Normal/Flux2_dev_00091__406996.png",
+     "pub": "fabrica/piezas/b004.png"
+    },
+    {
+     "id": "b005",
+     "origen": "Body/Normal/Flux2_dev_00095__307091.png",
+     "pub": "fabrica/piezas/b005.png"
+    },
+    {
+     "id": "b006",
+     "origen": "Body/Normal/Flux2_dev_00097__155485.png",
+     "pub": "fabrica/piezas/b006.png"
+    },
+    {
+     "id": "b007",
+     "origen": "Body/Normal/Flux2_dev_00099__300194.png",
+     "pub": "fabrica/piezas/b007.png"
+    },
+    {
+     "id": "b008",
+     "origen": "Body/Normal/Flux2_dev_00100__474365.png",
+     "pub": "fabrica/piezas/b008.png"
+    },
+    {
+     "id": "b009",
+     "origen": "Body/Normal/Flux2_dev_00101__778551.png",
+     "pub": "fabrica/piezas/b009.png"
+    },
+    {
+     "id": "b010",
+     "origen": "Body/Normal/Flux2_dev_00105__156539.png",
+     "pub": "fabrica/piezas/b010.png"
+    },
+    {
+     "id": "b011",
+     "origen": "Body/Normal/Flux2_dev_00106__472152.png",
+     "pub": "fabrica/piezas/b011.png"
+    },
+    {
+     "id": "b012",
+     "origen": "Body/Normal/Flux2_dev_00108__755299.png",
+     "pub": "fabrica/piezas/b012.png"
+    },
+    {
+     "id": "b013",
+     "origen": "Body/Normal/Flux2_dev_00110__593689.png",
+     "pub": "fabrica/piezas/b013.png"
+    },
+    {
+     "id": "b014",
+     "origen": "Body/Normal/Flux2_dev_00111__799507.png",
+     "pub": "fabrica/piezas/b014.png"
+    },
+    {
+     "id": "b015",
+     "origen": "Body/Normal/Flux2_dev_00114__370055.png",
+     "pub": "fabrica/piezas/b015.png"
+    },
+    {
+     "id": "b016",
+     "origen": "Body/Normal/Flux2_dev_00115__892735.png",
+     "pub": "fabrica/piezas/b016.png"
+    },
+    {
+     "id": "b017",
+     "origen": "Body/Normal/Flux2_dev_00164__230838.png",
+     "pub": "fabrica/piezas/b017.png"
+    },
+    {
+     "id": "b018",
+     "origen": "Body/Normal/Flux2_dev_00165__336375.png",
+     "pub": "fabrica/piezas/b018.png"
+    },
+    {
+     "id": "b019",
+     "origen": "Body/Normal/Flux2_dev_00168__325491.png",
+     "pub": "fabrica/piezas/b019.png"
+    },
+    {
+     "id": "b020",
+     "origen": "Body/Normal/Flux2_dev_00170__291266.png",
+     "pub": "fabrica/piezas/b020.png"
+    },
+    {
+     "id": "b021",
+     "origen": "Body/Normal/Flux2_dev_00171__504854.png",
+     "pub": "fabrica/piezas/b021.png"
+    },
+    {
+     "id": "b022",
+     "origen": "Body/Normal/Flux2_dev_00172__164229.png",
+     "pub": "fabrica/piezas/b022.png"
+    },
+    {
+     "id": "b023",
+     "origen": "Body/Normal/Flux2_dev_00175__761931.png",
+     "pub": "fabrica/piezas/b023.png"
+    },
+    {
+     "id": "b024",
+     "origen": "Body/Normal/Flux2_dev_00179__772067.png",
+     "pub": "fabrica/piezas/b024.png"
+    },
+    {
+     "id": "b025",
+     "origen": "Body/Normal/Flux2_dev_00180__113175.png",
+     "pub": "fabrica/piezas/b025.png"
+    },
+    {
+     "id": "b026",
+     "origen": "Body/Normal/Flux2_dev_00181__975391.png",
+     "pub": "fabrica/piezas/b026.png"
+    },
+    {
+     "id": "b027",
+     "origen": "Body/Normal/Flux2_dev_00182__216087.png",
+     "pub": "fabrica/piezas/b027.png"
+    },
+    {
+     "id": "b028",
+     "origen": "Body/Normal/Flux2_dev_00183__131507.png",
+     "pub": "fabrica/piezas/b028.png"
+    },
+    {
+     "id": "b029",
+     "origen": "Body/Normal/Flux2_dev_00186__583795.png",
+     "pub": "fabrica/piezas/b029.png"
+    },
+    {
+     "id": "b030",
+     "origen": "Body/Normal/Flux2_dev_00187__744118.png",
+     "pub": "fabrica/piezas/b030.png"
+    },
+    {
+     "id": "b031",
+     "origen": "Body/Normal/Flux2_dev_00188__634096.png",
+     "pub": "fabrica/piezas/b031.png"
+    },
+    {
+     "id": "b032",
+     "origen": "Body/Normal/Flux2_dev_00189__208680.png",
+     "pub": "fabrica/piezas/b032.png"
+    },
+    {
+     "id": "b033",
+     "origen": "Body/Normal/Flux2_dev_00190__517969.png",
+     "pub": "fabrica/piezas/b033.png"
+    },
+    {
+     "id": "b034",
+     "origen": "Body/Normal/Flux2_dev_00193__326790.png",
+     "pub": "fabrica/piezas/b034.png"
+    },
+    {
+     "id": "b035",
+     "origen": "Body/Normal/Flux2_dev_00194__128148.png",
+     "pub": "fabrica/piezas/b035.png"
+    },
+    {
+     "id": "b036",
+     "origen": "Body/Normal/Flux2_dev_00195__836032.png",
+     "pub": "fabrica/piezas/b036.png"
+    },
+    {
+     "id": "b037",
+     "origen": "Body/Normal/Flux2_dev_00196__204401.png",
+     "pub": "fabrica/piezas/b037.png"
+    },
+    {
+     "id": "b038",
+     "origen": "Body/Normal/Flux2_dev_00197__759282.png",
+     "pub": "fabrica/piezas/b038.png"
+    },
+    {
+     "id": "b039",
+     "origen": "Body/Normal/Flux2_dev_00198__632915.png",
+     "pub": "fabrica/piezas/b039.png"
+    },
+    {
+     "id": "b040",
+     "origen": "Body/Normal/Flux2_dev_00200__717634.png",
+     "pub": "fabrica/piezas/b040.png"
+    },
+    {
+     "id": "b041",
+     "origen": "Body/Normal/new/Flux2_dev_00003_.png",
+     "pub": "fabrica/piezas/b041.png"
+    },
+    {
+     "id": "b042",
+     "origen": "Body/Normal/new/Flux2_dev_00004_.png",
+     "pub": "fabrica/piezas/b042.png"
+    },
+    {
+     "id": "b043",
+     "origen": "Body/Normal/new/Flux2_dev_00007_.png",
+     "pub": "fabrica/piezas/b043.png"
+    },
+    {
+     "id": "b044",
+     "origen": "Body/Normal/new/Flux2_dev_00118_.png",
+     "pub": "fabrica/piezas/b044.png"
+    },
+    {
+     "id": "b045",
+     "origen": "Body/Normal/new/Flux2_dev_00138_.png",
+     "pub": "fabrica/piezas/b045.png"
+    },
+    {
+     "id": "b046",
+     "origen": "Body/University/Flux2_dev_00005__dup1_964271.png",
+     "pub": "fabrica/piezas/b046.png"
+    },
+    {
+     "id": "b047",
+     "origen": "Body/University/Flux2_dev_00006__478778.png",
+     "pub": "fabrica/piezas/b047.png"
+    },
+    {
+     "id": "b048",
+     "origen": "Body/University/Flux2_dev_00077__550108.png",
+     "pub": "fabrica/piezas/b048.png"
+    },
+    {
+     "id": "b049",
+     "origen": "Body/University/Flux2_dev_00078__545866.png",
+     "pub": "fabrica/piezas/b049.png"
+    },
+    {
+     "id": "b050",
+     "origen": "Body/University/Flux2_dev_00079__111410.png",
+     "pub": "fabrica/piezas/b050.png"
+    },
+    {
+     "id": "b051",
+     "origen": "Body/University/Flux2_dev_00080__193923.png",
+     "pub": "fabrica/piezas/b051.png"
+    },
+    {
+     "id": "b052",
+     "origen": "Body/University/Flux2_dev_00081__689114.png",
+     "pub": "fabrica/piezas/b052.png"
+    },
+    {
+     "id": "b053",
+     "origen": "Body/University/Flux2_dev_00082__494129.png",
+     "pub": "fabrica/piezas/b053.png"
+    },
+    {
+     "id": "b054",
+     "origen": "Body/University/Flux2_dev_00116__810078.png",
+     "pub": "fabrica/piezas/b054.png"
+    },
+    {
+     "id": "b055",
+     "origen": "Body/University/Flux2_dev_00119__322167.png",
+     "pub": "fabrica/piezas/b055.png"
+    },
+    {
+     "id": "b056",
+     "origen": "Body/University/Flux2_dev_00120__149350.png",
+     "pub": "fabrica/piezas/b056.png"
+    },
+    {
+     "id": "b057",
+     "origen": "Body/University/Flux2_dev_00121__451814.png",
+     "pub": "fabrica/piezas/b057.png"
+    },
+    {
+     "id": "b058",
+     "origen": "Body/University/Flux2_dev_00123__877194.png",
+     "pub": "fabrica/piezas/b058.png"
+    },
+    {
+     "id": "b059",
+     "origen": "Body/University/Flux2_dev_00125__939728.png",
+     "pub": "fabrica/piezas/b059.png"
+    },
+    {
+     "id": "b060",
+     "origen": "Body/University/Flux2_dev_00127__912106.png",
+     "pub": "fabrica/piezas/b060.png"
+    },
+    {
+     "id": "b061",
+     "origen": "Body/University/Flux2_dev_00128__119701.png",
+     "pub": "fabrica/piezas/b061.png"
+    },
+    {
+     "id": "b062",
+     "origen": "Body/University/Flux2_dev_00129__487704.png",
+     "pub": "fabrica/piezas/b062.png"
+    },
+    {
+     "id": "b063",
+     "origen": "Body/University/Flux2_dev_00130__808582.png",
+     "pub": "fabrica/piezas/b063.png"
+    },
+    {
+     "id": "b064",
+     "origen": "Body/University/Flux2_dev_00131__264474.png",
+     "pub": "fabrica/piezas/b064.png"
+    },
+    {
+     "id": "b065",
+     "origen": "Body/University/Flux2_dev_00133__345490.png",
+     "pub": "fabrica/piezas/b065.png"
+    },
+    {
+     "id": "b066",
+     "origen": "Body/University/Flux2_dev_00136__105563.png",
+     "pub": "fabrica/piezas/b066.png"
+    },
+    {
+     "id": "b067",
+     "origen": "Body/University/Flux2_dev_00140__681246.png",
+     "pub": "fabrica/piezas/b067.png"
+    },
+    {
+     "id": "b068",
+     "origen": "Body/University/Flux2_dev_00142__296493.png",
+     "pub": "fabrica/piezas/b068.png"
+    },
+    {
+     "id": "b069",
+     "origen": "Body/University/Flux2_dev_00143__355182.png",
+     "pub": "fabrica/piezas/b069.png"
+    },
+    {
+     "id": "b070",
+     "origen": "Body/University/Flux2_dev_00144__598094.png",
+     "pub": "fabrica/piezas/b070.png"
+    },
+    {
+     "id": "b071",
+     "origen": "Body/University/Flux2_dev_00147__394974.png",
+     "pub": "fabrica/piezas/b071.png"
+    },
+    {
+     "id": "b072",
+     "origen": "Body/University/Flux2_dev_00148__907063.png",
+     "pub": "fabrica/piezas/b072.png"
+    },
+    {
+     "id": "b073",
+     "origen": "Body/University/Flux2_dev_00154__817521.png",
+     "pub": "fabrica/piezas/b073.png"
+    },
+    {
+     "id": "b074",
+     "origen": "Body/University/Flux2_dev_00156__814735.png",
+     "pub": "fabrica/piezas/b074.png"
+    },
+    {
+     "id": "b075",
+     "origen": "Body/University/Flux2_dev_00161__844838.png",
+     "pub": "fabrica/piezas/b075.png"
+    },
+    {
+     "id": "b076",
+     "origen": "Body/University/Flux2_dev_00163__618808.png",
+     "pub": "fabrica/piezas/b076.png"
+    },
+    {
+     "id": "b077",
+     "origen": "Body/men/Flux2_dev_00061__342048.png",
+     "pub": "fabrica/piezas/b077.png"
+    },
+    {
+     "id": "b078",
+     "origen": "Body/men/Flux2_dev_00063__955217.png",
+     "pub": "fabrica/piezas/b078.png"
+    },
+    {
+     "id": "b079",
+     "origen": "Body/men/Flux2_dev_00064__528612.png",
+     "pub": "fabrica/piezas/b079.png"
+    },
+    {
+     "id": "b080",
+     "origen": "Body/men/Flux2_dev_00066__939458.png",
+     "pub": "fabrica/piezas/b080.png"
+    },
+    {
+     "id": "b081",
+     "origen": "Body/men/Flux2_dev_00067__928555.png",
+     "pub": "fabrica/piezas/b081.png"
+    },
+    {
+     "id": "b082",
+     "origen": "Body/men/Flux2_dev_00068__965086.png",
+     "pub": "fabrica/piezas/b082.png"
+    },
+    {
+     "id": "b083",
+     "origen": "Body/men/Flux2_dev_00069__705582.png",
+     "pub": "fabrica/piezas/b083.png"
+    },
+    {
+     "id": "b084",
+     "origen": "Body/men/Flux2_dev_00074__553875.png",
+     "pub": "fabrica/piezas/b084.png"
+    },
+    {
+     "id": "b085",
+     "origen": "Body/men/Flux2_dev_00075__361228.png",
+     "pub": "fabrica/piezas/b085.png"
+    },
+    {
+     "id": "b086",
+     "origen": "Body/men/Flux2_dev_00077__338435.png",
+     "pub": "fabrica/piezas/b086.png"
+    },
+    {
+     "id": "b087",
+     "origen": "Body/men/Flux2_dev_00078__394319.png",
+     "pub": "fabrica/piezas/b087.png"
+    },
+    {
+     "id": "b088",
+     "origen": "Body/men/Flux2_dev_00080__617785.png",
+     "pub": "fabrica/piezas/b088.png"
+    },
+    {
+     "id": "b089",
+     "origen": "Body/men/Flux2_dev_00081__770441.png",
+     "pub": "fabrica/piezas/b089.png"
+    },
+    {
+     "id": "b090",
+     "origen": "Body/men/Flux2_dev_00082__334698.png",
+     "pub": "fabrica/piezas/b090.png"
+    },
+    {
+     "id": "b091",
+     "origen": "Body/men/Flux2_dev_00083__969147.png",
+     "pub": "fabrica/piezas/b091.png"
+    },
+    {
+     "id": "b092",
+     "origen": "Body/men/Flux2_dev_00085__264110.png",
+     "pub": "fabrica/piezas/b092.png"
+    },
+    {
+     "id": "b093",
+     "origen": "Body/men/Flux2_dev_00087__446364.png",
+     "pub": "fabrica/piezas/b093.png"
+    },
+    {
+     "id": "b094",
+     "origen": "Body/men/Flux2_dev_00088__809667.png",
+     "pub": "fabrica/piezas/b094.png"
+    },
+    {
+     "id": "b095",
+     "origen": "Body/men/Flux2_dev_00090__266559.png",
+     "pub": "fabrica/piezas/b095.png"
+    },
+    {
+     "id": "b096",
+     "origen": "Body/men/Flux2_dev_00093__377231.png",
+     "pub": "fabrica/piezas/b096.png"
+    },
+    {
+     "id": "b097",
+     "origen": "Body/men/Flux2_dev_00094__753196.png",
+     "pub": "fabrica/piezas/b097.png"
+    },
+    {
+     "id": "b098",
+     "origen": "Body/men/Flux2_dev_00095__511353.png",
+     "pub": "fabrica/piezas/b098.png"
+    },
+    {
+     "id": "b099",
+     "origen": "Body/men/Flux2_dev_00097__728628.png",
+     "pub": "fabrica/piezas/b099.png"
+    },
+    {
+     "id": "b100",
+     "origen": "Body/men/Flux2_dev_00098__289351.png",
+     "pub": "fabrica/piezas/b100.png"
+    },
+    {
+     "id": "b101",
+     "origen": "Body/men/Flux2_dev_00100__699227.png",
+     "pub": "fabrica/piezas/b101.png"
+    },
+    {
+     "id": "b102",
+     "origen": "Body/men/Flux2_dev_00101__419464.png",
+     "pub": "fabrica/piezas/b102.png"
+    },
+    {
+     "id": "b103",
+     "origen": "Body/women/Flux2_dev_00011__914984.png",
+     "pub": "fabrica/piezas/b103.png"
+    },
+    {
+     "id": "b104",
+     "origen": "Body/women/Flux2_dev_00013__dup1_178936.png",
+     "pub": "fabrica/piezas/b104.png"
+    },
+    {
+     "id": "b105",
+     "origen": "Body/women/Flux2_dev_00016__125933.png",
+     "pub": "fabrica/piezas/b105.png"
+    },
+    {
+     "id": "b106",
+     "origen": "Body/women/Flux2_dev_00017__169354.png",
+     "pub": "fabrica/piezas/b106.png"
+    },
+    {
+     "id": "b107",
+     "origen": "Body/women/Flux2_dev_00019__421401.png",
+     "pub": "fabrica/piezas/b107.png"
+    },
+    {
+     "id": "b108",
+     "origen": "Body/women/Flux2_dev_00020__876483.png",
+     "pub": "fabrica/piezas/b108.png"
+    },
+    {
+     "id": "b109",
+     "origen": "Body/women/Flux2_dev_00021__146230.png",
+     "pub": "fabrica/piezas/b109.png"
+    },
+    {
+     "id": "b110",
+     "origen": "Body/women/Flux2_dev_00025__dup1_768670.png",
+     "pub": "fabrica/piezas/b110.png"
+    },
+    {
+     "id": "b111",
+     "origen": "Body/women/Flux2_dev_00026__dup1_981821.png",
+     "pub": "fabrica/piezas/b111.png"
+    },
+    {
+     "id": "b112",
+     "origen": "Body/women/Flux2_dev_00027__620171.png",
+     "pub": "fabrica/piezas/b112.png"
+    },
+    {
+     "id": "b113",
+     "origen": "Body/women/Flux2_dev_00028__dup1_160929.png",
+     "pub": "fabrica/piezas/b113.png"
+    },
+    {
+     "id": "b114",
+     "origen": "Body/women/Flux2_dev_00030__310817.png",
+     "pub": "fabrica/piezas/b114.png"
+    },
+    {
+     "id": "b115",
+     "origen": "Body/women/Flux2_dev_00033__dup1_190057.png",
+     "pub": "fabrica/piezas/b115.png"
+    },
+    {
+     "id": "b116",
+     "origen": "Body/women/Flux2_dev_00034__309402.png",
+     "pub": "fabrica/piezas/b116.png"
+    },
+    {
+     "id": "b117",
+     "origen": "Body/women/Flux2_dev_00035__dup1_203958.png",
+     "pub": "fabrica/piezas/b117.png"
+    },
+    {
+     "id": "b118",
+     "origen": "Body/women/Flux2_dev_00037__579580.png",
+     "pub": "fabrica/piezas/b118.png"
+    },
+    {
+     "id": "b119",
+     "origen": "Body/women/Flux2_dev_00038__186754.png",
+     "pub": "fabrica/piezas/b119.png"
+    },
+    {
+     "id": "b120",
+     "origen": "Body/women/Flux2_dev_00039__151762.png",
+     "pub": "fabrica/piezas/b120.png"
+    },
+    {
+     "id": "b121",
+     "origen": "Body/women/Flux2_dev_00046__333198.png",
+     "pub": "fabrica/piezas/b121.png"
+    },
+    {
+     "id": "b122",
+     "origen": "Body/women/Flux2_dev_00047__885695.png",
+     "pub": "fabrica/piezas/b122.png"
+    },
+    {
+     "id": "b123",
+     "origen": "Body/women/Flux2_dev_00048__292042.png",
+     "pub": "fabrica/piezas/b123.png"
+    },
+    {
+     "id": "b124",
+     "origen": "Body/women/Flux2_dev_00049__156006.png",
+     "pub": "fabrica/piezas/b124.png"
+    },
+    {
+     "id": "b125",
+     "origen": "Body/women/Flux2_dev_00051__244814.png",
+     "pub": "fabrica/piezas/b125.png"
+    },
+    {
+     "id": "b126",
+     "origen": "Body/women/Flux2_dev_00052__267638.png",
+     "pub": "fabrica/piezas/b126.png"
+    },
+    {
+     "id": "b127",
+     "origen": "Body/women/Flux2_dev_00056__846025.png",
+     "pub": "fabrica/piezas/b127.png"
+    },
+    {
+     "id": "b128",
+     "origen": "Body/women/Flux2_dev_00057__491598.png",
+     "pub": "fabrica/piezas/b128.png"
+    },
+    {
+     "id": "b129",
+     "origen": "Body/women/Flux2_dev_00059__109636.png",
+     "pub": "fabrica/piezas/b129.png"
+    },
+    {
+     "id": "b130",
+     "origen": "Body/women/Flux2_dev_00060__179687.png",
+     "pub": "fabrica/piezas/b130.png"
+    },
+    {
+     "id": "b131",
+     "origen": "Body/women/new/Flux2_dev_00005_.png",
+     "pub": "fabrica/piezas/b131.png"
+    },
+    {
+     "id": "b132",
+     "origen": "Body/women/new/Flux2_dev_00020_.png",
+     "pub": "fabrica/piezas/b132.png"
+    },
+    {
+     "id": "b133",
+     "origen": "Body/women/new/Flux2_dev_00030_.png",
+     "pub": "fabrica/piezas/b133.png"
+    },
+    {
+     "id": "b134",
+     "origen": "Body/women/new/Flux2_dev_00036_.png",
+     "pub": "fabrica/piezas/b134.png"
+    },
+    {
+     "id": "b135",
+     "origen": "Body/women/new/Flux2_dev_00108_.png",
+     "pub": "fabrica/piezas/b135.png"
+    },
+    {
+     "id": "b136",
+     "origen": "Body/women/new/Flux2_dev_00111_.png",
+     "pub": "fabrica/piezas/b136.png"
+    },
+    {
+     "id": "b137",
+     "origen": "Body/women/new/Flux2_dev_00113_.png",
+     "pub": "fabrica/piezas/b137.png"
+    },
+    {
+     "id": "b138",
+     "origen": "Body/women/new/Flux2_dev_00114_.png",
+     "pub": "fabrica/piezas/b138.png"
+    },
+    {
+     "id": "b139",
+     "origen": "Body/women/new/Flux2_dev_00115_.png",
+     "pub": "fabrica/piezas/b139.png"
+    },
+    {
+     "id": "b140",
+     "origen": "Body/women/new/Flux2_dev_00116_.png",
+     "pub": "fabrica/piezas/b140.png"
+    },
+    {
+     "id": "b141",
+     "origen": "Body/women/new/Flux2_dev_00120_.png",
+     "pub": "fabrica/piezas/b141.png"
+    },
+    {
+     "id": "b142",
+     "origen": "Body/women/new/Flux2_dev_00122_.png",
+     "pub": "fabrica/piezas/b142.png"
+    },
+    {
+     "id": "b143",
+     "origen": "Body/women/new/Flux2_dev_00124_.png",
+     "pub": "fabrica/piezas/b143.png"
+    },
+    {
+     "id": "b144",
+     "origen": "Body/women/new/Flux2_dev_00128_.png",
+     "pub": "fabrica/piezas/b144.png"
+    },
+    {
+     "id": "b145",
+     "origen": "Body/women/new/Flux2_dev_00130_.png",
+     "pub": "fabrica/piezas/b145.png"
+    },
+    {
+     "id": "b146",
+     "origen": "Body/women/new/Flux2_dev_00131_.png",
+     "pub": "fabrica/piezas/b146.png"
+    },
+    {
+     "id": "b147",
+     "origen": "Body/women/new/Flux2_dev_00133_.png",
+     "pub": "fabrica/piezas/b147.png"
+    },
+    {
+     "id": "b148",
+     "origen": "Body/women/new/Flux2_dev_00136_.png",
+     "pub": "fabrica/piezas/b148.png"
+    },
+    {
+     "id": "b149",
+     "origen": "Body/women/new/Flux2_dev_00140_.png",
+     "pub": "fabrica/piezas/b149.png"
+    }
+   ]
+  },
+  "disfraces": {
+   "uso": "Disfraces de cuerpo completo (Halloween 2026), 495x956, aquí a 330 px.",
+   "items": [
+    {
+     "id": "d000",
+     "origen": "disfraces/halloween26-alien.png",
+     "pub": "fabrica/disfraces/d000.png"
+    },
+    {
+     "id": "d001",
+     "origen": "disfraces/halloween26-bandido-lunar.png",
+     "pub": "fabrica/disfraces/d001.png"
+    },
+    {
+     "id": "d002",
+     "origen": "disfraces/halloween26-bruja-del-mar.png",
+     "pub": "fabrica/disfraces/d002.png"
+    },
+    {
+     "id": "d003",
+     "origen": "disfraces/halloween26-bruja.png",
+     "pub": "fabrica/disfraces/d003.png"
+    },
+    {
+     "id": "d004",
+     "origen": "disfraces/halloween26-bufon.png",
+     "pub": "fabrica/disfraces/d004.png"
+    },
+    {
+     "id": "d005",
+     "origen": "disfraces/halloween26-calabaza.png",
+     "pub": "fabrica/disfraces/d005.png"
+    },
+    {
+     "id": "d006",
+     "origen": "disfraces/halloween26-calavera.png",
+     "pub": "fabrica/disfraces/d006.png"
+    },
+    {
+     "id": "d007",
+     "origen": "disfraces/halloween26-caperucita.png",
+     "pub": "fabrica/disfraces/d007.png"
+    },
+    {
+     "id": "d008",
+     "origen": "disfraces/halloween26-cazafantasmas.png",
+     "pub": "fabrica/disfraces/d008.png"
+    },
+    {
+     "id": "d009",
+     "origen": "disfraces/halloween26-cazamisterios.png",
+     "pub": "fabrica/disfraces/d009.png"
+    },
+    {
+     "id": "d010",
+     "origen": "disfraces/halloween26-cientifico-loco.png",
+     "pub": "fabrica/disfraces/d010.png"
+    },
+    {
+     "id": "d011",
+     "origen": "disfraces/halloween26-criatura-del-lago.png",
+     "pub": "fabrica/disfraces/d011.png"
+    },
+    {
+     "id": "d012",
+     "origen": "disfraces/halloween26-criatura-helada.png",
+     "pub": "fabrica/disfraces/d012.png"
+    },
+    {
+     "id": "d013",
+     "origen": "disfraces/halloween26-cupido.png",
+     "pub": "fabrica/disfraces/d013.png"
+    },
+    {
+     "id": "d014",
+     "origen": "disfraces/halloween26-diablo.png",
+     "pub": "fabrica/disfraces/d014.png"
+    },
+    {
+     "id": "d015",
+     "origen": "disfraces/halloween26-dragon.png",
+     "pub": "fabrica/disfraces/d015.png"
+    },
+    {
+     "id": "d016",
+     "origen": "disfraces/halloween26-espantapajaros.png",
+     "pub": "fabrica/disfraces/d016.png"
+    },
+    {
+     "id": "d017",
+     "origen": "disfraces/halloween26-esqueleto.png",
+     "pub": "fabrica/disfraces/d017.png"
+    },
+    {
+     "id": "d018",
+     "origen": "disfraces/halloween26-fantasma.png",
+     "pub": "fabrica/disfraces/d018.png"
+    },
+    {
+     "id": "d019",
+     "origen": "disfraces/halloween26-faraon.png",
+     "pub": "fabrica/disfraces/d019.png"
+    },
+    {
+     "id": "d020",
+     "origen": "disfraces/halloween26-frankenstein.png",
+     "pub": "fabrica/disfraces/d020.png"
+    },
+    {
+     "id": "d021",
+     "origen": "disfraces/halloween26-fresa.png",
+     "pub": "fabrica/disfraces/d021.png"
+    },
+    {
+     "id": "d022",
+     "origen": "disfraces/halloween26-gato-lunar.png",
+     "pub": "fabrica/disfraces/d022.png"
+    },
+    {
+     "id": "d023",
+     "origen": "disfraces/halloween26-gato-negro.png",
+     "pub": "fabrica/disfraces/d023.png"
+    },
+    {
+     "id": "d024",
+     "origen": "disfraces/halloween26-hada.png",
+     "pub": "fabrica/disfraces/d024.png"
+    },
+    {
+     "id": "d025",
+     "origen": "disfraces/halloween26-hawaiano.png",
+     "pub": "fabrica/disfraces/d025.png"
+    },
+    {
+     "id": "d026",
+     "origen": "disfraces/halloween26-mago.png",
+     "pub": "fabrica/disfraces/d026.png"
+    },
+    {
+     "id": "d027",
+     "origen": "disfraces/halloween26-momia.png",
+     "pub": "fabrica/disfraces/d027.png"
+    },
+    {
+     "id": "d028",
+     "origen": "disfraces/halloween26-monje-del-viento.png",
+     "pub": "fabrica/disfraces/d028.png"
+    },
+    {
+     "id": "d029",
+     "origen": "disfraces/halloween26-ninja.png",
+     "pub": "fabrica/disfraces/d029.png"
+    },
+    {
+     "id": "d030",
+     "origen": "disfraces/halloween26-payaso.png",
+     "pub": "fabrica/disfraces/d030.png"
+    },
+    {
+     "id": "d031",
+     "origen": "disfraces/halloween26-perro-caliente.png",
+     "pub": "fabrica/disfraces/d031.png"
+    },
+    {
+     "id": "d032",
+     "origen": "disfraces/halloween26-pesadilla.png",
+     "pub": "fabrica/disfraces/d032.png"
+    },
+    {
+     "id": "d033",
+     "origen": "disfraces/halloween26-pirata.png",
+     "pub": "fabrica/disfraces/d033.png"
+    },
+    {
+     "id": "d034",
+     "origen": "disfraces/halloween26-princesa-de-la-torre.png",
+     "pub": "fabrica/disfraces/d034.png"
+    },
+    {
+     "id": "d035",
+     "origen": "disfraces/halloween26-princesa-del-desierto.png",
+     "pub": "fabrica/disfraces/d035.png"
+    },
+    {
+     "id": "d036",
+     "origen": "disfraces/halloween26-rayo.png",
+     "pub": "fabrica/disfraces/d036.png"
+    },
+    {
+     "id": "d037",
+     "origen": "disfraces/halloween26-reina-de-corazones.png",
+     "pub": "fabrica/disfraces/d037.png"
+    },
+    {
+     "id": "d038",
+     "origen": "disfraces/halloween26-retazos.png",
+     "pub": "fabrica/disfraces/d038.png"
+    },
+    {
+     "id": "d039",
+     "origen": "disfraces/halloween26-rey.png",
+     "pub": "fabrica/disfraces/d039.png"
+    },
+    {
+     "id": "d040",
+     "origen": "disfraces/halloween26-robot.png",
+     "pub": "fabrica/disfraces/d040.png"
+    },
+    {
+     "id": "d041",
+     "origen": "disfraces/halloween26-sombra-nocturna.png",
+     "pub": "fabrica/disfraces/d041.png"
+    },
+    {
+     "id": "d042",
+     "origen": "disfraces/halloween26-telarana.png",
+     "pub": "fabrica/disfraces/d042.png"
+    },
+    {
+     "id": "d043",
+     "origen": "disfraces/halloween26-vampiro.png",
+     "pub": "fabrica/disfraces/d043.png"
+    },
+    {
+     "id": "d044",
+     "origen": "disfraces/halloween26-vaquero.png",
+     "pub": "fabrica/disfraces/d044.png"
+    },
+    {
+     "id": "d045",
+     "origen": "disfraces/halloween26-zombie.png",
+     "pub": "fabrica/disfraces/d045.png"
+    }
+   ]
+  },
+  "patos_sticker": {
+   "uso": "Patos vestidos de cuerpo entero (stickers con fondo transparente).",
+   "items": [
+    {
+     "id": "anonimo",
+     "pub": "ducks/anonimo.png"
+    },
+    {
+     "id": "artista",
+     "pub": "ducks/artista.png"
+    },
+    {
+     "id": "astro",
+     "pub": "ducks/astro.png"
+    },
+    {
+     "id": "basket",
+     "pub": "ducks/basket.png"
+    },
+    {
+     "id": "chef",
+     "pub": "ducks/chef.png"
+    },
+    {
+     "id": "code",
+     "pub": "ducks/code.png"
+    },
+    {
+     "id": "conejita",
+     "pub": "ducks/conejita.png"
+    },
+    {
+     "id": "cool",
+     "pub": "ducks/cool.png"
+    },
+    {
+     "id": "doctor",
+     "pub": "ducks/doctor.png"
+    },
+    {
+     "id": "estudiante",
+     "pub": "ducks/estudiante.png"
+    },
+    {
+     "id": "fiesta",
+     "pub": "ducks/fiesta.png"
+    },
+    {
+     "id": "flores",
+     "pub": "ducks/flores.png"
+    },
+    {
+     "id": "grad",
+     "pub": "ducks/grad.png"
+    },
+    {
+     "id": "invierno",
+     "pub": "ducks/invierno.png"
+    },
+    {
+     "id": "obrero",
+     "pub": "ducks/obrero.png"
+    },
+    {
+     "id": "pirata",
+     "pub": "ducks/pirata.png"
+    },
+    {
+     "id": "reina",
+     "pub": "ducks/reina.png"
+    },
+    {
+     "id": "rock",
+     "pub": "ducks/rock.png"
+    },
+    {
+     "id": "vaquero",
+     "pub": "ducks/vaquero.png"
+    }
+   ]
+  },
+  "categorias_parches": {
+   "uso": "Ilustraciones de las categorías de Parches (300x300).",
+   "items": [
+    {
+     "id": "arte",
+     "pub": "parches/cat/arte.png"
+    },
+    {
+     "id": "causas",
+     "pub": "parches/cat/causas.png"
+    },
+    {
+     "id": "comida",
+     "pub": "parches/cat/comida.png"
+    },
+    {
+     "id": "deportes",
+     "pub": "parches/cat/deportes.png"
+    },
+    {
+     "id": "estudio",
+     "pub": "parches/cat/estudio.png"
+    },
+    {
+     "id": "fiesta",
+     "pub": "parches/cat/fiesta.png"
+    },
+    {
+     "id": "fitness",
+     "pub": "parches/cat/fitness.png"
+    },
+    {
+     "id": "gaming",
+     "pub": "parches/cat/gaming.png"
+    },
+    {
+     "id": "musica",
+     "pub": "parches/cat/musica.png"
+    },
+    {
+     "id": "otros",
+     "pub": "parches/cat/otros.png"
+    },
+    {
+     "id": "series",
+     "pub": "parches/cat/series.png"
+    },
+    {
+     "id": "viajes",
+     "pub": "parches/cat/viajes.png"
+    }
+   ]
+  },
+  "logos_universidades": {
+   "uso": "Logos de las universidades de Cali.",
+   "items": [
+    {
+     "id": "autonoma",
+     "pub": "logos/autonoma.png"
+    },
+    {
+     "id": "camacho",
+     "pub": "logos/camacho.png"
+    },
+    {
+     "id": "end",
+     "pub": "logos/end.png"
+    },
+    {
+     "id": "icesi",
+     "pub": "logos/icesi.png"
+    },
+    {
+     "id": "javeriana",
+     "pub": "logos/javeriana.png"
+    },
+    {
+     "id": "libre",
+     "pub": "logos/libre.png"
+    },
+    {
+     "id": "sanbue",
+     "pub": "logos/sanbue.png"
+    },
+    {
+     "id": "santiago",
+     "pub": "logos/santiago.png"
+    },
+    {
+     "id": "univalle",
+     "pub": "logos/univalle.png"
+    }
+   ]
+  },
+  "capturas_app": {
+   "uso": "Capturas de pantalla de la app.",
+   "items": [
+    {
+     "id": "casillero",
+     "pub": "screens/casillero.jpg"
+    },
+    {
+     "id": "chats",
+     "pub": "screens/chats.jpg"
+    },
+    {
+     "id": "duckart-podio-semana",
+     "pub": "screens/duckart-podio-semana.png"
+    },
+    {
+     "id": "feed-captura-post",
+     "pub": "screens/feed-captura-post.jpg"
+    },
+    {
+     "id": "feed-captura-timeline",
+     "pub": "screens/feed-captura-timeline.jpg"
+    },
+    {
+     "id": "feed",
+     "pub": "screens/feed.jpg"
+    },
+    {
+     "id": "mapa",
+     "pub": "screens/mapa.jpg"
+    },
+    {
+     "id": "parches-captura",
+     "pub": "screens/parches-captura.png"
+    },
+    {
+     "id": "perfil",
+     "pub": "screens/perfil.jpg"
+    },
+    {
+     "id": "crush-menu",
+     "pub": "todo/stills/crush-menu.jpg"
+    },
+    {
+     "id": "golf",
+     "pub": "todo/stills/golf.jpg"
+    },
+    {
+     "id": "juegos-menu",
+     "pub": "todo/stills/juegos-menu.jpg"
+    },
+    {
+     "id": "kart",
+     "pub": "todo/stills/kart.jpg"
+    },
+    {
+     "id": "match",
+     "pub": "todo/stills/match.jpg"
+    },
+    {
+     "id": "sala",
+     "pub": "todo/stills/sala.jpg"
+    }
+   ]
+  },
+  "dibujos_duckiart": {
+   "uso": "Dibujos ganadores de DuckiArt (cuadrados).",
+   "items": [
+    {
+     "id": "drawing-01",
+     "pub": "duckart/weekly/drawing-01.jpeg"
+    },
+    {
+     "id": "drawing-02",
+     "pub": "duckart/weekly/drawing-02.jpeg"
+    },
+    {
+     "id": "drawing-03",
+     "pub": "duckart/weekly/drawing-03.jpeg"
+    },
+    {
+     "id": "drawing-04",
+     "pub": "duckart/weekly/drawing-04.jpeg"
+    },
+    {
+     "id": "drawing-05",
+     "pub": "duckart/weekly/drawing-05.jpeg"
+    },
+    {
+     "id": "drawing-06",
+     "pub": "duckart/weekly/drawing-06.jpeg"
+    }
+   ]
+  },
+  "app": {
+   "uso": "Icono de la app, pato anónimo y accesorios sueltos.",
+   "items": [
+    {
+     "id": "accessory-backpack",
+     "pub": "app/accessory-backpack.svg"
+    },
+    {
+     "id": "accessory-cap",
+     "pub": "app/accessory-cap.svg"
+    },
+    {
+     "id": "accessory-grad-cap",
+     "pub": "app/accessory-grad-cap.svg"
+    },
+    {
+     "id": "accessory-headphones",
+     "pub": "app/accessory-headphones.svg"
+    },
+    {
+     "id": "accessory-sunglasses",
+     "pub": "app/accessory-sunglasses.svg"
+    },
+    {
+     "id": "anonimo",
+     "pub": "app/anonimo.png"
+    },
+    {
+     "id": "default-body",
+     "pub": "app/default-body.png"
+    },
+    {
+     "id": "default-head",
+     "pub": "app/default-head.png"
+    },
+    {
+     "id": "duck-anon",
+     "pub": "app/duck-anon.png"
+    },
+    {
+     "id": "duck-cap",
+     "pub": "app/duck-cap.png"
+    },
+    {
+     "id": "duck-carter",
+     "pub": "app/duck-carter.png"
+    },
+    {
+     "id": "duck-confused",
+     "pub": "app/duck-confused.png"
+    },
+    {
+     "id": "duck-head",
+     "pub": "app/duck-head.png"
+    },
+    {
+     "id": "duck-technician",
+     "pub": "app/duck-technician.png"
+    },
+    {
+     "id": "duck-waving",
+     "pub": "app/duck-waving.png"
+    },
+    {
+     "id": "icon",
+     "pub": "app/icon.png"
+    },
+    {
+     "id": "sparkle-large",
+     "pub": "app/sparkle-large.svg"
+    },
+    {
+     "id": "sparkle-small",
+     "pub": "app/sparkle-small.svg"
+    },
+    {
+     "id": "wordmark-dark",
+     "pub": "app/wordmark-dark.png"
+    },
+    {
+     "id": "wordmark",
+     "pub": "app/wordmark.png"
+    }
+   ]
+  },
+  "tiendas": {
+   "uso": "Botones oficiales de App Store y Google Play.",
+   "items": [
+    {
+     "id": "app-store",
+     "pub": "stores/app-store.svg"
+    },
+    {
+     "id": "google-play",
+     "pub": "stores/google-play.png"
+    }
+   ]
+  },
+  "clips_app": {
+   "uso": "Grabaciones de pantalla y de juegos. OJO: sala.mp4 tiene banners de WhatsApp con nombres entre 11 y 15 s; esconde.mp4 entre 16 y 22 s.",
+   "items": [
+    {
+     "id": "carta",
+     "pub": "v0110/carta.mp4",
+     "segundos": 15.98
+    },
+    {
+     "id": "esconde",
+     "pub": "v0110/esconde.mp4",
+     "segundos": 63.98
+    },
+    {
+     "id": "locker",
+     "pub": "v0110/locker.mp4",
+     "segundos": 17.98
+    },
+    {
+     "id": "match",
+     "pub": "v0110/match.mp4",
+     "segundos": 9.98
+    },
+    {
+     "id": "pareja",
+     "pub": "v0110/pareja.mp4",
+     "segundos": 16.0
+    },
+    {
+     "id": "quien",
+     "pub": "v0110/quien.mp4",
+     "segundos": 11.97
+    },
+    {
+     "id": "sala",
+     "pub": "v0110/sala.mp4",
+     "segundos": 15.98
+    },
+    {
+     "id": "golf",
+     "pub": "parches/games/golf.mp4",
+     "segundos": 3.0
+    },
+    {
+     "id": "kart",
+     "pub": "parches/games/kart.mp4",
+     "segundos": 3.5
+    },
+    {
+     "id": "tanks",
+     "pub": "parches/games/tanks.mp4",
+     "segundos": 3.0
+    },
+    {
+     "id": "clip1",
+     "pub": "tutorial-salas/clip1.mp4",
+     "segundos": 10.82
+    },
+    {
+     "id": "clip2",
+     "pub": "tutorial-salas/clip2.mp4",
+     "segundos": 6.04
+    },
+    {
+     "id": "clip3",
+     "pub": "tutorial-salas/clip3.mp4",
+     "segundos": 22.7
+    }
+   ]
+  },
+  "presentador": {
+   "uso": "Pato presentador con cara animada (ojos, párpados, pico) y micrófono: src/todo/HostDuck.tsx + public/todo/duck/.",
+   "items": [
+    {
+     "id": "body",
+     "pub": "todo/duck/body.png"
+    },
+    {
+     "id": "eyes_clean",
+     "pub": "todo/duck/eyes_clean.png"
+    },
+    {
+     "id": "head_audifonos",
+     "pub": "todo/duck/head_audifonos.png"
+    },
+    {
+     "id": "jaw",
+     "pub": "todo/duck/jaw.png"
+    },
+    {
+     "id": "mask_beak_audifonos",
+     "pub": "todo/duck/mask_beak_audifonos.png"
+    },
+    {
+     "id": "mask_eyes_audifonos",
+     "pub": "todo/duck/mask_eyes_audifonos.png"
+    },
+    {
+     "id": "mouth",
+     "pub": "todo/duck/mouth.png"
+    }
+   ]
+  },
+  "mano": {
+   "uso": "La mano del pato de ¡Al maíz! como trazo vectorial (src/todo/hand.ts); en los videos pone los stickers.",
+   "items": []
+  },
+  "kit_scrapbook": {
+   "uso": "Papel, cinta, recortes, letras de secuestro, garabatos que hierven: src/todo/paper.tsx; textura public/todo/paper.png.",
+   "items": []
+  }
+ }
+}

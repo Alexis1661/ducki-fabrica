@@ -1,0 +1,19 @@
+node_modules/
+.env
+*.log
+fabrica/.estado.json
+# videos and audio stay out of git (they go to Telegram and to the run's artifacts)
+fabrica/episodios/**/*.mp4
+fabrica/episodios/**/*.wav
+fabrica/episodios/**/*.mp3
+fabrica/episodios/**/partes/
+fabrica/episodios/**/cuadro-*.jpg
+fabrica/episodios/**/telegram.json
+# captures from the app with real users: only the encrypted bundle goes to git
+# (promo/capturas.tar.enc, opened in Actions with the CAPTURAS_KEY secret)
+promo/public/screens/
+promo/public/todo/stills/
+promo/public/duckart/
+promo/public/parches/games/
+promo/public/v0110/
+promo/public/map/

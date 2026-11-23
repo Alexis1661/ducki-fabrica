@@ -1,0 +1,154 @@
+{
+ "rock": {
+  "w": 332,
+  "h": 807,
+  "x": 79,
+  "y": 120,
+  "head": "Head/Normal/Flux2_dev_00023__627354.png",
+  "body": "Body/Normal/Flux2_dev_00170__291266.png"
+ },
+ "chef": {
+  "w": 332,
+  "h": 908,
+  "x": 79,
+  "y": 19,
+  "head": "Head/Normal/Flux2_dev_00025__934762.png",
+  "body": "Body/University/Flux2_dev_00131__264474.png"
+ },
+ "grad": {
+  "w": 336,
+  "h": 913,
+  "x": 77,
+  "y": 16,
+  "head": "Head/men/new/Flux2_dev_00082_.png",
+  "body": "Body/Normal/new/Flux2_dev_00003_.png"
+ },
+ "basket": {
+  "w": 332,
+  "h": 814,
+  "x": 79,
+  "y": 113,
+  "head": "Head/Normal/Flux2_dev_00003__dup1_470008.png",
+  "body": "Body/men/Flux2_dev_00069__705582.png"
+ },
+ "artista": {
+  "w": 375,
+  "h": 906,
+  "x": 66,
+  "y": 21,
+  "head": "Head/University/Flux2_dev_00052__861700.png",
+  "body": "Body/University/Flux2_dev_00130__808582.png"
+ },
+ "fiesta": {
+  "w": 427,
+  "h": 838,
+  "x": 7,
+  "y": 120,
+  "head": "Head/women/Flux2_dev_00001__155388.png",
+  "body": "Body/women/new/Flux2_dev_00036_.png"
+ },
+ "code": {
+  "w": 332,
+  "h": 807,
+  "x": 79,
+  "y": 120,
+  "head": "Head/men/Flux2_dev_00102__238498.png",
+  "body": "Body/University/Flux2_dev_00143__355182.png"
+ },
+ "astro": {
+  "w": 335,
+  "h": 849,
+  "x": 79,
+  "y": 78,
+  "head": "Head/men/new/Flux2_dev_00088_.png",
+  "body": "Body/Normal/Flux2_dev_00086__400810.png"
+ },
+ "doctor": {
+  "w": 369,
+  "h": 899,
+  "x": 72,
+  "y": 29,
+  "head": "Head/University/Flux2_dev_00037__752241.png",
+  "body": "Body/University/Flux2_dev_00119__322167.png"
+ },
+ "vaquero": {
+  "w": 342,
+  "h": 870,
+  "x": 69,
+  "y": 57,
+  "head": "Head/Normal/Flux2_dev_00014__553690.png",
+  "body": "Body/Normal/Flux2_dev_00179__772067.png"
+ },
+ "conejita": {
+  "w": 350,
+  "h": 899,
+  "x": 72,
+  "y": 28,
+  "head": "Head/women/new/Flux2_dev_00035_ (1).png",
+  "body": "Body/women/new/Flux2_dev_00131_.png"
+ },
+ "pirata": {
+  "w": 382,
+  "h": 895,
+  "x": 58,
+  "y": 46,
+  "head": "Head/Normal/Flux2_dev_00022__202007.png",
+  "body": "Body/University/Flux2_dev_00144__598094.png"
+ },
+ "cool": {
+  "w": 345,
+  "h": 807,
+  "x": 73,
+  "y": 120,
+  "head": "Head/Normal2/Flux2_dev_00009__719796.png",
+  "body": "Body/Normal/Flux2_dev_00168__325491.png"
+ },
+ "reina": {
+  "w": 335,
+  "h": 920,
+  "x": 77,
+  "y": 7,
+  "head": "Head/women/new/Flux2_dev_00032_.png",
+  "body": "Body/women/new/Flux2_dev_00030_.png"
+ },
+ "obrero": {
+  "w": 332,
+  "h": 856,
+  "x": 79,
+  "y": 71,
+  "head": "Head/Normal/Flux2_dev_00035__197349.png",
+  "body": "Body/Normal/Flux2_dev_00197__759282.png"
+ },
+ "invierno": {
+  "w": 332,
+  "h": 906,
+  "x": 79,
+  "y": 21,
+  "head": "Head/Normal/Flux2_dev_00017__915946.png",
+  "body": "Body/Normal/Flux2_dev_00188__634096.png"
+ },
+ "flores": {
+  "w": 332,
+  "h": 807,
+  "x": 79,
+  "y": 120,
+  "head": "Head/women/new/Flux2_dev_00005_.png",
+  "body": "Body/women/Flux2_dev_00030__310817.png"
+ },
+ "estudiante": {
+  "w": 331,
+  "h": 807,
+  "x": 80,
+  "y": 120,
+  "head": "mobile/src/assets/duck/default-head.png",
+  "body": "Body/Normal/Flux2_dev_00186__583795.png"
+ },
+ "anonimo": {
+  "w": 331,
+  "h": 808,
+  "x": 80,
+  "y": 119,
+  "head": "mobile/src/assets/common/anonimo.png",
+  "body": "Body/Normal/Flux2_dev_00186__583795.png"
+ }
+}

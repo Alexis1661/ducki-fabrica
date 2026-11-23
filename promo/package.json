@@ -1,0 +1,23 @@
+{
+  "name": "ducki-fabrica",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "episodio": "node scripts/fabrica/episodio.mjs",
+    "ci": "node scripts/fabrica/ci.mjs",
+    "studio": "remotion studio src/fabrica/index.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "1.13.0",
+    "@remotion/bundler": "4.0.529",
+    "@remotion/cli": "4.0.529",
+    "@remotion/renderer": "4.0.529",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "remotion": "4.0.529"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "typescript": "^5.6.3"
+  }
+}

@@ -1,0 +1,112 @@
+# Fábrica de videos de Ducki: cada corrida arma un video, lo manda al tema «Fábrica»
+# del grupo de moderación en Telegram y termina. Los botones (Aprobar / Ajustar /
+# Descartar) los recibe el bot de moderación en la API; un «Ajustar» vuelve aquí
+# como repository_dispatch «fabrica-ajuste» con el episodio y el texto.
+name: Episodio
+
+on:
+  schedule:
+    # 11:00 UTC = 6:00 en Bogotá: el video del día llega al grupo por la mañana
+    - cron: '0 11 * * *'
+  workflow_dispatch:
+    inputs:
+      encargo:
+        description: 'Encargo (vacío: el guionista elige el tema del día)'
+        required: false
+      prueba:
+        description: 'Render de prueba con una voz ya hecha (sin gastar llaves de IA)'
+        type: boolean
+        default: false
+  repository_dispatch:
+    types: [fabrica-encargo, fabrica-ajuste]
+
+# one at a time: each run commits its episode back to the repo
+concurrency:
+  group: fabrica
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  episodio:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: promo
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+      ELEVENLABS_VOICE_ID: ${{ secrets.ELEVENLABS_VOICE_ID }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      TELEGRAM_TOPIC_FABRICA: ${{ secrets.TELEGRAM_TOPIC_FABRICA }}
+      FABRICA_MODELO: ${{ vars.FABRICA_MODELO }}
+      FABRICA_ESFUERZO: ${{ vars.FABRICA_ESFUERZO }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: promo/package-lock.json
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Dependencias
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-color-emoji > /dev/null
+          pip install -q numpy scipy
+          npm ci --no-audit --no-fund
+          npx remotion browser ensure
+
+      # app captures show real users, so the public repo only has them encrypted
+      - name: Capturas
+        env:
+          CAPTURAS_KEY: ${{ secrets.CAPTURAS_KEY }}
+        working-directory: .
+        run: |
+          openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -pass env:CAPTURAS_KEY \
+            -in promo/capturas.tar.enc | tar -xf -
+
+      - name: Armar y enviar
+        id: armar
+        env:
+          EVENTO: ${{ github.event_name }}
+          ACCION: ${{ github.event.action }}
+          ENCARGO_MANUAL: ${{ inputs.encargo }}
+          PRUEBA: ${{ inputs.prueba }}
+          ENCARGO_BOT: ${{ github.event.client_payload.encargo }}
+          EPISODIO: ${{ github.event.client_payload.episodio }}
+          TEXTO: ${{ github.event.client_payload.texto }}
+        run: |
+          if [ "$EVENTO" = "repository_dispatch" ] && [ "$ACCION" = "fabrica-ajuste" ]; then
+            node scripts/fabrica/ci.mjs ajuste --episodio "$EPISODIO" --texto "$TEXTO"
+          elif [ "$PRUEBA" = "true" ]; then
+            node scripts/fabrica/ci.mjs nuevo --spec ../fabrica/formatos/lista-scrapbook/prueba-crush.json \
+              --voz ../fabrica/pruebas/3-formas/voz-windows.wav --palabras ../fabrica/pruebas/3-formas/palabras.json
+          elif [ -n "$ENCARGO_BOT" ]; then
+            node scripts/fabrica/ci.mjs nuevo --encargo "$ENCARGO_BOT"
+          elif [ -n "$ENCARGO_MANUAL" ]; then
+            node scripts/fabrica/ci.mjs nuevo --encargo "$ENCARGO_MANUAL"
+          else
+            node scripts/fabrica/ci.mjs nuevo
+          fi
+
+      # no artifact: in a public repo anyone could download the unapproved
+      # video; it only goes to the Telegram topic
+
+      - name: Guardar el episodio en el repo
+        if: success() && steps.armar.outputs.carpeta != ''
+        working-directory: .
+        run: |
+          git config user.name "fabrica-bot"
+          git config user.email "fabrica-bot@users.noreply.github.com"
+          git add fabrica/episodios
+          git diff --cached --quiet && exit 0
+          git commit -q -m "episodio: $(basename '${{ steps.armar.outputs.carpeta }}')"
+          git pull -q --rebase && git push -q

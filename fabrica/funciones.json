@@ -1,0 +1,139 @@
+{
+  "_nota": "Fuente de verdad para los guiones automáticos. El guionista solo puede afirmar lo que está aquí. 'escena' = escena del formato lista-scrapbook que la muestra (null = todavía no hay escena, no usar en ese formato). 'mencionar': false = el usuario pidió no mencionarla por ahora. 'anclas': palabras de la voz que disparan los momentos de la escena (en orden); 'respaldo' = fracción de la escena si la palabra no se dice.",
+  "reglas_generales": [
+    "Español de Colombia, tuteo, tono de estudiante a estudiante, cercano y con energía.",
+    "Nunca prometer funciones, cifras, premios ni fechas que no estén en esta ficha.",
+    "Sin emojis ni signos raros en el texto de la voz; nada de precios.",
+    "No nombrar personas reales ni cuentas de usuarios.",
+    "La app se llama Ducki (se escribe así). Los usuarios son 'patos'. Cierre de marca: 'Aquí todos somos patos'.",
+    "Ducki es para universitarios de Cali (varias universidades en una sola red)."
+  ],
+  "funciones": [
+    {
+      "id": "publica",
+      "nombre": "Publicar (también en anónimo)",
+      "escena": "publica",
+      "mencionar": true,
+      "que_es": "Publicas lo que pasa en tu U: texto, fotos, video, encuestas o un Ducki Real. Si te da pena, puedes publicar en anónimo y nadie ve tu nombre.",
+      "ideas": ["confesiones de la U en anónimo", "encuestas", "lo que pasa hoy en tu U"],
+      "no_decir": ["límites exactos de publicaciones anónimas"],
+      "anclas": { "anon": { "palabras": ["anónimo", "anónima", "anonimato", "anónimos"], "respaldo": 0.7 } }
+    },
+    {
+      "id": "mapa",
+      "nombre": "Mapa de amigos",
+      "escena": "mapa",
+      "mencionar": true,
+      "que_es": "Ves en el mapa dónde andan tus amigos en tiempo real. Tú decides cómo te ven: ubicación precisa, difusa o en modo fantasma.",
+      "ideas": ["saber quién está en la U", "modo fantasma"],
+      "no_decir": ["que cualquiera puede verte", "números de amigos máximos"],
+      "anclas": {
+        "mapa": { "palabras": ["mapa"], "respaldo": 0.3 },
+        "amigos": { "palabras": ["amigos", "amigas", "parche", "fantasma"], "respaldo": 0.75 }
+      }
+    },
+    {
+      "id": "pato",
+      "nombre": "Arma tu pato",
+      "escena": "pato",
+      "mencionar": true,
+      "que_es": "Tu perfil es un pato que vistes con cientos de accesorios: cabezas, cuerpos y disfraces. Hay regalos cada semana y accesorios exclusivos que se ganan.",
+      "ideas": ["tu pato te representa", "accesorios exclusivos", "regalo semanal"],
+      "no_decir": ["que se pagan accesorios"],
+      "anclas": { "cientos": { "palabras": ["cientos", "accesorios", "disfraces", "ropa"], "respaldo": 0.55 } }
+    },
+    {
+      "id": "arte",
+      "nombre": "DuckiArt",
+      "escena": "arte",
+      "mencionar": true,
+      "que_es": "Cada día (de martes a domingo) haces un dibujo en la app; todos califican deslizando; el lunes salen los ganadores de la semana y el mejor dibujo aparece en el widget del celular de todos.",
+      "ideas": ["dibujar en la app", "ganar y salir en el celular de todos"],
+      "no_decir": ["premios en dinero"],
+      "anclas": {
+        "dibuja": { "palabras": ["dibuja", "dibujo", "dibujar", "dibujitos", "duckiart"], "respaldo": 0.15 },
+        "celular": { "palabras": ["celular", "widget", "pantalla"], "respaldo": 0.7 }
+      }
+    },
+    {
+      "id": "parche",
+      "nombre": "Parches",
+      "escena": "parche",
+      "mencionar": true,
+      "que_es": "Grupos de gente con tus mismos gustos (fútbol, música, gaming, estudio, fiesta y más) de cualquier universidad. Te unes, hablan por el chat y arman planes.",
+      "ideas": ["encontrar tu parche", "conocer gente de otras U"],
+      "no_decir": [],
+      "anclas": {
+        "gente": { "palabras": ["gente", "gustos", "grupos"], "respaldo": 0.4 },
+        "cualquier": { "palabras": ["cualquier", "universidad", "universidades", "otras"], "respaldo": 0.8 }
+      }
+    },
+    {
+      "id": "carta",
+      "nombre": "Cartas en el casillero",
+      "escena": "carta",
+      "mencionar": true,
+      "que_es": "Le dejas una carta a alguien en su casillero, firmada o anónima. Cada quien decide si quiere recibir cartas.",
+      "ideas": ["carta anónima a alguien que te gusta", "agradecerle a un amigo"],
+      "no_decir": ["que se puede saber quién mandó una carta anónima"],
+      "anclas": {
+        "carta": { "palabras": ["carta", "cartas"], "respaldo": 0.25 },
+        "firmada": { "palabras": ["firmada", "firmarla", "firma", "nombre"], "respaldo": 0.6 },
+        "anonima": { "palabras": ["anónima", "anónimo", "secreto"], "respaldo": 0.85 }
+      }
+    },
+    {
+      "id": "crush",
+      "nombre": "Ducki Crush",
+      "escena": "crush",
+      "mencionar": true,
+      "que_es": "Entras al casillero de alguien y lo marcas como crush. Tu nombre queda en secreto. Si esa persona también te marca, les sale el match y ya pueden hablar.",
+      "ideas": ["declararte sin pena", "match"],
+      "no_decir": ["que la otra persona se entera si no hay match"],
+      "anclas": {
+        "crush": { "palabras": ["crush"], "respaldo": 0.4 },
+        "match": { "palabras": ["match"], "respaldo": 0.85 }
+      }
+    },
+    {
+      "id": "sala",
+      "nombre": "Duckisalas (salas de voz)",
+      "escena": "sala",
+      "mencionar": true,
+      "que_es": "Salas de voz en vivo: hablas por voz con tus amigos o con gente nueva, con escenario, oyentes y chat.",
+      "ideas": ["hablar por voz con el parche", "hacer una sala de noche"],
+      "no_decir": ["números exactos de puestos u oyentes"],
+      "anclas": {
+        "duckisala": { "palabras": ["duckisala", "duckisalas", "sala", "salas"], "respaldo": 0.3 },
+        "voz": { "palabras": ["voz"], "respaldo": 0.7 }
+      }
+    },
+    {
+      "id": "juegos",
+      "nombre": "Juegos en las salas",
+      "escena": "juegos",
+      "mencionar": true,
+      "que_es": "Dentro de las Duckisalas juegas por voz con tus amigos: Ducki Kart, minigolf, el impostor, ¿Quién soy?, ¡Al maíz!, Tanques, dibuja y adivina, ahorcado y más.",
+      "ideas": ["jugar con el parche por voz", "Ducki Kart"],
+      "no_decir": ["Escondidas (no mencionar por ahora)"],
+      "anclas": {
+        "juegos": { "palabras": ["juegos", "juego", "jueguitos"], "respaldo": 0.2 },
+        "kart": { "palabras": ["kart"], "respaldo": 0.35 },
+        "golf": { "palabras": ["minigolf", "golf"], "respaldo": 0.5 },
+        "impostor": { "palabras": ["impostor"], "respaldo": 0.65 },
+        "quien": { "palabras": ["quién", "quien"], "respaldo": 0.8 },
+        "porvoz": { "palabras": ["voz"], "respaldo": 0.92 }
+      }
+    },
+    { "id": "historias", "nombre": "Historias y Ducki Moments", "escena": null, "mencionar": true, "que_es": "Historias de 24 horas (foto o video corto) y Moments, fotos tal cual para tus amigos.", "ideas": [], "no_decir": [], "anclas": {} },
+    { "id": "pareja", "nombre": "Pareja en el casillero", "escena": null, "mencionar": true, "que_es": "Le mandas una solicitud de pareja; si acepta, sus patos salen juntos en los dos casilleros.", "ideas": [], "no_decir": [], "anclas": {} },
+    { "id": "duckitalk", "nombre": "Duckitalk", "escena": null, "mencionar": false, "que_es": "Llamada anónima de un minuto con un estudiante al azar.", "ideas": [], "no_decir": ["El usuario lo quitó del guion el 2026-11-23: no mencionar hasta que diga lo contrario."], "anclas": {} },
+    { "id": "escondidas", "nombre": "Escondidas 3D", "escena": null, "mencionar": false, "que_es": "Juego de escondidas en 3D en la casa de Ducki.", "ideas": [], "no_decir": ["El usuario lo quitó del guion el 2026-11-23."], "anclas": {} },
+    { "id": "copa", "nombre": "Copa Ducki", "escena": null, "mencionar": false, "que_es": "Concurso entre universidades; terminó el 26 de noviembre de 2026.", "ideas": [], "no_decir": ["Ya terminó."], "anclas": {} }
+  ],
+  "escenas_fijas": {
+    "intro": { "anclas": { "ducki": { "palabras": ["ducki"], "respaldo": 0.45 }, "fav": { "palabras": ["favorita", "favorito", "mejor"], "respaldo": 0.7 } } },
+    "todo": { "anclas": { "app": { "palabras": ["app", "aplicación"], "respaldo": 0.45 }, "cali": { "palabras": ["cali", "universitarios"], "respaldo": 0.8 } } },
+    "fin": { "anclas": { "gratis": { "palabras": ["gratis", "descarga", "descárgala"], "respaldo": 0.35 }, "aqui": { "palabras": ["aquí", "patos"], "respaldo": 0.7 } } }
+  }
+}

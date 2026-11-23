@@ -1,0 +1,176 @@
+{
+ "width": 495,
+ "height": 446,
+ "eyes": {
+  "r": {
+   "left": 116,
+   "right": 181,
+   "top": 234,
+   "bottom": 332,
+   "cx": 149.49544131910767,
+   "cy": 283.5693501454898,
+   "pupil": {
+    "x": 134.83947939262472,
+    "y": 272.55531453362255,
+    "rx": 9.5,
+    "ry": 16.0
+   }
+  },
+  "l": {
+   "left": 308,
+   "right": 376,
+   "top": 234,
+   "bottom": 331,
+   "cx": 341.5257462686567,
+   "cy": 282.8940298507463,
+   "pupil": {
+    "x": 353.98454746136866,
+    "y": 270.9337748344371,
+    "rx": 9.5,
+    "ry": 15.0
+   }
+  }
+ },
+ "jaw": {
+  "left": 180,
+  "right": 314,
+  "top": 370,
+  "bottom": 400,
+  "cx": 246.59666884389287,
+  "openMax": 20
+ },
+ "heads": [
+  {
+   "id": "gorro",
+   "label": "Gorro de lana",
+   "gender": "pato",
+   "skin": [
+    248,
+    248,
+    254
+   ],
+   "offset": [
+    0,
+    -1
+   ],
+   "eyes": "libre",
+   "beak": "libre",
+   "pupils": true,
+   "coverage": {
+    "pupils": 1.0,
+    "eyes": 1.0,
+    "beak": 1.0
+   }
+  },
+  {
+   "id": "sombrero",
+   "label": "Sombrero de pescador",
+   "gender": "pato",
+   "skin": [
+    246,
+    247,
+    251
+   ],
+   "offset": [
+    0,
+    -1
+   ],
+   "eyes": "libre",
+   "beak": "libre",
+   "pupils": true,
+   "coverage": {
+    "pupils": 0.992,
+    "eyes": 0.99,
+    "beak": 1.0
+   }
+  },
+  {
+   "id": "gafas",
+   "label": "Gafas redondas",
+   "gender": "pato",
+   "skin": [
+    246,
+    246,
+    252
+   ],
+   "offset": [
+    0,
+    -1
+   ],
+   "eyes": "parcial",
+   "beak": "libre",
+   "pupils": false,
+   "coverage": {
+    "pupils": 0.851,
+    "eyes": 0.8,
+    "beak": 1.0
+   }
+  },
+  {
+   "id": "lentes-sol",
+   "label": "Lentes de sol",
+   "gender": "pato",
+   "skin": [
+    86,
+    86,
+    87
+   ],
+   "offset": [
+    0,
+    -1
+   ],
+   "eyes": "tapado",
+   "beak": "libre",
+   "pupils": false,
+   "coverage": {
+    "pupils": 0.069,
+    "eyes": 0.029,
+    "beak": 1.0
+   }
+  },
+  {
+   "id": "mono",
+   "label": "Mo\u00f1o rosado",
+   "gender": "pata",
+   "skin": [
+    248,
+    247,
+    255
+   ],
+   "offset": [
+    0,
+    -1
+   ],
+   "eyes": "libre",
+   "beak": "libre",
+   "pupils": true,
+   "coverage": {
+    "pupils": 1.0,
+    "eyes": 1.0,
+    "beak": 1.0
+   }
+  },
+  {
+   "id": "audifonos",
+   "label": "Aud\u00edfonos",
+   "gender": "pato",
+   "skin": [
+    248,
+    248,
+    253
+   ],
+   "offset": [
+    0,
+    -1
+   ],
+   "eyes": "libre",
+   "beak": "libre",
+   "pupils": true,
+   "coverage": {
+    "pupils": 1.0,
+    "eyes": 1.0,
+    "beak": 1.0
+   }
+  }
+ ]
+}
