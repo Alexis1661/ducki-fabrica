@@ -33,3 +33,7 @@ fabrica/formatos/**/*.wav
 fabrica/formatos/**/partes/
 promo/public/tutorial-salas/
 .remotion/
+# the episodes live in the private repo Alexis1661/ducki-fabrica-episodios (cloned here by
+# the workflow); only the placeholder stays in this public one
+fabrica/episodios/*
+!fabrica/episodios/.gitkeep
