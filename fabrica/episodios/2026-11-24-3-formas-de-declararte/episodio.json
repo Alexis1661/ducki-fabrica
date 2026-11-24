@@ -1839,12 +1839,9 @@
  },
  "scenes": [
   {
-   "kind": "intro",
+   "kind": "libre",
    "t": 0,
-   "ev": {
-    "ducki": 0.886,
-    "fav": 1.379
-   }
+   "ev": {}
   },
   {
    "kind": "libre",
@@ -1852,32 +1849,39 @@
    "ev": {}
   },
   {
-   "kind": "feature",
+   "kind": "libre",
+   "t": 3.85,
+   "ev": {}
+  },
+  {
+   "kind": "libre",
    "t": 5.81,
-   "ev": {
-    "carta": 6.72,
-    "firmada": 8.2,
-    "anonima": 8.64
-   },
-   "feature": "carta"
+   "ev": {}
   },
   {
-   "kind": "feature",
+   "kind": "libre",
+   "t": 8.15,
+   "ev": {}
+  },
+  {
+   "kind": "libre",
    "t": 11.19,
-   "ev": {
-    "crush": 12.14,
-    "match": 16.46
-   },
-   "feature": "crush"
+   "ev": {}
   },
   {
-   "kind": "feature",
+   "kind": "libre",
+   "t": 14.71,
+   "ev": {}
+  },
+  {
+   "kind": "libre",
    "t": 17.29,
-   "ev": {
-    "duckisala": 18.9,
-    "voz": 19.84
-   },
-   "feature": "sala"
+   "ev": {}
+  },
+  {
+   "kind": "libre",
+   "t": 19.23,
+   "ev": {}
   },
   {
    "kind": "fin",
@@ -1918,10 +1922,21 @@
     "rotulo": null
    },
    {
-    "entrada": "deslizar",
-    "direccion": "derecha",
-    "hoja": "pink",
+    "entrada": "caer",
+    "direccion": "arriba",
+    "hoja": "cream",
     "cuadricula": true,
+    "titulo": "recortes",
+    "impacto": "ninguno",
+    "mano": true,
+    "nota": null,
+    "rotulo": null
+   },
+   {
+    "entrada": "voltear",
+    "direccion": "izquierda",
+    "hoja": "cobalt",
+    "cuadricula": false,
     "titulo": "recortes",
     "impacto": "ninguno",
     "mano": true,
@@ -1940,7 +1955,29 @@
     "rotulo": null
    },
    {
+    "entrada": "zoom",
+    "direccion": "abajo",
+    "hoja": "paper",
+    "cuadricula": true,
+    "titulo": "recortes",
+    "impacto": "ninguno",
+    "mano": true,
+    "nota": null,
+    "rotulo": null
+   },
+   {
     "entrada": "deslizar",
+    "direccion": "derecha",
+    "hoja": "night",
+    "cuadricula": false,
+    "titulo": "recortes",
+    "impacto": "ninguno",
+    "mano": true,
+    "nota": null,
+    "rotulo": null
+   },
+   {
+    "entrada": "caer",
     "direccion": "abajo",
     "hoja": "pink",
     "cuadricula": false,
@@ -1951,8 +1988,19 @@
     "rotulo": null
    },
    {
-    "entrada": "deslizar",
+    "entrada": "voltear",
     "direccion": "derecha",
+    "hoja": "lime",
+    "cuadricula": false,
+    "titulo": "recortes",
+    "impacto": "ninguno",
+    "mano": true,
+    "nota": null,
+    "rotulo": null
+   },
+   {
+    "entrada": "deslizar",
+    "direccion": "abajo",
     "hoja": "night",
     "cuadricula": false,
     "titulo": "recortes",
@@ -1976,8 +2024,232 @@
  },
  "libre": [
   {
-   "prefab": "intro",
-   "elementos": []
+   "prefab": null,
+   "camara": null,
+   "presentador": {
+    "x": 540,
+    "y": 620,
+    "w": 500,
+    "en": 0,
+    "sale": null
+   },
+   "elementos": [
+    {
+     "tipo": "titulo",
+     "texto": "¿TE GUSTA ALGUIEN?",
+     "tam": 130,
+     "x": 540,
+     "y": 300,
+     "en": 0,
+     "entrada": "golpe",
+     "sale": null
+    },
+    {
+     "tipo": "garabato",
+     "forma": "corazon",
+     "w": 170,
+     "h": 150,
+     "color": "red",
+     "x": 880,
+     "y": 720,
+     "en": 0.62,
+     "sale": null
+    },
+    {
+     "tipo": "bocadillo",
+     "texto": "¿de la U?",
+     "cola": "abajo-izq",
+     "w": 320,
+     "x": 220,
+     "y": 760,
+     "en": 0.94,
+     "sale": null
+    }
+   ]
+  },
+  {
+   "prefab": null,
+   "camara": null,
+   "presentador": null,
+   "elementos": [
+    {
+     "tipo": "titulo",
+     "texto": "3 FORMAS",
+     "tam": 170,
+     "x": 540,
+     "y": 300,
+     "en": 2.02,
+     "entrada": "golpe",
+     "sale": null
+    },
+    {
+     "tipo": "texto",
+     "texto": "de declararte",
+     "tam": 80,
+     "estilo": "caveat",
+     "fondo": "ninguno",
+     "x": 540,
+     "y": 500,
+     "en": 2.54,
+     "sale": null
+    },
+    {
+     "tipo": "icono",
+     "nombre": "Mail",
+     "w": 230,
+     "color": "cobalt",
+     "fondo": "circulo",
+     "x": 220,
+     "y": 860,
+     "en": 2.26,
+     "entrada": "pop",
+     "sale": null
+    },
+    {
+     "tipo": "icono",
+     "nombre": "Heart",
+     "w": 230,
+     "color": "red",
+     "fondo": "circulo",
+     "x": 540,
+     "y": 860,
+     "en": 2.78,
+     "entrada": "pop",
+     "sale": null
+    },
+    {
+     "tipo": "icono",
+     "nombre": "Mic",
+     "w": 230,
+     "color": "green",
+     "fondo": "circulo",
+     "x": 860,
+     "y": 860,
+     "en": 3.14,
+     "entrada": "pop",
+     "sale": null
+    },
+    {
+     "tipo": "sticker",
+     "w": 300,
+     "x": 540,
+     "y": 1280,
+     "en": 3.28,
+     "entrada": "golpe",
+     "sale": null,
+     "src": "app/icon.png",
+     "w0": 1024,
+     "h0": 1024
+    }
+   ]
+  },
+  {
+   "prefab": null,
+   "camara": {
+    "mover": "acercar",
+    "foco": [
+     540,
+     850
+    ],
+    "golpe": null
+   },
+   "presentador": null,
+   "elementos": [
+    {
+     "tipo": "sticker",
+     "w": 420,
+     "x": 540,
+     "y": 880,
+     "en": 3.9,
+     "entrada": "golpe",
+     "sale": null,
+     "src": "app/duck-confused.png",
+     "w0": 187,
+     "h0": 169
+    },
+    {
+     "tipo": "icono",
+     "nombre": "Skull",
+     "w": 170,
+     "color": "white",
+     "x": 220,
+     "y": 560,
+     "en": 4.04,
+     "entrada": "pop",
+     "sale": null
+    },
+    {
+     "tipo": "bocadillo",
+     "texto": "¿y si no me hace caso?",
+     "cola": "abajo-izq",
+     "w": 460,
+     "x": 720,
+     "y": 500,
+     "en": 4.44,
+     "sale": null
+    },
+    {
+     "tipo": "titulo",
+     "texto": "SIN PENA",
+     "tam": 140,
+     "x": 540,
+     "y": 1330,
+     "en": 4.6,
+     "entrada": "golpe",
+     "sale": null
+    }
+   ]
+  },
+  {
+   "prefab": null,
+   "camara": null,
+   "presentador": null,
+   "elementos": [
+    {
+     "tipo": "contador",
+     "n": 1,
+     "total": 3,
+     "x": 170,
+     "y": 190,
+     "en": 5.86,
+     "sale": null
+    },
+    {
+     "tipo": "clip",
+     "marco": "celular",
+     "w": 360,
+     "x": 330,
+     "y": 920,
+     "en": 6.16,
+     "desde": 2,
+     "sale": null,
+     "src": "v0110/carta.mp4",
+     "w0": 768,
+     "h0": 1664
+    },
+    {
+     "tipo": "sticker",
+     "w": 290,
+     "x": 810,
+     "y": 860,
+     "en": 6.72,
+     "entrada": "mano-der",
+     "sale": null,
+     "src": "app/duck-carter.png",
+     "w0": 747,
+     "h0": 1860
+    },
+    {
+     "tipo": "nota",
+     "texto": "en su casillero",
+     "color": "amarillo",
+     "w": 340,
+     "x": 800,
+     "y": 1340,
+     "en": 7.24,
+     "sale": null
+    }
+   ]
   },
   {
    "prefab": null,
@@ -1986,61 +2258,313 @@
    "elementos": [
     {
      "tipo": "icono",
-     "nombre": "Heart",
-     "w": 260,
-     "color": "red",
-     "fondo": "sticker",
-     "x": 540,
-     "y": 800,
-     "en": 2.26,
+     "nombre": "PenLine",
+     "w": 230,
+     "color": "cobalt",
+     "fondo": "circulo",
+     "x": 270,
+     "y": 700,
+     "en": 8.2,
      "entrada": "pop",
      "sale": null
     },
     {
-     "tipo": "titulo",
-     "texto": "SIN PENA",
-     "tam": 170,
-     "estilo": "recortes",
-     "x": 540,
-     "y": 300,
-     "en": 3.9,
+     "tipo": "texto",
+     "texto": "con tu nombre",
+     "tam": 64,
+     "estilo": "mano",
+     "fondo": "papel",
+     "x": 270,
+     "y": 960,
+     "en": 8.2,
+     "sale": null
+    },
+    {
+     "tipo": "sticker",
+     "w": 400,
+     "x": 780,
+     "y": 760,
+     "en": 8.64,
      "entrada": "golpe",
+     "sale": null,
+     "src": "app/anonimo.png",
+     "w0": 271,
+     "h0": 327
+    },
+    {
+     "tipo": "texto",
+     "texto": "o en secreto",
+     "tam": 64,
+     "estilo": "mano",
+     "fondo": "papel",
+     "x": 780,
+     "y": 1050,
+     "en": 8.64,
      "sale": null
     },
     {
-     "tipo": "bocadillo",
-     "texto": "¡Qué pena!",
-     "cola": "abajo-izq",
-     "x": 790,
-     "y": 1100,
-     "w": 380,
-     "en": 4.04,
-     "sale": null
-    },
-    {
-     "tipo": "garabato",
-     "forma": "rayas",
-     "w": 200,
-     "h": 120,
-     "color": "red",
-     "x": 300,
-     "y": 1100,
-     "en": 4.6,
+     "tipo": "titulo",
+     "texto": "¡TÚ DECIDES!",
+     "tam": 130,
+     "estilo": "sello",
+     "x": 540,
+     "y": 1340,
+     "en": 9.42,
+     "entrada": "golpe",
      "sale": null
     }
    ]
   },
   {
-   "prefab": "carta",
-   "elementos": []
+   "prefab": null,
+   "camara": null,
+   "presentador": null,
+   "elementos": [
+    {
+     "tipo": "contador",
+     "n": 2,
+     "total": 3,
+     "x": 170,
+     "y": 190,
+     "en": 11.24,
+     "sale": null
+    },
+    {
+     "tipo": "imagen",
+     "marco": "celular",
+     "w": 340,
+     "x": 330,
+     "y": 920,
+     "en": 11.56,
+     "entrada": "pop",
+     "sale": null,
+     "src": "todo/stills/crush-menu.jpg",
+     "w0": 768,
+     "h0": 1664
+    },
+    {
+     "tipo": "titulo",
+     "texto": "CRUSH",
+     "tam": 150,
+     "x": 700,
+     "y": 330,
+     "en": 12.14,
+     "entrada": "golpe",
+     "sale": null
+    },
+    {
+     "tipo": "sticker",
+     "w": 230,
+     "x": 800,
+     "y": 900,
+     "en": 13.38,
+     "entrada": "mano-der",
+     "sale": null,
+     "src": "app/duck-anon.png",
+     "w0": 328,
+     "h0": 808
+    },
+    {
+     "tipo": "icono",
+     "nombre": "Lock",
+     "w": 170,
+     "color": "white",
+     "fondo": "circulo",
+     "x": 800,
+     "y": 1300,
+     "en": 14.08,
+     "entrada": "pop",
+     "sale": null
+    }
+   ]
   },
   {
-   "prefab": "crush",
-   "elementos": []
+   "prefab": null,
+   "camara": {
+    "golpe": 16.46
+   },
+   "presentador": null,
+   "elementos": [
+    {
+     "tipo": "clip",
+     "marco": "celular",
+     "w": 360,
+     "x": 330,
+     "y": 900,
+     "en": 14.76,
+     "desde": 2,
+     "sale": null,
+     "src": "v0110/match.mp4",
+     "w0": 768,
+     "h0": 1664
+    },
+    {
+     "tipo": "icono",
+     "nombre": "Heart",
+     "w": 200,
+     "color": "red",
+     "x": 800,
+     "y": 520,
+     "en": 15.2,
+     "entrada": "pop",
+     "sale": null
+    },
+    {
+     "tipo": "garabato",
+     "forma": "corazon",
+     "w": 220,
+     "h": 200,
+     "color": "hot",
+     "x": 820,
+     "y": 800,
+     "en": 16.34,
+     "sale": null
+    },
+    {
+     "tipo": "titulo",
+     "texto": "¡MATCH!",
+     "tam": 150,
+     "x": 720,
+     "y": 1250,
+     "en": 16.46,
+     "entrada": "golpe",
+     "sale": null
+    }
+   ]
   },
   {
-   "prefab": "sala",
-   "elementos": []
+   "prefab": null,
+   "camara": null,
+   "presentador": null,
+   "elementos": [
+    {
+     "tipo": "contador",
+     "n": 3,
+     "total": 3,
+     "x": 170,
+     "y": 190,
+     "en": 17.34,
+     "sale": null
+    },
+    {
+     "tipo": "sticker",
+     "w": 460,
+     "x": 770,
+     "y": 640,
+     "en": 18.22,
+     "entrada": "golpe",
+     "sale": null,
+     "src": "parches/duckisalas-ducks.png",
+     "w0": 600,
+     "h0": 348
+    },
+    {
+     "tipo": "bocadillo",
+     "texto": "¿te vienes?",
+     "cola": "abajo-izq",
+     "w": 360,
+     "x": 780,
+     "y": 950,
+     "en": 18.22,
+     "sale": null
+    },
+    {
+     "tipo": "clip",
+     "marco": "celular",
+     "w": 340,
+     "x": 300,
+     "y": 930,
+     "en": 18.74,
+     "desde": 1,
+     "sale": null,
+     "src": "v0110/sala.mp4",
+     "w0": 768,
+     "h0": 1664
+    },
+    {
+     "tipo": "titulo",
+     "texto": "DUCKISALA",
+     "tam": 110,
+     "estilo": "etiqueta",
+     "x": 700,
+     "y": 1330,
+     "en": 18.9,
+     "entrada": "golpe",
+     "sale": null
+    }
+   ]
+  },
+  {
+   "prefab": null,
+   "camara": {
+    "mover": "acercar",
+    "foco": [
+     540,
+     950
+    ],
+    "golpe": null
+   },
+   "presentador": null,
+   "elementos": [
+    {
+     "tipo": "sticker",
+     "w": 500,
+     "x": 540,
+     "y": 1000,
+     "en": 19.28,
+     "entrada": "golpe",
+     "sale": null,
+     "src": "app/duck-cap.png",
+     "w0": 1280,
+     "h0": 1229
+    },
+    {
+     "tipo": "icono",
+     "nombre": "Mic",
+     "w": 220,
+     "color": "lime",
+     "fondo": "circulo",
+     "x": 230,
+     "y": 600,
+     "en": 19.62,
+     "entrada": "pop",
+     "sale": null
+    },
+    {
+     "tipo": "icono",
+     "nombre": "Moon",
+     "w": 200,
+     "color": "cream",
+     "x": 850,
+     "y": 540,
+     "en": 20.22,
+     "entrada": "pop",
+     "sale": null
+    },
+    {
+     "tipo": "garabato",
+     "forma": "estrella",
+     "w": 130,
+     "h": 130,
+     "color": "cream",
+     "x": 700,
+     "y": 420,
+     "en": 20.38,
+     "sale": null
+    },
+    {
+     "tipo": "texto",
+     "texto": "toda la noche",
+     "tam": 80,
+     "estilo": "caveat",
+     "fondo": "ninguno",
+     "color": "white",
+     "x": 540,
+     "y": 1400,
+     "en": 19.98,
+     "sale": null
+    }
+   ]
   },
   {
    "prefab": "fin",
