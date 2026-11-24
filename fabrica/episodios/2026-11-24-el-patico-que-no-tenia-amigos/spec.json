@@ -1,0 +1,123 @@
+{
+ "slug": "el-patico-que-no-tenia-amigos",
+ "gancho": {
+  "titulo": "UN PATICO",
+  "sub": "que nadie quería cerca",
+  "etiqueta": "así nació Ducki"
+ },
+ "intro": "Había un patico que no tenía amigos. Te cuento cómo nació Ducki.",
+ "puntos": [
+  {
+   "funcion": "pato",
+   "texto": "Le decían pato por ser diferente. Así que armó el suyo, con cientos de accesorios, a su estilo.",
+   "rotulo": "EL APODO",
+   "favorita": false,
+   "look": {
+    "entrada": "deslizar",
+    "direccion": "derecha",
+    "hoja": "lime",
+    "titulo": "recortes",
+    "impacto": "ninguno",
+    "mano": true,
+    "nota": null
+   }
+  },
+  {
+   "funcion": "publica",
+   "texto": "Un día contó cómo se sentía, en anónimo. Y mucha gente respondió: a mí también me pasa.",
+   "rotulo": "SE ATREVIÓ",
+   "favorita": false,
+   "look": {
+    "entrada": "voltear",
+    "direccion": "arriba",
+    "hoja": "paper",
+    "titulo": "marcador",
+    "impacto": "ninguno",
+    "mano": true,
+    "nota": null
+   }
+  },
+  {
+   "funcion": "parche",
+   "texto": "Encontró gente con sus mismos gustos, de cualquier universidad. Por fin tenía un parche.",
+   "rotulo": "SU PARCHE",
+   "favorita": false,
+   "look": {
+    "entrada": "deslizar",
+    "direccion": "izquierda",
+    "hoja": "hot",
+    "titulo": "recortes",
+    "impacto": "sacudida",
+    "mano": true,
+    "nota": null
+   }
+  },
+  {
+   "funcion": "sala",
+   "texto": "Esa noche abrió una Duckisala y habló por voz con todos. Nadie lo llamó raro.",
+   "rotulo": "PLOT TWIST",
+   "favorita": true,
+   "look": {
+    "entrada": "caer",
+    "direccion": "derecha",
+    "hoja": "night",
+    "titulo": "recortes",
+    "impacto": "zoom",
+    "mano": true,
+    "nota": "ser pato ya es bueno"
+   }
+  }
+ ],
+ "cierre_todo": "Por eso nació Ducki: un lugar para los universitarios de Cali donde ser diferente es lo normal.",
+ "cierre": "Descarga Ducki gratis. Aquí todos somos patos.",
+ "caption": "Le decían pato para hacerlo sentir diferente, y ese pato terminó creando un lugar para todos. Descarga Ducki y cuéntanos en comentarios: ¿tú también eres pato?",
+ "hashtags": [
+  "#Ducki",
+  "#UniversitariosCali",
+  "#Cali",
+  "#AquiTodosSomosPatos",
+  "#VidaUniversitaria"
+ ],
+ "plan": {
+  "estilo": {
+   "estructura": "historia",
+   "subtitulos": "maquina",
+   "resaltado": "orange",
+   "contador": "sello",
+   "presentador": "derecha",
+   "musica": {
+    "bpm": 102,
+    "tono": -1,
+    "progresion": 2
+   }
+  },
+  "intro": {
+   "entrada": "deslizar",
+   "direccion": "derecha",
+   "hoja": "kraft",
+   "titulo": "recortes",
+   "impacto": "ninguno",
+   "mano": true,
+   "nota": null
+  },
+  "todo": {
+   "entrada": "voltear",
+   "direccion": "abajo",
+   "hoja": "cream",
+   "titulo": "recortes",
+   "impacto": "ninguno",
+   "mano": true,
+   "nota": null
+  },
+  "fin": {
+   "entrada": "deslizar",
+   "direccion": "izquierda",
+   "hoja": "kraft",
+   "titulo": "recortes",
+   "impacto": "zoom",
+   "mano": true,
+   "nota": null
+  }
+ },
+ "formato": "lista-scrapbook"
+}
