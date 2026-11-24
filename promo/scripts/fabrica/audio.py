@@ -28,17 +28,25 @@ T = lambda t: t + V0  # noqa: E731  voice seconds -> video seconds
 ENTER = 6 / 30
 
 # --- music ---------------------------------------------------------------------------
+MUS = ep.get('musica') or {}  # the episode's plan may set them (scripts/fabrica/plan.mjs)
 BPM = float(R.choice([108, 110, 112, 114, 116]))
+if 'bpm' in MUS:
+    BPM = float(MUS['bpm'])
 BEAT = 60 / BPM
 STEP = BEAT / 4
 SWING = float(R.uniform(0.12, 0.2)) * STEP
 SHIFT = int(R.integers(-3, 4))
+if 'tono' in MUS:
+    SHIFT = int(MUS['tono'])
 PROGS = [
     [([57, 60, 64, 67, 71], 45), ([53, 57, 60, 64, 67], 41), ([50, 53, 57, 60, 64], 38), ([52, 55, 59, 62, 67], 40)],   # Am9 Fmaj7 Dm9 Em7
     [([50, 53, 57, 60, 64], 38), ([55, 59, 62, 65, 69], 43), ([48, 52, 55, 59, 62], 36), ([57, 60, 64, 67, 71], 45)],   # Dm9 G9 Cmaj7 Am9
     [([52, 55, 59, 62, 66], 40), ([48, 52, 55, 59, 62], 36), ([55, 59, 62, 66, 69], 43), ([50, 54, 57, 60, 64], 38)],   # Em9 Cmaj7 Gmaj7 D9
 ]
-CH = [([n + SHIFT for n in tones], root + SHIFT) for tones, root in PROGS[int(R.integers(0, len(PROGS)))]]
+PROG = int(R.integers(0, len(PROGS)))
+if 'progresion' in MUS:
+    PROG = int(MUS['progresion']) % len(PROGS)
+CH = [([n + SHIFT for n in tones], root + SHIFT) for tones, root in PROGS[PROG]]
 LOGS = [
     [(0, 0), (3, 0), (6, 12), (8, 0), (10, 7), (13, 0), (14, 12)],
     [(0, 0), (3, 7), (7, 0), (10, 12), (12, 0), (14, 7)],

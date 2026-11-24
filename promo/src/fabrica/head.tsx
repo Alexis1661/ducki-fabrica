@@ -4,6 +4,7 @@
 import React, { createContext, useContext } from 'react';
 import { AbsoluteFill, Img, OffthreadVideo, staticFile, useCurrentFrame } from 'remotion';
 import { HostDuck, FaceKey, Mouth } from '../todo/HostDuck';
+import perillas from './perillas.json';
 import { HAND_W, handPaths } from '../todo/hand';
 import {
   ARROW, At, BURST, BoilDefs, Doodle, FONTS, HEART, Hand, P, Paper, Print, Ransom, SCRIBBLE_CIRCLE, SQUIGGLE, STAR, STEP,
@@ -46,7 +47,33 @@ export type Episode = {
   endLine: string;
   /** Picks the pieces, the stickers and the letters, so each episode looks different. */
   seed: number;
+  /** The edit plan (scripts/fabrica/plan.mjs): the knobs of perillas.json this episode turns. Absent = the format's own look. */
+  plan?: Plan;
 };
+
+// ------------------------------------------------------------------ the edit plan
+export type Look = {
+  entrada: 'deslizar' | 'caer' | 'zoom' | 'voltear' | 'rasgar';
+  direccion: 'derecha' | 'izquierda' | 'arriba' | 'abajo';
+  hoja: keyof typeof P;
+  cuadricula: boolean;
+  titulo: 'recortes' | 'marcador' | 'sello' | 'etiqueta';
+  impacto: 'ninguno' | 'sacudida' | 'zoom';
+  mano: boolean;
+  nota: { text: string; x: number; y: number } | null;
+};
+export type Estilo = {
+  subtitulos: 'papel' | 'cinta' | 'marcador' | 'maquina';
+  resaltado: 'lime' | 'pink' | 'orange';
+  contador: 'cinta' | 'sello' | 'postit';
+  presentador: 'centro' | 'izquierda' | 'derecha';
+};
+export type Plan = { estilo: Estilo; escenas: Look[] };
+export const ESTILO_BASE: Estilo = { subtitulos: 'papel', resaltado: 'lime', contador: 'cinta', presentador: 'centro' };
+export const useEstilo = (): Estilo => useEp().ep.plan?.estilo ?? ESTILO_BASE;
+/** Scene i's look, or null when the episode has no plan (each scene then keeps its own). */
+export const useLookAt = (i: number): Look | null => useEp().ep.plan?.escenas[i] ?? null;
+export const isDark = (hoja: string) => (perillas.oscuras as string[]).includes(hoja);
 
 export const FPS = 30;
 export const ENTER = 6; // frames a new sheet takes to slide in
@@ -142,12 +169,57 @@ export function makePose(chunks: Word[][], SC: Ctx['SC']) {
 export const Captions: React.FC<{ big: boolean }> = ({ big }) => {
   const frame = useCurrentFrame();
   const { ep, T, chunks } = useEp();
+  const estilo = useEstilo();
+  const hi = P[estilo.resaltado];
   const t = stepped(frame) / FPS - ep.v0;
   const i = chunks.findIndex((c, k) => t >= c[0].s - 0.05 && t < (chunks[k + 1] ? chunks[k + 1][0].s - 0.05 : c[c.length - 1].e + 0.6));
   if (i < 0) return null;
   const c = chunks[i];
   const sc = pop(frame, T(c[0].s - 0.05));
   const w = wobble(i + 1, frame, 1.5, 6);
+  const place: React.CSSProperties = { position: 'absolute', left: 540, top: big ? 1640 : 1715, transform: `translate(-50%, -50%) rotate(${(rnd(i) - 0.5) * 5 + w.r}deg) scale(${sc})`, width: 'max-content', maxWidth: 920 };
+  if (estilo.subtitulos === 'cinta') {
+    return (
+      <div style={place}>
+        <div style={{ background: 'rgba(255,244,196,.93)', padding: '14px 34px', clipPath: tornPath(i * 5 + 2, 10, { t: false, r: true, b: false, l: true }), boxShadow: '0 6px 0 rgba(0,0,0,.18)' }}>
+          <div style={{ fontFamily: FONTS.archivo, fontSize: 46, color: P.ink, lineHeight: 1.2, textAlign: 'center', textTransform: 'uppercase' }}>
+            {c.map((x, k) => {
+              const on = t >= x.s - 0.03, now = on && t < x.e + 0.08;
+              return <span key={k} style={{ opacity: on ? 1 : 0.22, marginRight: 12, display: 'inline-block', borderBottom: now ? `9px solid ${hi}` : '9px solid transparent' }}>{x.w}</span>;
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  }
+  if (estilo.subtitulos === 'marcador') {
+    return (
+      <div style={place}>
+        <div style={{ fontFamily: FONTS.marker, fontSize: 66, lineHeight: 1.15, textAlign: 'center' }}>
+          {c.map((x, k) => {
+            const on = t >= x.s - 0.03, now = on && t < x.e + 0.08;
+            return (
+              <span key={k} style={{ opacity: on ? 1 : 0.3, color: now ? hi : P.white, WebkitTextStroke: `12px ${P.ink}`, paintOrder: 'stroke fill', marginRight: 14, display: 'inline-block', transform: now ? 'scale(1.12) rotate(-3deg)' : undefined }}>{x.w}</span>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+  if (estilo.subtitulos === 'maquina') {
+    return (
+      <div style={place}>
+        <Torn color={P.kraft} seed={i * 3 + 2} pad="16px 30px">
+          <div style={{ fontFamily: FONTS.elite, fontSize: 50, color: P.ink, lineHeight: 1.15, textAlign: 'center' }}>
+            {c.map((x, k) => {
+              const on = t >= x.s - 0.03, now = on && t < x.e + 0.08;
+              return <span key={k} style={{ visibility: on ? 'visible' : 'hidden', marginRight: 10, display: 'inline-block', textDecoration: now ? `underline ${hi} 6px` : undefined, textUnderlineOffset: 8 }}>{x.w}</span>;
+            })}
+          </div>
+        </Torn>
+      </div>
+    );
+  }
   return (
     <div style={{ position: 'absolute', left: 540, top: big ? 1640 : 1715, transform: `translate(-50%, -50%) rotate(${(rnd(i) - 0.5) * 5 + w.r}deg) scale(${sc})`, width: 'max-content', maxWidth: 920 }}>
       <Torn color={P.cream} seed={i * 3 + 1} pad="16px 30px">
@@ -156,7 +228,7 @@ export const Captions: React.FC<{ big: boolean }> = ({ big }) => {
             const on = t >= x.s - 0.03;
             const now = on && t < x.e + 0.08;
             return (
-              <span key={k} style={{ opacity: on ? 1 : 0.18, background: now ? P.lime : 'transparent', padding: '0 4px', marginRight: 6, display: 'inline-block', transform: now ? 'rotate(-2deg)' : undefined }}>{x.w}</span>
+              <span key={k} style={{ opacity: on ? 1 : 0.18, background: now ? hi : 'transparent', padding: '0 4px', marginRight: 6, display: 'inline-block', transform: now ? 'rotate(-2deg)' : undefined }}>{x.w}</span>
             );
           })}
         </div>
@@ -171,6 +243,7 @@ export const FLY = 12;
 export const Spoken: React.FC = () => {
   const frame = useCurrentFrame();
   const { ep, T, SC } = useEp();
+  const hi = P[useEstilo().resaltado];
   const f = stepped(frame);
   const items = [
     ...SC.filter((s) => s.n).map((s) => ({ t: s.t, text: NUMS[(s.n as number) - 1] ?? String(s.n), num: true, x: 0, y: 0 })),
@@ -194,7 +267,7 @@ export const Spoken: React.FC = () => {
         }
         return (
           <At key={i} x={w.x} y={w.y} rot={(rnd(i + 400 + ep.seed) - 0.5) * 14} seed={400 + i} scale={pop(frame, start) * out}>
-            <Torn color={P.lime} seed={420 + i} pad="10px 26px"><div style={{ fontFamily: FONTS.marker, fontSize: 70, color: P.ink, whiteSpace: 'nowrap' }}>{w.text}</div></Torn>
+            <Torn color={hi} seed={420 + i} pad="10px 26px"><div style={{ fontFamily: FONTS.marker, fontSize: 70, color: P.ink, whiteSpace: 'nowrap' }}>{w.text}</div></Torn>
           </At>
         );
       })}
@@ -205,9 +278,31 @@ export const Spoken: React.FC = () => {
 export const Counter: React.FC = () => {
   const frame = useCurrentFrame();
   const { ep, SC } = useEp();
+  const estilo = useEstilo();
   const s = [...SC].reverse().find((x) => frame >= x.from);
   if (!s || !s.n) return null;
   if (frame < s.from + FLY) return null;
+  if (estilo.contador === 'sello') {
+    return (
+      <At x={160} y={175} rot={-12} seed={s.n * 11} wob={1.2}>
+        <div style={{ transform: `scale(${pop(frame, s.from + FLY)})`, width: 230, height: 230, borderRadius: 115, border: `11px solid ${P.red}`, background: 'rgba(255,248,234,.92)', display: 'flex', alignItems: 'center', justifyContent: 'center', filter: 'url(#edge)', boxShadow: '6px 9px 0 rgba(0,0,0,.2)' }}>
+          <div style={{ fontFamily: FONTS.rubik, fontSize: 104, color: P.red, lineHeight: 1 }}>{s.n}</div>
+          <div style={{ fontFamily: FONTS.rubik, fontSize: 36, color: P.red, alignSelf: 'flex-end', marginBottom: 52 }}>/{ep.N}</div>
+        </div>
+      </At>
+    );
+  }
+  if (estilo.contador === 'postit') {
+    return (
+      <At x={160} y={180} rot={-6} seed={s.n * 11} wob={1.4}>
+        <div style={{ transform: `scale(${pop(frame, s.from + FLY)})`, width: 230, height: 220, background: '#FFE46B', boxShadow: '8px 12px 0 rgba(0,0,0,.22)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+          <div style={{ fontFamily: FONTS.marker, fontSize: 130, color: P.ink, lineHeight: 1 }}>{s.n}</div>
+          <div style={{ fontFamily: FONTS.marker, fontSize: 50, color: P.ink, alignSelf: 'flex-end', marginBottom: 34 }}>/{ep.N}</div>
+        </div>
+        <div style={{ position: 'absolute', left: 50, top: -24, transform: 'rotate(4deg)' }}><Tape w={130} seed={s.n + 4} /></div>
+      </At>
+    );
+  }
   return (
     <At x={150} y={170} rot={-8} seed={s.n * 11} wob={1.4}>
       <div style={{ transform: `scale(${pop(frame, s.from + FLY)})`, display: 'flex', alignItems: 'flex-end', gap: 4 }}>

@@ -1,39 +1,132 @@
 // «Lista scrapbook»: the scenes of «9 cosas que puedes hacer en Ducki» (src/todo/Todo.tsx),
 // reading their timing from the Episode (scripts/fabrica/episodio.mjs) instead of
 // the fixed marks of that one video. Shared pieces live in ./head.
-import React, { useMemo } from 'react';
+import React, { createContext, useContext, useMemo } from 'react';
 import { Sequence } from 'remotion';
 import {
   ARROW, AbsoluteFill, At, BURST, BoilDefs, Captions, Counter, Doodle, ENTER, EndLine, EpProvider, Episode, FONTS, FPS, HAND_W, HEART, Hand,
   HostDuck, Img, OffthreadVideo, P, Paper, Print, Ransom, SCRIBBLE_CIRCLE, SQUIGGLE, STAR, STEP, Spoken, Sticker, Tape, Torn, easeOut,
   handPaths, hostFace, hostPlace, makeCtx, makePose, pick, pop, rnd, staticFile, stepIn, stepped, tornPath, useCurrentFrame, useEp, useL,
-  useScene, wobble,
+  useScene, wobble, Look, isDark, useLookAt,
 } from './head';
 
-// ------------------------------------------------------------------ a sheet sliding in
+// ------------------------------------------------------------------ a sheet coming in
+// How it comes in, its colour, its title style, its hit and its note come from the
+// episode's plan (head.tsx Look; perillas.json); with no plan each scene keeps the
+// colour it passes and sheets slide in from the four sides in turn.
 const DIRS = ['right', 'top', 'left', 'bottom'] as const;
+const DIR_OF = { derecha: 'right', arriba: 'top', izquierda: 'left', abajo: 'bottom' } as const;
+/** The scene's look, for the pieces inside its sheet (null without a plan). */
+const LookCtx = createContext<Look | null>(null);
+/** Which anchor of each scene is its big moment (where `impacto` hits and the note lands). */
+const MOMENT: Record<string, string> = {
+  intro: 'ducki', publica: 'anon', mapa: 'amigos', pato: 'cientos', arte: 'celular', parche: 'gente', carta: 'carta',
+  crush: 'match', sala: 'duckisala', juegos: 'kart', todo: 'app', fin: 'gratis',
+};
+/** A torn vertical gap that opens from the middle: the new sheet shows through it. */
+function ripReveal(t: number, seed: number) {
+  const half = 540 * t + 4, n = 24, left: string[] = [], right: string[] = [];
+  for (let k = 0; k <= n; k++) {
+    const y = (k / n) * 1920;
+    left.push(`${540 - half + (rnd(seed + k) - 0.5) * 46}px ${y}px`);
+    right.unshift(`${540 + half + (rnd(seed + 50 + k) - 0.5) * 46}px ${y}px`);
+  }
+  return `polygon(${[...left, ...right].join(', ')})`;
+}
 const Sheet: React.FC<{ i: number; color: string; grid?: boolean; children: React.ReactNode }> = ({ i, color, grid, children }) => {
   const f = useCurrentFrame();
+  const look = useLookAt(i);
+  const scene = useScene(i);
+  const L = useL(i);
   const t = i === 0 ? 1 : easeOut(stepIn(f, 0, ENTER));
-  const dir = DIRS[i % 4];
+  const dir = look ? DIR_OF[look.direccion] : DIRS[i % 4];
+  const entrada = i === 0 ? 'none' : look?.entrada ?? 'deslizar';
   const off = (1 - t) * 1150;
-  const tr = dir === 'right' ? `translateX(${off}px)` : dir === 'left' ? `translateX(${-off}px)` : dir === 'top' ? `translateY(${-off}px)` : `translateY(${off}px)`;
-  const sides = { t: dir === 'bottom', r: dir === 'left', b: dir === 'top', l: dir === 'right' };
+  let tr = '', clip: string | undefined, origin = '50% 50%';
+  if (entrada === 'deslizar') {
+    tr = dir === 'right' ? `translateX(${off}px)` : dir === 'left' ? `translateX(${-off}px)` : dir === 'top' ? `translateY(${-off}px)` : `translateY(${off}px)`;
+    clip = t < 1 ? tornPath(i * 9 + 2, 22, { t: dir === 'bottom', r: dir === 'left', b: dir === 'top', l: dir === 'right' }) : undefined;
+  } else if (entrada === 'caer') {
+    tr = `translateY(${-(1 - t) * 1500}px) rotate(${(1 - t) * (dir === 'left' ? 10 : -10)}deg)`;
+  } else if (entrada === 'zoom') {
+    tr = `scale(${0.12 + 0.88 * t}) rotate(${(1 - t) * (dir === 'left' ? -28 : 28)}deg)`;
+  } else if (entrada === 'voltear') {
+    const vertical = dir === 'top' || dir === 'bottom';
+    origin = dir === 'right' ? '100% 50%' : dir === 'left' ? '0% 50%' : dir === 'top' ? '50% 0%' : '50% 100%';
+    tr = `perspective(2200px) ${vertical ? 'rotateX' : 'rotateY'}(${(1 - t) * (dir === 'right' || dir === 'top' ? 92 : -92)}deg)`;
+  } else if (entrada === 'rasgar') {
+    clip = t < 1 ? ripReveal(t, i * 7 + 3) : undefined;
+  }
+  const hoja = look ? P[look.hoja] : color;
+  const cuadricula = look ? look.cuadricula : grid;
+  // the scene's big moment: a shake or a punch-in when its anchor word is said
+  const key = scene.kind === 'feature' ? scene.feature ?? '' : scene.kind;
+  const moment = MOMENT[key] ? L(MOMENT[key]) : -1;
+  let hit = '';
+  if (look && moment >= 0 && f >= moment) {
+    const k = Math.floor((f - moment) / STEP);
+    if (look.impacto === 'sacudida') hit = `translate(${[16, -13, 9, -6, 3][k] ?? 0}px, ${[-6, 8, -5, 3, 0][k] ?? 0}px)`;
+    if (look.impacto === 'zoom') hit = `scale(${[1.08, 1.05, 1.03, 1.015][k] ?? 1})`;
+  }
+  const dark = look ? isDark(look.hoja) : false;
+  // the note lands after the big moment, but never so late it flashes by
+  const sheetEnd = scene.to - scene.from + (i === 0 ? 0 : ENTER);
+  const noteAt = Math.max(ENTER + 12, Math.min(moment >= 0 ? moment + 10 : ENTER + 14, sheetEnd - 40));
   return (
-    <AbsoluteFill style={{ transform: tr, filter: t < 1 ? 'drop-shadow(0 0 30px rgba(0,0,0,.35))' : undefined }}>
-      <AbsoluteFill style={{ clipPath: t < 1 ? tornPath(i * 9 + 2, 22, sides) : undefined }}>
-        <Paper color={color} grid={grid}>{children}</Paper>
+    <LookCtx.Provider value={look}>
+      <AbsoluteFill style={{ transform: tr || undefined, transformOrigin: origin, filter: t < 1 ? 'drop-shadow(0 0 30px rgba(0,0,0,.35))' : undefined }}>
+        <AbsoluteFill style={{ clipPath: clip }}>
+          <Paper color={hoja} grid={cuadricula}>
+            <AbsoluteFill style={{ transform: hit || undefined }}>
+              {children}
+              {look?.nota ? (
+                <Pop start={noteAt} x={look.nota.x} y={look.nota.y} rot={(rnd(i + 91) - 0.5) * 10} seed={900 + i}>
+                  <Hand size={52} color={dark ? P.lime : P.ink}>{look.nota.text}</Hand>
+                  <div style={{ position: 'absolute', left: '10%', bottom: -16 }}>
+                    <Doodle d={SQUIGGLE(260, 26)} w={260} h={26} color={dark ? P.cream : P.cobalt} stroke={5} start={noteAt + 4} dur={6} />
+                  </div>
+                </Pop>
+              ) : null}
+            </AbsoluteFill>
+          </Paper>
+        </AbsoluteFill>
       </AbsoluteFill>
-    </AbsoluteFill>
+    </LookCtx.Provider>
   );
 };
 
-// titles sit right of the counter; long ones wrap onto two lines
-const Title: React.FC<{ text: string; seed: number; x?: number; y?: number; size?: number; start?: number; palette?: string[]; maxWidth?: number }> = ({ text, seed, x = 690, y = 175, size = 96, start = ENTER, palette, maxWidth = 700 }) => (
-  <At x={x} y={y} rot={(rnd(seed) - 0.5) * 6} seed={seed}>
-    <Ransom text={text} size={size} seed={seed} start={start} palette={palette} maxWidth={maxWidth} />
-  </At>
-);
+// titles sit right of the counter; long ones wrap onto two lines. The plan picks the
+// style: cut-out letters (the format's own), marker, rubber stamp or label-maker tape.
+const Title: React.FC<{ text: string; seed: number; x?: number; y?: number; size?: number; start?: number; palette?: string[]; maxWidth?: number }> = ({ text, seed, x = 690, y = 175, size = 96, start = ENTER, palette, maxWidth = 700 }) => {
+  const f = useCurrentFrame();
+  const look = useContext(LookCtx);
+  const style = look?.titulo ?? 'recortes';
+  if (style === 'recortes') {
+    return (
+      <At x={x} y={y} rot={(rnd(seed) - 0.5) * 6} seed={seed}>
+        <Ransom text={text} size={size} seed={seed} start={start} palette={palette} maxWidth={maxWidth} />
+      </At>
+    );
+  }
+  if (f < start) return null;
+  const dark = look ? isDark(look.hoja) : false;
+  // lime reads on the dark sheets but not on the hot orange one
+  const ink = dark ? (look?.hoja === 'hot' ? P.cream : P.lime) : P.ink;
+  const box: React.CSSProperties = { maxWidth, textAlign: 'center', lineHeight: 1.05, width: 'max-content' };
+  let el: React.ReactNode;
+  if (style === 'marcador') {
+    el = <div style={{ ...box, fontFamily: FONTS.marker, fontSize: size * 0.95, color: ink, filter: 'url(#boil)' }}>{text}</div>;
+  } else if (style === 'sello') {
+    el = <div style={{ ...box, fontFamily: FONTS.rubik, fontSize: size * 0.6, color: dark ? P.cream : P.red, border: `10px solid ${dark ? P.cream : P.red}`, borderRadius: 14, padding: '10px 26px', filter: 'url(#edge)' }}>{text}</div>;
+  } else {
+    el = (
+      <div style={{ ...box, fontFamily: FONTS.bebas, fontSize: size * 0.95, letterSpacing: 8, color: dark ? P.ink : P.white, background: dark ? P.cream : P.ink, padding: '4px 26px 0', borderRadius: 8, boxShadow: '6px 9px 0 rgba(0,0,0,.25)' }}>{text}</div>
+    );
+  }
+  return (
+    <At x={x} y={y} rot={(rnd(seed) - 0.5) * 8} seed={seed} scale={pop(f, start)}>{el}</At>
+  );
+};
 
 /** A piece that pops in at `start` and keeps its stop-motion wobble. */
 // ------------------------------------------------------------------ the duck's hand (from ¡Al maíz!)
@@ -88,16 +181,20 @@ const Carried: React.FC<{ start: number; x: number; y: number; edge: Edge; rot: 
 };
 
 /** A piece that pops in at `start` and keeps its stop-motion wobble (or is carried in by the hand). */
-const Pop: React.FC<{ start: number; x: number; y: number; rot?: number; seed?: number; children: React.ReactNode; scale?: number; hand?: Edge }> = ({ start, x, y, rot = 0, seed = 1, children, scale = 1, hand }) => {
+const Pop: React.FC<{ start: number; x: number; y: number; rot?: number; seed?: number; children: React.ReactNode; scale?: number; hand?: Edge }> = ({ start, x, y, rot = 0, seed = 1, children, scale = 1, hand: edge }) => {
   const f = useCurrentFrame();
+  const look = useContext(LookCtx);
+  const hand = look && !look.mano ? undefined : edge;
   if (hand) return <Carried start={start} x={x} y={y} edge={hand} rot={rot} seed={seed} scale={scale} land={[0.94, 1.03, 1]}>{children}</Carried>;
   if (f < start) return null;
   return <At x={x} y={y} rot={rot} seed={seed} scale={pop(f, start) * scale}>{children}</At>;
 };
 
 /** A piece that slams down (big → its size in two drawings), or is slammed down by the hand. */
-const Slam: React.FC<{ start: number; x: number; y: number; rot?: number; seed?: number; children: React.ReactNode; hand?: Edge }> = ({ start, x, y, rot = 0, seed = 1, children, hand }) => {
+const Slam: React.FC<{ start: number; x: number; y: number; rot?: number; seed?: number; children: React.ReactNode; hand?: Edge }> = ({ start, x, y, rot = 0, seed = 1, children, hand: edge }) => {
   const f = useCurrentFrame();
+  const look = useContext(LookCtx);
+  const hand = look && !look.mano ? undefined : edge;
   if (hand) return <Carried start={start} x={x} y={y} edge={hand} rot={rot} seed={seed} scale={1} land={[0.88, 1.05, 0.98, 1]}>{children}</Carried>;
   if (f < start) return null;
   const k = Math.floor((f - start) / STEP);
@@ -500,6 +597,7 @@ export const Lista: React.FC<{ episode: Episode }> = ({ episode }) => {
   const pose = useMemo(() => makePose(ctx.chunks, ctx.SC), [ctx]);
   const frame = useCurrentFrame();
   const place = hostPlace(stepped(frame), ctx.SC);
+  const side = { centro: 0, izquierda: -120, derecha: 120 }[episode.plan?.estilo.presentador ?? 'centro'];
   const hostIn = pop(frame, 2);
   const w = wobble(301, frame, 1.2, 4);
   const fin = ctx.SC.find((s) => s.kind === 'fin');
@@ -519,7 +617,7 @@ export const Lista: React.FC<{ episode: Episode }> = ({ episode }) => {
         })}
         <Counter />
         {place.visible ? (
-          <div style={{ position: 'absolute', left: place.x - place.w / 2 + w.x, top: place.y + w.y, transform: `rotate(${w.r}deg) scale(${hostIn})`, transformOrigin: '50% 30%' }}>
+          <div style={{ position: 'absolute', left: place.x + side - place.w / 2 + w.x, top: place.y + w.y, transform: `rotate(${w.r}deg) scale(${hostIn})`, transformOrigin: '50% 30%' }}>
             <HostDuck face={face} v0={episode.v0} width={place.w} pose={pose} mouth={episode.mouth} />
           </div>
         ) : null}

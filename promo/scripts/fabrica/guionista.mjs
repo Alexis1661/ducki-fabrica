@@ -1,23 +1,68 @@
 // The scriptwriter: turns a short brief ("3 cosas para declararte a tu crush") into
-// the episode spec, with Claude through the API. One request per script, one per
-// adjustment; the long, stable part of the prompt (rules, the functions sheet, the
-// format, an example) is cached between calls.
+// the episode spec — the script and its edit plan (which knobs of the format the
+// video turns today; see fabrica/formatos/lista-scrapbook/guia.md). One request per
+// script, one per adjustment, plus one retry when the validator finds problems; the
+// long, stable part of the prompt (rules, functions, format, guide) is cached.
+// Daily episodes run on Sonnet: the format and its first video are made with Opus.
 import Anthropic from '@anthropic-ai/sdk';
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { FAB, readJson } from './comun.mjs';
-import { ESCENAS } from './linea.mjs';
+import { ESCENAS, revisarSpec } from './linea.mjs';
+import { PERILLAS } from './plan.mjs';
 
-const MODEL = () => process.env.FABRICA_MODELO || 'claude-opus-5-5';
+const MODEL = () => process.env.FABRICA_MODELO || 'claude-sonnet-5-5';
 const EFFORT = () => process.env.FABRICA_ESFUERZO || 'low';
 
 const nullable = (s) => ({ anyOf: [s, { type: 'null' }] });
+const HOJAS = [...new Set(Object.values(PERILLAS.escenas).flatMap((e) => e.hojas))];
+const LOOK = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['entrada', 'direccion', 'hoja', 'titulo', 'impacto', 'mano', 'nota'],
+  properties: {
+    entrada: { type: 'string', enum: PERILLAS.entradas },
+    direccion: { type: 'string', enum: PERILLAS.direcciones },
+    hoja: { type: 'string', enum: HOJAS, description: 'Solo un color de la lista de esa escena (ver la guía).' },
+    titulo: { type: 'string', enum: PERILLAS.titulos },
+    impacto: { type: 'string', enum: PERILLAS.impactos },
+    mano: { type: 'boolean' },
+    nota: nullable({ type: 'string', description: `Nota a mano, máximo ${PERILLAS.nota_max} caracteres; solo en escenas con espacio para nota.` }),
+  },
+};
+const PLAN = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['estilo', 'intro', 'todo', 'fin'],
+  properties: {
+    estilo: {
+      type: 'object',
+      additionalProperties: false,
+      required: ['subtitulos', 'resaltado', 'contador', 'presentador', 'musica'],
+      properties: {
+        subtitulos: { type: 'string', enum: PERILLAS.subtitulos },
+        resaltado: { type: 'string', enum: PERILLAS.resaltados },
+        contador: { type: 'string', enum: PERILLAS.contadores },
+        presentador: { type: 'string', enum: PERILLAS.presentador },
+        musica: {
+          type: 'object',
+          additionalProperties: false,
+          required: ['bpm', 'tono', 'progresion'],
+          properties: { bpm: { type: 'integer' }, tono: { type: 'integer' }, progresion: { type: 'integer' } },
+        },
+      },
+    },
+    intro: LOOK,
+    todo: nullable(LOOK),
+    fin: LOOK,
+  },
+};
 export const SPEC_SCHEMA = {
   type: 'object',
   additionalProperties: false,
-  required: ['slug', 'gancho', 'intro', 'puntos', 'cierre_todo', 'cierre', 'caption', 'hashtags'],
+  required: ['slug', 'gancho', 'intro', 'puntos', 'cierre_todo', 'cierre', 'caption', 'hashtags', 'plan'],
   properties: {
     slug: { type: 'string', description: 'Nombre corto del episodio en kebab-case, sin tildes.' },
     gancho: {
@@ -37,11 +82,12 @@ export const SPEC_SCHEMA = {
       items: {
         type: 'object',
         additionalProperties: false,
-        required: ['funcion', 'texto', 'favorita'],
+        required: ['funcion', 'texto', 'favorita', 'look'],
         properties: {
           funcion: { type: 'string', enum: ESCENAS },
           texto: { type: 'string', description: 'Lo que dice en este punto; empieza con el número en palabra.' },
           favorita: { type: 'boolean' },
+          look: LOOK,
         },
       },
     },
@@ -49,6 +95,7 @@ export const SPEC_SCHEMA = {
     cierre: { type: 'string', description: 'Llamado a descargar y cierre de marca.' },
     caption: { type: 'string', description: 'Texto que acompaña el video en TikTok/Instagram: 1 a 3 frases.' },
     hashtags: { type: 'array', items: { type: 'string' }, description: '4 a 6 hashtags, incluye #Ducki.' },
+    plan: PLAN,
   },
 };
 
@@ -57,6 +104,8 @@ function systemPrompt() {
   const usable = fun.funciones.filter((f) => f.mencionar && f.escena);
   const ejemplo = readJson(path.join(FAB, 'formatos', 'lista-scrapbook', 'ejemplo.json'));
   const formato = fs.readFileSync(path.join(FAB, 'formatos', 'lista-scrapbook', 'formato.md'), 'utf8');
+  const guia = fs.readFileSync(path.join(FAB, 'formatos', 'lista-scrapbook', 'guia.md'), 'utf8');
+  const hojas = Object.fromEntries(Object.entries(PERILLAS.escenas).map(([k, v]) => [k, { hojas: v.hojas, nota: !!v.nota }]));
   const ficha = usable.map((f) => ({
     funcion: f.id, nombre: f.nombre, que_es: f.que_es, ideas: f.ideas, no_decir: f.no_decir,
     palabras_que_animan: Object.values(f.anclas).flatMap((a) => a.palabras.slice(0, 2)),
@@ -67,7 +116,9 @@ function systemPrompt() {
     'Funciones que puedes usar (solo estas, y solo afirmando lo que dice cada ficha):\n' + JSON.stringify(ficha, null, 1),
     'Funciones que NO se mencionan por ahora: ' + fun.funciones.filter((f) => !f.mencionar).map((f) => f.nombre).join(', ') + '.',
     formato,
-    'Ejemplo de un guion que ya funcionó (no lo copies; varía el ángulo, el gancho y las funciones):\n' + JSON.stringify(ejemplo, null, 1),
+    guia,
+    'Colores permitidos por escena y si tiene espacio para nota (las escenas de cada punto se llaman como su función):\n' + JSON.stringify(hojas),
+    'Ejemplo de un guion que ya funcionó (no lo copies; varía el ángulo, el gancho, las funciones y el plan):\n' + JSON.stringify(ejemplo, null, 1),
   ].join('\n\n');
 }
 
@@ -79,7 +130,11 @@ function recientes(n = 8) {
     const f = path.join(dir, d, 'spec.json');
     if (!fs.existsSync(f)) return [];
     const s = readJson(f);
-    return [{ episodio: d, gancho: s.gancho?.titulo, funciones: (s.puntos ?? []).map((p) => p.funcion) }];
+    const e = s.plan?.estilo;
+    return [{
+      episodio: d, gancho: s.gancho?.titulo, funciones: (s.puntos ?? []).map((p) => p.funcion),
+      ...(e ? { estilo: `${e.subtitulos}/${e.contador}/${e.resaltado}/${e.musica?.bpm}bpm`, entradas: (s.puntos ?? []).map((p) => p.look?.entrada) } : {}),
+    }];
   });
 }
 
@@ -95,7 +150,7 @@ async function askCli(userText) {
   const env = { ...process.env };
   delete env.ANTHROPIC_API_KEY; // an empty one would shadow the subscription token
   const args = ['-p', '--output-format', 'json', '--json-schema', JSON.stringify(SPEC_SCHEMA),
-    '--system-prompt-file', sysFile, '--model', process.env.FABRICA_MODELO_CLI || 'opus',
+    '--system-prompt-file', sysFile, '--model', process.env.FABRICA_MODELO_CLI || 'sonnet',
     '--effort', EFFORT(), '--tools', '', '--no-session-persistence'];
   const out = await new Promise((resolve, reject) => {
     const p = spawn(process.env.CLAUDE_BIN ?? 'claude', args, { env, stdio: ['pipe', 'pipe', 'pipe'] });
@@ -137,11 +192,25 @@ async function ask(userText) {
   return JSON.parse(text);
 }
 
+/** Asks, checks the result against the template and the knobs, and asks once more with the problems. */
+async function askChecked(userText) {
+  const funciones = readJson(path.join(FAB, 'funciones.json'));
+  let spec = await ask(userText);
+  let problems = revisarSpec(spec, funciones);
+  if (problems.length) {
+    console.log(`guionista: el guion tiene ${problems.length} problema(s), lo corrijo: ${problems.join('; ')}`);
+    spec = await ask(`${userText}\n\nTu respuesta anterior:\n${JSON.stringify(spec)}\n\nTiene estos problemas; devuelve el guion completo corregido:\n- ${problems.join('\n- ')}`);
+    problems = revisarSpec(spec, funciones);
+    if (problems.length) throw new Error('El guion sigue sin servir para la plantilla:\n- ' + problems.join('\n- '));
+  }
+  return spec;
+}
+
 export async function escribirGuion(encargo) {
   const hoy = new Date().toISOString().slice(0, 10);
-  return ask(`Fecha: ${hoy}.\nEpisodios recientes (no repitas gancho ni el mismo grupo de funciones): ${JSON.stringify(recientes())}\n\nEncargo: ${encargo}`);
+  return askChecked(`Fecha: ${hoy}.\nEpisodios recientes (no repitas gancho, ni el mismo grupo de funciones, ni el mismo estilo): ${JSON.stringify(recientes())}\n\nEncargo: ${encargo}`);
 }
 
 export async function reescribirGuion(spec, ajuste) {
-  return ask(`Este es el guion actual:\n${JSON.stringify(spec, null, 1)}\n\nAjuste pedido por el equipo: ${ajuste}\n\nDevuelve el guion completo con el ajuste aplicado; lo demás igual salvo que el ajuste lo afecte.`);
+  return askChecked(`Este es el guion actual:\n${JSON.stringify(spec, null, 1)}\n\nAjuste pedido por el equipo: ${ajuste}\n\nDevuelve el guion completo con el ajuste aplicado; lo demás igual (incluido el plan) salvo que el ajuste lo afecte.`);
 }

@@ -1,0 +1,28 @@
+{
+  "_": "Perillas del formato «Lista scrapbook»: lo que el plan de cada episodio puede variar. La plantilla (Lista.tsx, head.tsx) y el validador (scripts/fabrica/plan.mjs) leen este archivo; la guía para el modelo está en fabrica/formatos/lista-scrapbook/guia.md.",
+  "escenas": {
+    "intro":   { "hoja": "orange", "hojas": ["orange", "lime", "pink", "kraft", "cream"], "cuadricula": false, "nota": null },
+    "publica": { "hoja": "paper",  "hojas": ["paper", "cream", "kraft", "orange", "lime", "pink"], "cuadricula": false, "nota": null },
+    "mapa":    { "hoja": "cobalt", "hojas": ["cobalt", "night", "green", "red"], "cuadricula": false, "nota": [800, 1560] },
+    "pato":    { "hoja": "lime",   "hojas": ["lime", "orange", "pink", "paper", "cream", "kraft"], "cuadricula": false, "nota": null },
+    "arte":    { "hoja": "paper",  "hojas": ["paper", "cream", "kraft", "lime", "pink", "orange"], "cuadricula": true, "nota": [720, 1450] },
+    "parche":  { "hoja": "hot",    "hojas": ["hot", "cobalt", "red", "green", "night"], "cuadricula": false, "nota": null },
+    "carta":   { "hoja": "kraft",  "hojas": ["kraft", "paper", "cream", "pink", "orange", "lime"], "cuadricula": false, "nota": [300, 1500] },
+    "crush":   { "hoja": "pink",   "hojas": ["pink", "lime", "cream", "paper", "orange", "kraft"], "cuadricula": false, "nota": [840, 1265] },
+    "sala":    { "hoja": "night",  "hojas": ["night", "cobalt", "green", "red"], "cuadricula": false, "nota": [800, 1520] },
+    "juegos":  { "hoja": "cobalt", "hojas": ["cobalt", "night", "green", "red"], "cuadricula": false, "nota": null },
+    "todo":    { "hoja": "paper",  "hojas": ["paper", "cream", "kraft", "lime", "pink", "orange"], "cuadricula": true, "nota": null },
+    "fin":     { "hoja": "orange", "hojas": ["orange", "lime", "pink", "kraft", "cream"], "cuadricula": false, "nota": null }
+  },
+  "oscuras": ["cobalt", "night", "green", "red", "hot"],
+  "entradas": ["deslizar", "caer", "zoom", "voltear", "rasgar"],
+  "direcciones": ["derecha", "izquierda", "arriba", "abajo"],
+  "titulos": ["recortes", "marcador", "sello", "etiqueta"],
+  "impactos": ["ninguno", "sacudida", "zoom"],
+  "subtitulos": ["papel", "cinta", "marcador", "maquina"],
+  "resaltados": ["lime", "pink", "orange"],
+  "contadores": ["cinta", "sello", "postit"],
+  "presentador": ["centro", "izquierda", "derecha"],
+  "musica": { "bpm": [100, 124], "tono": [-3, 3], "progresiones": 3 },
+  "nota_max": 26
+}

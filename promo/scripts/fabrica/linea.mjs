@@ -2,6 +2,7 @@
 // reads (src/fabrica/head.tsx -> Episode): scenes, the anchors each scene animates
 // on, the keywords written on screen, the hook.
 import { norm } from './comun.mjs';
+import { musicaDe, planEpisodio, revisarPlan } from './plan.mjs';
 
 /** Where each scene writes its spoken keyword, if the anchor word is said (layout of src/fabrica/Lista.tsx). */
 const STICKERS = {
@@ -33,6 +34,7 @@ export function revisarSpec(spec, funciones) {
     if (!p.texto?.trim()) err.push(`punto ${p.funcion} sin texto`);
   }
   if (!spec.cierre) err.push('falta cierre');
+  if (!err.length) err.push(...revisarPlan(spec, funciones));
   return err;
 }
 
@@ -90,5 +92,7 @@ export function construirEpisodio({ spec, words, starts, vozDur, funciones, seed
     N: spec.puntos.length,
     hook: { title: spec.gancho.titulo, sub: spec.gancho.sub ?? '', tag: spec.gancho.etiqueta || null },
     spoken, endLine: spec.frase_final || 'aquí todos somos patos', seed,
+    plan: planEpisodio(spec, funciones),
+    musica: musicaDe(spec),
   };
 }
