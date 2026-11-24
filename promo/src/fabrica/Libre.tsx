@@ -188,7 +188,10 @@ const Icono: React.FC<{ e: Elemento; dark: boolean }> = ({ e, dark }) => {
   const Ic = (icons as Record<string, React.FC<{ size?: number; color?: string; strokeWidth?: number; absoluteStrokeWidth?: boolean }>>)[e.nombre ?? ''];
   if (!Ic) return null;
   const size = e.w ?? 200;
-  const c = color(e.color, dark && e.fondo !== 'circulo' && e.fondo !== 'sticker', P.ink, P.cream);
+  const onLight = e.fondo === 'circulo' || e.fondo === 'sticker';
+  // on its cream circle a light colour would vanish: then it goes in ink
+  const light = ['cream', 'white', 'paper', 'lime', 'pink', 'kraft'].includes(e.color ?? '');
+  const c = onLight && (light || !e.color) ? (e.color && !light ? PAL[e.color] : P.ink) : color(e.color, dark && !onLight, P.ink, P.cream);
   const icon = <div style={{ filter: 'url(#boil)', lineHeight: 0 }}><Ic size={size} color={c} strokeWidth={2.1} /></div>;
   if (e.fondo === 'circulo') {
     return <div style={{ width: size * 1.45, height: size * 1.45, borderRadius: '50%', background: P.cream, border: `7px solid ${P.ink}`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '6px 9px 0 rgba(0,0,0,.2)' }}>{icon}</div>;
