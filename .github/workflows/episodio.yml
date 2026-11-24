@@ -82,7 +82,7 @@ jobs:
       # the app's code (private repo Ducki), read-only, so the writer and the director
       # understand what a feature does and how it looks; only with DUCKI_REPO_TOKEN
       - name: Código de Ducki
-        if: env.DUCKI_REPO_TOKEN != ''
+        if: env.DUCKI_REPO_TOKEN != '' && github.event.action != 'fabrica-imagen'
         uses: actions/checkout@v5
         with:
           repository: Alexis1661/Ducki
@@ -120,10 +120,13 @@ jobs:
           cache-dependency-path: promo/package-lock.json
 
       - uses: actions/setup-python@v6
+        if: github.event.action != 'fabrica-imagen'
         with:
           python-version: '3.12'
 
+      # Image decisions only use Node core modules; no render, voice or capture setup.
       - name: Dependencias
+        if: github.event.action != 'fabrica-imagen'
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-color-emoji > /dev/null
           pip install -q numpy scipy pillow
@@ -145,6 +148,7 @@ jobs:
 
       # app captures show real users, so the public repo only has them encrypted
       - name: Capturas
+        if: github.event.action != 'fabrica-imagen'
         env:
           CAPTURAS_KEY: ${{ secrets.CAPTURAS_KEY }}
         working-directory: .

@@ -1,0 +1,100 @@
+name: Prueba Klein 4B
+
+on:
+  workflow_dispatch:
+    inputs:
+      lote:
+        description: 'Vacío: lote nuevo por run_id. Para reanudar, escribe ID del lote anterior.'
+        required: false
+        type: string
+  pull_request:
+    paths:
+      - '.github/workflows/prueba-klein.yml'
+      - '.github/workflows/episodio.yml'
+      - 'promo/scripts/fabrica/*klein*'
+      - 'promo/scripts/fabrica/preparar-referencia.py'
+      - 'promo/scripts/fabrica/imagenes.mjs'
+      - 'fabrica/pruebas/klein/**'
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Dependencias de comprobación
+        run: pip install --disable-pip-version-check pillow PyYAML
+      - name: Pruebas sin llamadas a proveedores
+        run: node --test promo/scripts/fabrica/prueba-klein.test.mjs
+      - name: Sintaxis y YAML
+        run: |
+          for f in promo/scripts/fabrica/{klein,klein-estado,prueba-klein,imagenes}.mjs; do node --check "$f"; done
+          python -c "import yaml; [yaml.safe_load(open(p, encoding='utf-8')) for p in ['.github/workflows/prueba-klein.yml', '.github/workflows/episodio.yml']]"
+
+  prueba:
+    if: github.event_name == 'workflow_dispatch'
+    needs: verificar
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    concurrency:
+      group: fabrica
+      cancel-in-progress: false
+    env:
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || vars.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      TELEGRAM_TOPIC_FABRICA: ${{ secrets.TELEGRAM_TOPIC_FABRICA }}
+      KLEIN_LOTE: ${{ inputs.lote || format('prueba-{0}', github.run_id) }}
+      EPISODIOS_PRIVADOS: '1'
+    steps:
+      - uses: actions/checkout@v5
+      - name: Verificar rama y credenciales
+        env:
+          DUCKI_REPO_TOKEN: ${{ secrets.DUCKI_REPO_TOKEN }}
+        run: |
+          test "$GITHUB_REF_NAME" = main || { echo "::error::Ejecuta desde main para que funcionen los botones de aprobación."; exit 1; }
+          node --input-type=module -e 'import {credenciales} from "./promo/scripts/fabrica/klein.mjs"; credenciales(); for(const k of ["TELEGRAM_BOT_TOKEN","TELEGRAM_CHAT_ID","TELEGRAM_TOPIC_FABRICA","DUCKI_REPO_TOKEN"]) if(!process.env[k]) throw new Error("Falta "+k)'
+      # No public fallback: all unapproved scenes and resumable state stay private.
+      - name: Episodios privados obligatorios
+        id: privados
+        uses: actions/checkout@v5
+        with:
+          repository: Alexis1661/ducki-fabrica-episodios
+          token: ${{ secrets.DUCKI_REPO_TOKEN }}
+          path: fabrica/episodios
+          ref: main
+          fetch-depth: 50
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Preparación de imágenes
+        run: pip install --disable-pip-version-check pillow
+      - name: Diez situaciones y revisión en Telegram
+        working-directory: promo
+        run: node scripts/fabrica/prueba-klein.mjs
+      - name: Conservar resultados parciales en privado
+        if: always() && steps.privados.outcome == 'success'
+        working-directory: fabrica/episodios
+        run: |
+          git config user.name fabrica-bot
+          git config user.email fabrica-bot@users.noreply.github.com
+          git add -A
+          git diff --cached --quiet && exit 0
+          git commit -m "prueba Klein: $KLEIN_LOTE"
+          git pull --rebase origin main
+          git push origin HEAD:main
+      - name: Avisar si falló
+        if: failure() && env.TELEGRAM_BOT_TOKEN != ''
+        run: node promo/scripts/fabrica/formato-telegram.mjs aviso "⚠️ Prueba Klein incompleta. Revisa el lote y el detalle en ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" || true
