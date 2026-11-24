@@ -86,9 +86,14 @@ jobs:
         if: env.DUCKI_REPO_TOKEN != ''
         working-directory: .
         run: |
-          rm -rf fabrica/episodios
-          git clone -q --depth 50 "https://x-access-token:${DUCKI_REPO_TOKEN}@github.com/Alexis1661/ducki-fabrica-episodios.git" fabrica/episodios
-          git -C fabrica/episodios remote set-url origin "https://github.com/Alexis1661/ducki-fabrica-episodios.git"
+          # if the token cannot reach the private repo, the run goes on with the public folder
+          if git clone -q --depth 50 "https://x-access-token:${DUCKI_REPO_TOKEN}@github.com/Alexis1661/ducki-fabrica-episodios.git" /tmp/episodios; then
+            rm -rf fabrica/episodios && mv /tmp/episodios fabrica/episodios
+            git -C fabrica/episodios remote set-url origin "https://github.com/Alexis1661/ducki-fabrica-episodios.git"
+            echo "EPISODIOS_PRIVADOS=1" >> "$GITHUB_ENV"
+          else
+            echo "::warning::DUCKI_REPO_TOKEN no tiene acceso a Alexis1661/ducki-fabrica-episodios (Contents: read and write); los episodios se guardan en este repo público"
+          fi
 
 
       - uses: actions/setup-node@v5
@@ -170,7 +175,7 @@ jobs:
           CARPETA: ${{ steps.armar.outputs.carpeta }}
         run: |
           MSG="episodio: $(basename "$CARPETA")"
-          if [ -n "$DUCKI_REPO_TOKEN" ]; then
+          if [ "$EPISODIOS_PRIVADOS" = "1" ]; then
             cd fabrica/episodios
             git config user.name "fabrica-bot"
             git config user.email "fabrica-bot@users.noreply.github.com"
