@@ -9,6 +9,10 @@ fabrica/episodios/**/*.mp3
 fabrica/episodios/**/partes/
 fabrica/episodios/**/cuadro-*.jpg
 fabrica/episodios/**/telegram.json
+fabrica/episodios/**/voz-*
+fabrica/episodios/**/*.ogg
+fabrica/episodios/**/*.m4a
+fabrica/episodios/**/*.oga
 # captures from the app with real users: only the encrypted bundle goes to git
 # (promo/capturas.tar.enc, opened in Actions with the CAPTURAS_KEY secret)
 promo/public/screens/

@@ -68,6 +68,51 @@ export async function enviarPropuesta({ dir, id, spec, video, version = 1 }) {
   return short;
 }
 
+/**
+ * Step 1 when the voice is made by hand: posts the script to the topic. Someone
+ * reads it into ElevenLabs (web) and replies to this message with the audio; the
+ * moderation bot sees the reply, reads the 🆔 line and starts the video run.
+ * The 🆔 line is what the bot parses: keep its format in sync with
+ * Backend/internal/modbot/factory.go (scriptIDRE).
+ */
+export async function enviarGuion({ dir, id, spec, texto, version = 1 }) {
+  const token = need('TELEGRAM_BOT_TOKEN'), chat = need('TELEGRAM_CHAT_ID');
+  const topic = Number(process.env.TELEGRAM_TOPIC_FABRICA ?? 0);
+  const text = [
+    `<b>🎙 Guion · ${esc(spec.gancho?.titulo)}</b>${version > 1 ? ` (versión ${version})` : ''}`,
+    'Pega esto en ElevenLabs con la voz del pato:',
+    `<pre>${esc(texto)}</pre>`,
+    '<b>Responde a este mensaje con el audio</b> (mp3 o wav; mantén presionado → Responder) y la fábrica arma el video.',
+    '',
+    `<i>Texto para publicar:</i> ${esc(spec.caption)}`,
+    '',
+    `🆔 <code>${esc(id)}</code>`,
+  ].join('\n');
+  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: chat, ...(topic ? { message_thread_id: topic } : {}), text, parse_mode: 'HTML' }),
+  });
+  const body = await res.json();
+  if (!body.ok) throw new Error(`Telegram no aceptó el guion: ${body.description}`);
+  writeJson(path.join(dir, 'guion-telegram.json'), { message_id: body.result.message_id, enviado: new Date().toISOString(), version, id });
+}
+
+/** Downloads a file the team sent to the bot (bots can fetch up to 20 MB). */
+export async function bajarArchivo(fileId, destSinExt) {
+  const token = need('TELEGRAM_BOT_TOKEN');
+  const res = await fetch(`https://api.telegram.org/bot${token}/getFile?file_id=${encodeURIComponent(fileId)}`);
+  const body = await res.json();
+  if (!body.ok) throw new Error(`Telegram no entregó el audio (${body.description}); ¿pesa más de 20 MB?`);
+  const p = body.result.file_path;
+  const ext = path.extname(p) || '.mp3';
+  const bin = await fetch(`https://api.telegram.org/file/bot${token}/${p}`);
+  if (!bin.ok) throw new Error(`No pude bajar el audio: HTTP ${bin.status}`);
+  const out = destSinExt + ext;
+  fs.writeFileSync(out, Buffer.from(await bin.arrayBuffer()));
+  return out;
+}
+
 function estado() {
   return fs.existsSync(ESTADO) ? readJson(ESTADO) : {};
 }

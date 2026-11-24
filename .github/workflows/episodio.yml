@@ -18,7 +18,8 @@ on:
         type: boolean
         default: false
   repository_dispatch:
-    types: [fabrica-encargo, fabrica-ajuste]
+    # fabrica-voz: someone replied to the script with the audio (file_id from Telegram)
+    types: [fabrica-encargo, fabrica-ajuste, fabrica-voz]
 
 # one at a time: each run commits its episode back to the repo
 concurrency:
@@ -47,6 +48,10 @@ jobs:
       TELEGRAM_TOPIC_FABRICA: ${{ secrets.TELEGRAM_TOPIC_FABRICA }}
       FABRICA_MODELO: ${{ vars.FABRICA_MODELO }}
       FABRICA_ESFUERZO: ${{ vars.FABRICA_ESFUERZO }}
+      # manual (default): the script goes to Telegram and the team sends the voice;
+      # eleven: ElevenLabs API voices it (needs a paid plan for library voices)
+      FABRICA_VOZ: ${{ vars.FABRICA_VOZ }}
+      WHISPER_MODEL: small
     steps:
       - uses: actions/checkout@v5
 
@@ -68,6 +73,17 @@ jobs:
           npx remotion browser ensure
           npm install -g --no-audit --no-fund @anthropic-ai/claude-code@2.1.331
 
+      # word timings of a voice sent by hand
+      - name: Whisper
+        if: github.event.action == 'fabrica-voz'
+        run: pip install -q faster-whisper
+
+      - uses: actions/cache@v4
+        if: github.event.action == 'fabrica-voz'
+        with:
+          path: ~/.cache/huggingface
+          key: whisper-small-v1
+
       # app captures show real users, so the public repo only has them encrypted
       - name: Capturas
         env:
@@ -87,8 +103,11 @@ jobs:
           ENCARGO_BOT: ${{ github.event.client_payload.encargo }}
           EPISODIO: ${{ github.event.client_payload.episodio }}
           TEXTO: ${{ github.event.client_payload.texto }}
+          ARCHIVO: ${{ github.event.client_payload.archivo }}
         run: |
-          if [ "$EVENTO" = "repository_dispatch" ] && [ "$ACCION" = "fabrica-ajuste" ]; then
+          if [ "$EVENTO" = "repository_dispatch" ] && [ "$ACCION" = "fabrica-voz" ]; then
+            node scripts/fabrica/ci.mjs voz --episodio "$EPISODIO" --archivo "$ARCHIVO"
+          elif [ "$EVENTO" = "repository_dispatch" ] && [ "$ACCION" = "fabrica-ajuste" ]; then
             node scripts/fabrica/ci.mjs ajuste --episodio "$EPISODIO" --texto "$TEXTO"
           elif [ "$PRUEBA" = "true" ]; then
             node scripts/fabrica/ci.mjs nuevo --spec ../fabrica/formatos/lista-scrapbook/prueba-crush.json \
