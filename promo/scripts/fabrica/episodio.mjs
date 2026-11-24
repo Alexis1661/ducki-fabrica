@@ -93,6 +93,16 @@ export async function armarEpisodio(o) {
   fs.writeFileSync(path.join(dir, 'guion.txt'), texto);
   console.log(`episodio: ${dir}`);
 
+  // new AI images made for this video: the director uses them; a format may place them itself
+  if (fmt.director || fmt.pedidosDeImagen) {
+    const { imagenesParaEpisodio } = await import('./imagenes.mjs');
+    const nuevas = await imagenesParaEpisodio({ dir, spec, fmt });
+    if (nuevas.length && fmt.usarImagenes) {
+      spec = fmt.usarImagenes(spec, nuevas);
+      writeJson(path.join(dir, 'spec.json'), spec);
+    }
+  }
+
   // voice + word timings
   // the Windows voice is only for trying things on a PC; anywhere else it is ElevenLabs
   const modo = o.voz ?? (process.env.ELEVENLABS_API_KEY || process.platform !== 'win32' ? 'eleven' : 'sapi');

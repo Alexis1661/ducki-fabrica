@@ -149,7 +149,14 @@ if CHAT:
             fx.add(I.pop_fx(), T(m['en']), pan=0.25 if m['de'] == 'yo' else -0.25, gain=0.3)
     if CHAT.get('fin') is not None:
         fx.add(I.boom()[: int(I.SR * 0.6)], T(CHAT['fin']), gain=0.4)
-for idx, s in enumerate([] if CHAT else SC):
+# a newscast: a news sting on every story and a hit on the close
+NEWS = ep.get('noticiero')
+if NEWS:
+    for s in NEWS['segmentos']:
+        fx.add(I.slide(), T(s['t']) - 0.1, pan=-0.4, gain=0.6)
+        chime(T(s['t']) + 0.05, notes=(79, 84, 88), gain=0.22)
+    fx.add(I.boom()[: int(I.SR * 0.6)], T(NEWS['fin']), gain=0.4)
+for idx, s in enumerate([] if (CHAT or NEWS) else SC):
     if s['kind'] != 'intro':
         fx.add(I.slide(), T(s['t']) - ENTER, pan=0.3, gain=0.7)
         fx.add(I.tape(), T(s['t']) + 0.05, pan=-0.2, gain=0.45)

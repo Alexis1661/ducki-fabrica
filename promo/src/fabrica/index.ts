@@ -4,6 +4,7 @@ import React from 'react';
 import { Composition, registerRoot } from 'remotion';
 import { Lista } from './Lista';
 import { Chat } from './Chat';
+import { Noticiero } from './Noticiero';
 import type { Episode } from './head';
 import EJEMPLO from './ejemplo.json';
 
@@ -11,6 +12,6 @@ const meta = ({ props }: { props: { episode: Episode } }) => ({ durationInFrames
 const comp = (id: string, component: React.FC<never>) =>
   React.createElement(Composition, { id, component, durationInFrames: 120, fps: 30, width: 1080, height: 1920, defaultProps: { episode: EJEMPLO as Episode }, calculateMetadata: meta } as never);
 // one composition per format (scripts/fabrica/formatos/<id>.mjs names its own)
-const FabricaRoot: React.FC = () => React.createElement(React.Fragment, null, comp('Lista', Lista as never), comp('Chat', Chat as never));
+const FabricaRoot: React.FC = () => React.createElement(React.Fragment, null, comp('Lista', Lista as never), comp('Chat', Chat as never), comp('Noticiero', Noticiero as never));
 
 registerRoot(FabricaRoot);

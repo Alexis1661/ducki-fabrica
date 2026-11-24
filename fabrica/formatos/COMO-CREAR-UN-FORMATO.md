@@ -35,6 +35,8 @@ La fábrica no sabe nada de cada formato salvo lo que exporta su módulo:
 | `aplicarTexto(spec, líneas)` | El guion editado a mano línea por línea, o `null` si no cuadra. |
 | `construir({ spec, words, starts, vozDur, funciones, seed, mouth })` | Las props de la composición. |
 | `resumen(spec)` | Un resumen corto de un episodio, para no repetir los recientes. |
+| `pedidosDeImagen(spec)` *(opcional)* | Las ilustraciones con IA que pide el guion: `[{ prompt, para, k }]` (máximo `FABRICA_IMAGENES_VIDEO`, 4). Sin esta función, un formato con director recibe las que proponga el director de arte. |
+| `usarImagenes(spec, hechas)` *(opcional)* | Pone en el guion las imágenes que sí salieron (`hechas[i].n` = el pedido al que responde; uno que falló no corre a los demás). |
 
 Con el bot: `/formato` + links de TikTok o videos → Opus (en GitHub Actions, con la suscripción
 Pro) estudia las referencias con `fabrica/formatos/AGENTE-FORMATO.md`, crea el formato en una rama

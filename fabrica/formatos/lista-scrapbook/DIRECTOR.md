@@ -16,6 +16,9 @@ Trabajas solo, sin preguntar. Todo lo que escribas va en la carpeta del episodio
 - `spec.json`: el guion (gancho, líneas, caption) y el estilo ya elegido.
 - `palabras-numeradas.txt`: cada palabra de la voz con su **número** y su segundo, y dónde
   empieza cada línea del guion. Todo el storyboard se ancla a estos números.
+- `imagenes-episodio.json` (si está): ilustraciones **hechas con IA para este video**, con el
+  momento del guion que ilustran (`para`). Ya están en el catálogo (`generados/…`). Úsalas en sus
+  momentos, grandes y protagonistas: son lo que hace que este video se vea hecho a medida.
 - `recientes-director.txt`: cómo se vieron los últimos videos (colores de hoja, entradas, recursos,
   íconos, estilos de título). **No repitas esas combinaciones**: si ayer abrió en naranja con el
   presentador y letras recortadas, hoy abre distinto. Los recursos generados con IA

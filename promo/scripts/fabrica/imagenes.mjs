@@ -1,10 +1,14 @@
 // New resources made with AI (OpenAI's gpt-image-2.5-sunburst, OPENAI_IMAGE_MODEL to change it; production key): the duck in
-// situations the catalog doesn't have. At most FABRICA_IMAGENES_DIA a day (1 by default).
-// Each one goes to the «Fábrica» topic with ✅ Aprobar / 🗑 Descartar; approved, it joins the
-// director's catalog (promo/public/generados/ + fabrica/catalogo/generados.json).
+// situations the catalog doesn't have. Two ways in:
+//  - each video makes its own (imagenesParaEpisodio, up to FABRICA_IMAGENES_VIDEO, 4 by default),
+//    straight into the catalog: the team judges them inside the finished video;
+//  - the image of the day (FABRICA_IMAGENES_DIA, off by default) goes to the «Fábrica» topic
+//    with ✅ Aprobar / 🗑 Descartar; approved, it joins the director's catalog
+//    (promo/public/generados/ + fabrica/catalogo/generados.json).
 //
 //   node scripts/fabrica/imagenes.mjs generar                 the image of the day (if any is left)
 //   node scripts/fabrica/imagenes.mjs decidir --imagen <id> --accion aprobar|descartar
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -16,7 +20,9 @@ const PEND = path.join(PUB, 'generados', 'pendientes');
 const PEDIDOS = path.join(FAB, 'episodios', 'generados-pedidos.json');
 const REGISTRO = path.join(FAB, 'episodios', 'generados-registro.json');
 const CATALOGO = path.join(FAB, 'catalogo', 'generados.json');
-const POR_DIA = () => Number(process.env.FABRICA_IMAGENES_DIA || 1);
+// the image of the day is off by default: each video makes its own (imagenesParaEpisodio)
+const POR_DIA = () => Number(process.env.FABRICA_IMAGENES_DIA || 0);
+const POR_VIDEO = () => Number(process.env.FABRICA_IMAGENES_VIDEO ?? 4);
 // the duck's look, so the model draws the same character
 const REFERENCIAS = ['app/duck-waving.png', 'ducks/estudiante.png', 'app/duck-confused.png'];
 const ESTILO = 'El mismo personaje de las imágenes de referencia: un pato blanco de caricatura, contorno negro grueso, pico y patas naranjas, ojos grandes redondos con pupilas negras, tres plumas en la cabeza. Mismo trazo y colores planos. Ilustración tipo sticker, cuerpo entero, fondo transparente, sin texto, sin marcas de agua.';
@@ -49,18 +55,9 @@ const destino = () => {
   return { chat_id: process.env.TELEGRAM_CHAT_ID, ...(topic ? { message_thread_id: topic } : {}) };
 };
 
-async function generar() {
+/** One image from OpenAI for a prompt (the duck's references attached): { png } or { error, code, status }. */
+export async function generarUna(prompt) {
   const key = process.env.OPENAI_API_KEY;
-  if (!key) { console.log('imagenes: sin OPENAI_API_KEY, no genero'); return; }
-  const registro = fs.existsSync(REGISTRO) ? readJson(REGISTRO) : { dias: {} };
-  const ya = registro.dias[hoy()] ?? 0;
-  if (ya >= POR_DIA()) { console.log(`imagenes: hoy ya van ${ya} (máximo ${POR_DIA()})`); return; }
-  const cola = fs.existsSync(PEDIDOS) ? readJson(PEDIDOS) : { pedidos: [] };
-  const pedido = cola.pedidos.find((p) => p.estado === 'pendiente');
-  const usados = new Set(Object.values(registro.prompts ?? {}));
-  const prompt = pedido?.prompt ?? SIEMPRE.find((s) => !usados.has(s)) ?? SIEMPRE[Math.floor(Math.random() * SIEMPRE.length)];
-  const id = `img-${hoy().replace(/-/g, '')}-${slugify(prompt).slice(0, 32)}`;
-
   const model = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-2.5-sunburst';
   const pedir = async (transparente) => {
     const form = new FormData();
@@ -79,8 +76,126 @@ async function generar() {
   // a model that cannot do transparent backgrounds says so before generating: ask again on white
   if (!res.ok && /background|transparen/i.test(body.error?.message ?? '')) ({ res, body } = await pedir(false));
   if (!res.ok || !body.data?.[0]?.b64_json) {
-    const why = body.error?.message ?? `HTTP ${res.status}`;
-    const code = body.error?.code ?? body.error?.type ?? '';
+    return { error: body.error?.message ?? `HTTP ${res.status}`, code: body.error?.code ?? body.error?.type ?? '', status: res.status };
+  }
+  return { png: Buffer.from(body.data[0].b64_json, 'base64') };
+}
+
+/** Writes an image and cuts its plain white background out (the director needs cut-outs). */
+function guardarRecorte(png, file) {
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, png);
+  try { console.log(`imagenes: ${python(['scripts/fabrica/quitar_fondo.py', file]).trim()}`); } catch (e) { console.log(`imagenes: no pude quitar el fondo (${String(e.message).split('\n')[0]})`); }
+}
+
+/**
+ * The images made for one video (FABRICA_IMAGENES_VIDEO, 4 by default): what this script
+ * needs that the catalog doesn't have. The format may say them (pedidosDeImagen); otherwise an
+ * art director (Sonnet) proposes them from the script. They go straight into the catalog
+ * (the team judges them in the finished video) and into <episode>/imagenes-episodio.json.
+ */
+export async function imagenesParaEpisodio({ dir, spec, fmt }) {
+  const max = POR_VIDEO();
+  const listo = path.join(dir, 'imagenes-episodio.json');
+  if (fs.existsSync(listo)) return readJson(listo);
+  if (!process.env.OPENAI_API_KEY || max <= 0) return [];
+  // an adjusted version (-v2, -v3…) keeps the images of the one before: same video, new words
+  const antes = imagenesDeVersionAnterior(dir);
+  if (antes && !fmt.pedidosDeImagen) {
+    fs.mkdirSync(dir, { recursive: true });
+    writeJson(listo, antes);
+    console.log(`imagenes: reuso las ${antes.length} de la versión anterior`);
+    return antes;
+  }
+  let pedidos = fmt.pedidosDeImagen ? fmt.pedidosDeImagen(spec) : null;
+  if (!pedidos) {
+    const { pedirJson } = await import('./claude.mjs');
+    const { cargarCatalogo } = await import('./director/storyboard.mjs');
+    const cat = cargarCatalogo();
+    const yaHay = cat.recursos.filter((r) => r.d && (r.grupo === 'generados' || r.ruta.startsWith('app/') || r.ruta.startsWith('ducks/'))).map((r) => `- ${r.ruta}: ${r.d}`);
+    try {
+      pedidos = (await pedirJson({
+        sistema: 'Eres el director de arte de los videos de Ducki (app social para universitarios de Cali). Decides qué ilustraciones nuevas harían que ESTE video se vea vivo y hecho para su guion: el pato de Ducki (u otros patos iguales) en situaciones concretas que dice el guion y que el catálogo no tiene. Cada ilustración se genera con IA a partir del pato de referencia, como sticker con fondo transparente.',
+        mensaje: [
+          `Guion: ${JSON.stringify(spec)}`,
+          `Ya existen (no las repitas):\n${yaHay.join('\n')}`,
+          `Propón entre 1 y ${max} ilustraciones, las que más sumen (si el guion no necesita tantas, menos). Para cada una: "prompt" (descripción visual concreta en español: qué hace el pato, dónde, con qué objetos, su expresión; sin texto escrito en la imagen, sin personas reales, sin marcas), "para" (qué momento del guion ilustra) y "por_que".`,
+        ].join('\n\n'),
+        esquema: { type: 'object', additionalProperties: false, required: ['imagenes'], properties: { imagenes: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['prompt', 'para', 'por_que'], properties: { prompt: { type: 'string' }, para: { type: 'string' }, por_que: { type: 'string' } } } } } },
+        esfuerzo: 'low',
+      })).imagenes;
+    } catch (e) {
+      console.log(`imagenes: el director de arte no respondió (${String(e.message).slice(0, 160)}); sigo sin imágenes nuevas`);
+      return [];
+    }
+  }
+  // the id comes from the prompt: the same drawing asked again (a new version, a rerun) is reused, not paid twice
+  const base = slugify(path.basename(dir).replace(/-v\d+$/, '')).slice(0, 24);
+  const hechas = [];
+  let sinCupo = false;
+  for (const [n, p] of (pedidos ?? []).slice(0, max).entries()) {
+    const id = `gen-${base}-${crypto.createHash('sha1').update(p.prompt).digest('hex').slice(0, 6)}`;
+    const file = path.join(PUB, 'generados', `${id}.png`);
+    if (fs.existsSync(file)) {
+      console.log(`imagenes: la ${n + 1} ya estaba hecha (${id})`);
+    } else {
+      if (sinCupo) continue;
+      const r = await generarUna(p.prompt);
+      if (!r.png) {
+        // the reason, so the log says why this video has fewer images
+        console.log(`imagenes: no salió la ${n + 1} de ${Math.min(max, pedidos.length)} (HTTP ${r.status}, ${r.code}: ${String(r.error).slice(0, 160)})`);
+        if (/quota|billing|insufficient/i.test(`${r.error} ${r.code}`)) sinCupo = true;
+        continue;
+      }
+      guardarRecorte(r.png, file);
+    }
+    // n: which request it answers, so a failed one doesn't shift the rest onto the wrong moment
+    hechas.push({ id, ruta: `generados/${id}.png`, prompt: p.prompt, para: p.para, n });
+  }
+  if (hechas.length) {
+    const cat = fs.existsSync(CATALOGO) ? readJson(CATALOGO) : { recursos: [] };
+    const ids = new Set(hechas.map((h) => h.id));
+    cat.recursos = [...cat.recursos.filter((r) => !ids.has(r.id)),
+      ...hechas.map((h) => ({ id: h.id, ruta: h.ruta, tipo: 'sticker', grupo: 'generados', w: 1024, h: 1536, d: `Hecha con IA para el video ${path.basename(dir)} (${h.para}): ${h.prompt}`, episodio: path.basename(dir) }))];
+    writeJson(CATALOGO, cat);
+  }
+  fs.mkdirSync(dir, { recursive: true });
+  writeJson(listo, hechas);
+  console.log(`imagenes: ${hechas.length} imagen(es) para este video`);
+  return hechas;
+}
+
+/** The images list of the closest earlier version of this episode (…-v3 looks at -v2, then the first one). */
+function imagenesDeVersionAnterior(dir) {
+  const m = path.basename(dir).match(/^(.*)-v(\d+)$/);
+  if (!m) return null;
+  for (let v = Number(m[2]) - 1; v >= 1; v--) {
+    const f = path.join(path.dirname(dir), v === 1 ? m[1] : `${m[1]}-v${v}`, 'imagenes-episodio.json');
+    if (fs.existsSync(f)) {
+      const lista = readJson(f).filter((h) => fs.existsSync(path.join(PUB, h.ruta)));
+      return lista.length ? lista : null;
+    }
+  }
+  return null;
+}
+
+async function generar() {
+  const key = process.env.OPENAI_API_KEY;
+  if (!key) { console.log('imagenes: sin OPENAI_API_KEY, no genero'); return; }
+  const registro = fs.existsSync(REGISTRO) ? readJson(REGISTRO) : { dias: {} };
+  const ya = registro.dias[hoy()] ?? 0;
+  if (ya >= POR_DIA()) { console.log(`imagenes: hoy ya van ${ya} (máximo ${POR_DIA()})`); return; }
+  const cola = fs.existsSync(PEDIDOS) ? readJson(PEDIDOS) : { pedidos: [] };
+  const pedido = cola.pedidos.find((p) => p.estado === 'pendiente');
+  const usados = new Set(Object.values(registro.prompts ?? {}));
+  const prompt = pedido?.prompt ?? SIEMPRE.find((s) => !usados.has(s)) ?? SIEMPRE[Math.floor(Math.random() * SIEMPRE.length)];
+  const id = `img-${hoy().replace(/-/g, '')}-${slugify(prompt).slice(0, 32)}`;
+
+  const r = await generarUna(prompt);
+  if (!r.png) {
+    const why = r.error;
+    const code = r.code;
+    const res = { status: r.status };
     console.log(`imagenes: OpenAI no generó la imagen (${code}: ${why.slice(0, 200)})`);
     // say it once a day in the topic, so a key without balance doesn't go unnoticed
     if (!registro.avisos?.[hoy()]) {
@@ -90,11 +205,8 @@ async function generar() {
     }
     return;
   }
-  fs.mkdirSync(PEND, { recursive: true });
   const file = path.join(PEND, `${id}.png`);
-  fs.writeFileSync(file, Buffer.from(body.data[0].b64_json, 'base64'));
-  // the model may hand back a plain white background: the director needs a cut-out
-  try { console.log(`imagenes: ${python(['scripts/fabrica/quitar_fondo.py', file]).trim()}`); } catch (e) { console.log(`imagenes: no pude quitar el fondo (${String(e.message).split('\n')[0]})`); }
+  guardarRecorte(r.png, file);
   registro.dias[hoy()] = ya + 1;
   registro.prompts = { ...(registro.prompts ?? {}), [id]: prompt };
   writeJson(REGISTRO, registro);

@@ -56,7 +56,8 @@ export async function dirigir({ dir, spec, words, vozDur, seed, mouth, segs, sta
 
   const rel = path.relative(ROOT, dir).split(path.sep).join('/');
   const guia = `fabrica/formatos/${formato}/DIRECTOR.md`;
-  const codigo = fs.existsSync(path.join(ROOT, 'ducki-app')) ? ' El código de la app está en ducki-app/ (solo lectura).' : '';
+  const codigo = (fs.existsSync(path.join(ROOT, 'ducki-app')) ? ' El código de la app está en ducki-app/ (solo lectura).' : '')
+    + (fs.existsSync(path.join(dir, 'imagenes-episodio.json')) ? ` Hay ilustraciones hechas con IA para este video en ${rel}/imagenes-episodio.json: úsalas.` : '');
   const revisar = `node promo/scripts/fabrica/director/cuadros.mjs ${rel}`;
   const rondas = () => (fs.existsSync(path.join(dir, 'revision')) ? fs.readdirSync(path.join(dir, 'revision')).filter((f) => /^hoja-\d+\.jpg$/.test(f)).length : 0);
 

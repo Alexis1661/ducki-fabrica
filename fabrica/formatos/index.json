@@ -12,6 +12,12 @@
       "nombre": "Historia en chat",
       "emoji": "💬",
       "descripcion": "Una conversación de chat que avanza mientras el pato la narra: crush, grupo de trabajo, el parche."
+    },
+    {
+      "id": "noticiero",
+      "nombre": "Ducki Noticias",
+      "emoji": "📺",
+      "descripcion": "Un noticiero parodia: el pato presenta las noticias de la U, de la comunidad o de la app con titulares de última hora."
     }
   ]
 }
