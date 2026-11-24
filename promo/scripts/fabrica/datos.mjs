@@ -15,6 +15,8 @@ export async function datosApp() {
     const res = await fetch(`${api}/api/v1/fabrica/datos`, { headers: { Authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(15000) });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     cache = (await res.json()).data ?? false;
+    // the universities that grew the most first
+    cache?.usuarios?.nuevos_por_universidad_7d?.sort((a, b) => b.nuevos - a.nuevos);
   } catch (e) {
     console.log(`datos: no pude leer los datos de la app (${String(e.message ?? e).slice(0, 120)}); sigo sin ellos`);
     cache = false;
