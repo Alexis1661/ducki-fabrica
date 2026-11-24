@@ -65,7 +65,7 @@ export function segmentStarts(segments, words, al = null, joiner = '\n') {
 
 export async function vozEleven(texto, outMp3) {
   const key = process.env.ELEVENLABS_API_KEY, voice = process.env.ELEVENLABS_VOICE_ID;
-  if (!key || !voice) throw new Error('Faltan ELEVENLABS_API_KEY / ELEVENLABS_VOICE_ID en RecursosVideo/fabrica/.env');
+  if (!key || !voice) throw new Error('Faltan ELEVENLABS_API_KEY / ELEVENLABS_VOICE_ID (secretos del repo en Actions; fabrica/.env en local)');
   const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voice}/with-timestamps?output_format=mp3_44100_128`, {
     method: 'POST',
     headers: { 'xi-api-key': key, 'Content-Type': 'application/json' },
