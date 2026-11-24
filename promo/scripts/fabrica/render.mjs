@@ -13,7 +13,9 @@ function publicDir(fmt) {
   const pub = path.resolve(process.env.TEMP ?? '.', 'fabrica-public');
   fs.rmSync(pub, { recursive: true, force: true });
   const walk = (d) => fs.readdirSync(path.join(PROMO, 'public', d), { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(`${d}/${e.name}`) : [`${d}/${e.name}`]));
-  const files = fmt.publico.flatMap((p) => (fs.statSync(path.join(PROMO, 'public', p)).isDirectory() ? walk(p) : [p]))
+  const files = fmt.publico.filter((p) => fs.existsSync(path.join(PROMO, 'public', p)))
+    .flatMap((p) => (fs.statSync(path.join(PROMO, 'public', p)).isDirectory() ? walk(p) : [p]))
+    .filter((f) => !f.startsWith('generados/pendientes/'))
     .filter((f) => !/^todo\/.*\/?(voz|voz16|music|sfx)\.wav$/.test(f));
   for (const f of files) {
     fs.mkdirSync(path.dirname(path.join(pub, f)), { recursive: true });

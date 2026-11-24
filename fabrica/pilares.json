@@ -1,0 +1,23 @@
+{
+  "_": "Pilares de contenido de Ducki: de qué tratan los videos. El plan semanal reparte la semana entre ellos y el guionista no repite el mismo pilar dos días seguidos. 'peso' es cuánto aparece en una semana de 7 videos (aprox.).",
+  "pilares": [
+    { "id": "humor-u", "nombre": "Humor de la U", "peso": 2, "tipo": "humor",
+      "que": "Situaciones que todo universitario de Cali reconoce: parciales, filas, el MIO, el profe que no llega, el grupo de trabajo que no hace nada. Ducki aparece de lado o al final, no como anuncio.",
+      "ejemplos": ["Tipos de compañeros en un trabajo en grupo", "Lo que dices vs. lo que piensas en la primera semana", "El hueco de 3 horas entre clases"] },
+    { "id": "pov", "nombre": "POV", "peso": 1, "tipo": "pov",
+      "que": "«POV: …» en segunda persona: una situación concreta y cómo se vive (con o sin Ducki).",
+      "ejemplos": ["POV: llegas nuevo a la U y no conoces a nadie", "POV: te escribe tu crush a las 2 a. m."] },
+    { "id": "marca", "nombre": "Historia y propósito de Ducki", "peso": 1, "tipo": "marca",
+      "que": "Por qué existe Ducki, qué cree, a quién junta. Habla de personas y sentimientos (encajar, ser diferente, conectar), no de botones.",
+      "ejemplos": ["Por qué un pato", "Ser diferente es lo normal aquí", "Una app hecha en Cali para Cali"] },
+    { "id": "comunidad", "nombre": "Comunidad y datos", "peso": 1, "tipo": "comunidad",
+      "que": "Lo que está pasando en Ducki esta semana, con los datos reales (cuántos se unieron, qué universidad crece, el parche más grande, cuántas salas se abrieron). Celebrar a la comunidad.",
+      "ejemplos": ["Esta semana se unieron 230 patos", "La U con más patos", "El parche que no para de crecer"] },
+    { "id": "funcion", "nombre": "Una función a fondo", "peso": 1, "tipo": "funcion",
+      "que": "Una sola función de la app explicada con gracia, o una novedad (leída en el código si es nueva).",
+      "ejemplos": ["Cómo mandar una carta anónima", "Lo nuevo: …"] },
+    { "id": "pregunta", "nombre": "Pregunta o reto", "peso": 1, "tipo": "humor",
+      "que": "Una pregunta que invite a comentar o un reto («¿qué U tiene los mejores parches?», «cuéntanos en los comentarios…»).",
+      "ejemplos": ["¿Cuál es la peor excusa para no ir a clase?", "Etiqueta a tu compañero de hueco"] }
+  ]
+}

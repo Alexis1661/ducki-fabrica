@@ -77,11 +77,29 @@ async function guardarGuion(spec, dir, version = 1) {
 
 async function nuevo(o) {
   if (manual() && !o.spec) {
-    const fmt = await cargarFormato(o.formato && o.formato !== true ? o.formato : null);
+    let encargo = o.encargo && o.encargo !== true ? o.encargo : null;
+    let formato = o.formato && o.formato !== true ? o.formato : null;
+    let extra = {};
+    // nothing asked: the day's idea of the weekly plan (the chosen ones first)
+    let idea = null;
+    if (!encargo) {
+      const { ideaDeHoy } = await import('./semana.mjs');
+      idea = await ideaDeHoy();
+      if (idea) {
+        encargo = idea.encargo;
+        formato = formato ?? idea.formato;
+        extra = { tipo: idea.tipo, pilar: idea.pilar };
+        console.log(`plan: idea ${idea.id} · ${idea.pilar} · ${idea.formato}`);
+      }
+    }
+    const fmt = await cargarFormato(formato);
     const { escribirGuion } = await import('./guionista.mjs');
-    const spec = await escribirGuion(o.encargo && o.encargo !== true ? o.encargo : DAILY, fmt);
+    const spec = await escribirGuion(encargo ?? DAILY, fmt, extra);
     const fecha = new Date().toISOString().slice(0, 10);
-    return guardarGuion(spec, path.join(EPIS, `${fecha}-${slugify(spec.slug || spec.gancho.titulo)}`));
+    const dir = path.join(EPIS, `${fecha}-${slugify(spec.slug || spec.gancho?.titulo || 'video')}`);
+    await guardarGuion(spec, dir);
+    if (idea) (await import('./semana.mjs')).anotarEpisodio(idea.id, path.basename(dir));
+    return;
   }
   const encargo = o.spec ? undefined : (o.encargo && o.encargo !== true ? o.encargo : DAILY);
   const ep = await armarEpisodio({ ...o, encargo });

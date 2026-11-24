@@ -14,7 +14,7 @@ const DIRS = ['derecha', 'arriba', 'izquierda', 'abajo'];
 /** Scene ids in order (intro, each point's scene, the optional all-in-one, the end). */
 export function escenasDe(spec, funciones) {
   const byId = Object.fromEntries(funciones.funciones.map((f) => [f.id, f]));
-  return ['intro', ...spec.puntos.map((p) => byId[p.funcion]?.escena ?? p.funcion), ...(spec.cierre_todo ? ['todo'] : []), 'fin'];
+  return ['intro', ...spec.puntos.map((p) => byId[p.funcion]?.escena ?? p.funcion ?? 'otra'), ...(spec.cierre_todo ? ['todo'] : []), 'fin'];
 }
 
 function looksDe(spec) {

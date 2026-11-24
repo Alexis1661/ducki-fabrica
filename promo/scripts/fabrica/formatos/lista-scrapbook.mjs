@@ -1,6 +1,7 @@
 // Formato «Lista scrapbook»: lo que la fábrica necesita saber de él. Cada formato
 // tiene un módulo como este en scripts/fabrica/formatos/ (la interfaz está en
 // fabrica/formatos/COMO-CREAR-UN-FORMATO.md) y una entrada en fabrica/formatos/index.json.
+import fs from 'node:fs';
 import path from 'node:path';
 import { FAB } from '../comun.mjs';
 import { ESCENAS, construirEpisodio, revisarSpec, segmentos as segs } from '../linea.mjs';
@@ -16,10 +17,12 @@ export const dir = path.join(FAB, 'formatos', id);
 /** Files and folders of promo/public the template uses (render copies only these). */
 export const publico = [
   'todo', 'fabrica/piezas', 'fabrica/disfraces', 'fuentes', 'ducks', 'duckart/weekly', 'parches/cat', 'parches/games', 'logos', 'app',
-  'screens', 'map', 'stores', 'parches/duckisalas-ducks.png', 'v0110', 'tutorial-salas',
+  'screens', 'map', 'stores', 'parches/duckisalas-ducks.png', 'v0110', 'tutorial-salas', 'generados',
 ];
 
 const nullable = (s) => ({ anyOf: [s, { type: 'null' }] });
+export const TIPOS = ['marca', 'humor', 'pov', 'comunidad', 'funcion', 'tendencia'];
+const PILARES = JSON.parse(fs.readFileSync(path.join(FAB, 'pilares.json'), 'utf8')).pilares.map((p) => p.id);
 const HOJAS = [...new Set(Object.values(PERILLAS.escenas).flatMap((e) => e.hojas))];
 const LOOK = {
   type: 'object',
@@ -69,9 +72,11 @@ export function esquema() {
   return {
     type: 'object',
     additionalProperties: false,
-    required: ['slug', 'gancho', 'intro', 'puntos', 'cierre_todo', 'cierre', 'caption', 'hashtags', 'plan'],
+    required: ['slug', 'tipo', 'pilar', 'gancho', 'intro', 'puntos', 'cierre_todo', 'cierre', 'caption', 'hashtags', 'plan'],
     properties: {
       slug: { type: 'string', description: 'Nombre corto del episodio en kebab-case, sin tildes.' },
+      tipo: { type: 'string', enum: TIPOS, description: 'Tipo de video (fabrica/tipos.md). Fuera de "funcion", no hace falta nombrar funciones.' },
+      pilar: { type: 'string', enum: PILARES, description: 'Pilar de contenido (fabrica/pilares.json).' },
       gancho: {
         type: 'object',
         additionalProperties: false,
@@ -85,13 +90,13 @@ export function esquema() {
       intro: { type: 'string', description: 'Lo primero que dice el presentador: el gancho hablado, nombra a Ducki.' },
       puntos: {
         type: 'array',
-        description: 'Entre 2 y 9 hojas, cada una con una función distinta (en una lista son los puntos; en historia, POV o pregunta, los momentos).',
+        description: 'Entre 2 y 9 momentos del guion (en una lista, los puntos; en una historia, POV o pregunta, los momentos).',
         items: {
           type: 'object',
           additionalProperties: false,
           required: ['funcion', 'texto', 'rotulo', 'favorita', 'look'],
           properties: {
-            funcion: { type: 'string', enum: [...ESCENAS, 'otra'], description: 'La función de la app de la que habla este punto; "otra" si no está en las fichas (una novedad que leíste en el código) o si el punto no habla de una función.' },
+            funcion: nullable({ type: 'string', enum: [...ESCENAS, 'otra'], description: 'Solo si este momento habla de una función de la app ("otra" si es una novedad leída en el código); null si no habla de ninguna (lo normal fuera del tipo "funcion").' }),
             texto: { type: 'string', description: 'Lo que dice la voz en esta hoja. En una lista empieza con el número en palabra; en historia, POV o pregunta, nunca.' },
             rotulo: nullable({ type: 'string', description: `Título de la hoja fuera de una lista: el momento de la historia, en mayúsculas, máximo ${PERILLAS.rotulo_max} caracteres (ej. "LUNES 7 AM", "EN LA FILA"). null en una lista.` }),
             favorita: { type: 'boolean' },
@@ -100,7 +105,7 @@ export function esquema() {
         },
       },
       cierre_todo: nullable({ type: 'string', description: 'Frase opcional tipo "Todo eso en una sola app…", o null.' }),
-      cierre: { type: 'string', description: 'Llamado a descargar y cierre de marca.' },
+      cierre: { type: 'string', description: 'El remate y la invitación final, con palabras distintas cada vez (ver tipos.md).' },
       caption: { type: 'string', description: 'Texto que acompaña el video en TikTok/Instagram: 1 a 3 frases.' },
       hashtags: { type: 'array', items: { type: 'string' }, description: '4 a 6 hashtags, incluye #Ducki.' },
       plan: PLAN,
@@ -139,7 +144,7 @@ export const construir = (args) => construirEpisodio(args);
 export function resumen(spec) {
   const e = spec.plan?.estilo;
   return {
-    gancho: spec.gancho?.titulo, funciones: (spec.puntos ?? []).map((p) => p.funcion),
+    gancho: spec.gancho?.titulo, funciones: (spec.puntos ?? []).map((p) => p.funcion).filter(Boolean),
     ...(e ? { estructura: e.estructura ?? 'lista', estilo: `${e.subtitulos}/${e.contador}/${e.resaltado}/${e.musica?.bpm}bpm`, entradas: (spec.puntos ?? []).map((p) => p.look?.entrada) } : {}),
   };
 }

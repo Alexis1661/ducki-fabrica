@@ -6,6 +6,12 @@
       "nombre": "Scrapbook",
       "emoji": "✂️",
       "descripcion": "Collage de papel en stop-motion con el pato presentador: lista, mini historia, POV o pregunta."
+    },
+    {
+      "id": "chat",
+      "nombre": "Historia en chat",
+      "emoji": "💬",
+      "descripcion": "Una conversación de chat que avanza mientras el pato la narra: crush, grupo de trabajo, el parche."
     }
   ]
 }

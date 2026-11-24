@@ -19,6 +19,9 @@ export function iconosValidos() {
 
 export function cargarCatalogo() {
   const c = JSON.parse(fs.readFileSync(path.join(FAB, 'catalogo', 'catalogo.json'), 'utf8'));
+  // the images made with AI and approved in Telegram (imagenes.mjs)
+  const gen = path.join(FAB, 'catalogo', 'generados.json');
+  if (fs.existsSync(gen)) c.recursos = [...c.recursos, ...JSON.parse(fs.readFileSync(gen, 'utf8')).recursos];
   const porRuta = new Map(), porId = new Map();
   for (const r of c.recursos) { porRuta.set(r.ruta, r); if (!porId.has(r.id)) porId.set(r.id, r); }
   return { ...c, buscar: (x) => porRuta.get(x) ?? porId.get(x) ?? null };

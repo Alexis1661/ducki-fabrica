@@ -141,7 +141,15 @@ fx.add(I.boom()[: int(I.SR * 0.5)], 0.05, gain=0.35)
 for k in range(len(ep['hook']['title'].replace(' ', ''))):
     fx.add(I.tick(), 0.07 + k * 0.067, pan=-0.5 + k / 8, gain=0.35)
 fx.add(I.pop_fx(), 0.95 + V0, gain=0.35)
-for idx, s in enumerate(SC):
+# a chat story: a soft pop per message (left or right, like the bubbles) and a hit on the end card
+CHAT = ep.get('chat')
+if CHAT:
+    for ln in CHAT['lineas']:
+        for m in ln['mensajes']:
+            fx.add(I.pop_fx(), T(m['en']), pan=0.25 if m['de'] == 'yo' else -0.25, gain=0.3)
+    if CHAT.get('fin') is not None:
+        fx.add(I.boom()[: int(I.SR * 0.6)], T(CHAT['fin']), gain=0.4)
+for idx, s in enumerate([] if CHAT else SC):
     if s['kind'] != 'intro':
         fx.add(I.slide(), T(s['t']) - ENTER, pan=0.3, gain=0.7)
         fx.add(I.tape(), T(s['t']) + 0.05, pan=-0.2, gain=0.45)

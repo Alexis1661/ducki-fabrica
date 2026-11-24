@@ -16,6 +16,10 @@ Trabajas solo, sin preguntar. Todo lo que escribas va en la carpeta del episodio
 - `spec.json`: el guion (gancho, líneas, caption) y el estilo ya elegido.
 - `palabras-numeradas.txt`: cada palabra de la voz con su **número** y su segundo, y dónde
   empieza cada línea del guion. Todo el storyboard se ancla a estos números.
+- `recientes-director.txt`: cómo se vieron los últimos videos (colores de hoja, entradas, recursos,
+  íconos, estilos de título). **No repitas esas combinaciones**: si ayer abrió en naranja con el
+  presentador y letras recortadas, hoy abre distinto. Los recursos generados con IA
+  (`generados/…` en el catálogo) son nuevos: úsalos cuando encajen.
 - `fabrica/catalogo/catalogo.json`: todos los recursos que puedes usar, con qué muestran (`d`),
   su tipo (`imagen`, `clip`, `sticker`, `pieza`), sus medidas y avisos (`evitar`, `prohibido`).
   Las piezas sin descripción (cabezas `h000`–`h161`, cuerpos `b000`–`b149`, disfraces, patos,

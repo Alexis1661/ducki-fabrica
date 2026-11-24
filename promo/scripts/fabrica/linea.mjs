@@ -23,9 +23,12 @@ export function revisarSpec(spec, funciones) {
   if (!spec.gancho?.titulo) err.push('falta gancho.titulo');
   if (!spec.intro) err.push('falta intro');
   if (!Array.isArray(spec.puntos) || spec.puntos.length < 2 || spec.puntos.length > 9) err.push('puntos debe tener entre 2 y 9');
+  // outside a «funcion» video, functions are not the point: at most one moment names one
+  const nombradas = (spec.puntos ?? []).filter((p) => p.funcion && p.funcion !== 'otra').length;
+  if (spec.tipo && spec.tipo !== 'funcion' && spec.tipo !== 'tendencia' && nombradas > 1) err.push(`es un video de tipo «${spec.tipo}» y ${nombradas} momentos hablan de funciones de la app: como mucho uno (y solo si suma); el resto, funcion: null`);
   const seen = new Set();
   for (const p of spec.puntos ?? []) {
-    if (p.funcion === 'otra') { if (!p.texto?.trim()) err.push('un punto sin texto'); continue; }
+    if (!p.funcion || p.funcion === 'otra') { if (!p.texto?.trim()) err.push('un momento sin texto'); continue; }
     const f = byId[p.funcion];
     if (!f) err.push(`función desconocida: ${p.funcion}`);
     else if (!f.escena || !ESCENAS.includes(f.escena)) err.push(`${p.funcion} no tiene escena en este formato`);
@@ -67,7 +70,7 @@ export function construirEpisodio({ spec, words, starts, vozDur, funciones, seed
   const fixed = funciones.escenas_fijas;
   const plan = [
     { kind: 'intro', defs: fixed.intro.anclas },
-    ...spec.puntos.map((p, k) => (p.funcion === 'otra'
+    ...spec.puntos.map((p, k) => (!p.funcion || p.funcion === 'otra'
       ? { kind: 'todo', defs: fixed.todo.anclas }
       : { kind: 'feature', feature: byId[p.funcion].escena, n: k + 1, fav: !!p.favorita, defs: byId[p.funcion].anclas })),
     ...(spec.cierre_todo ? [{ kind: 'todo', defs: fixed.todo.anclas }] : []),

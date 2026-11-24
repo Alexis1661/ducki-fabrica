@@ -6,8 +6,10 @@ name: Episodio
 
 on:
   schedule:
-    # 11:00 UTC = 6:00 en Bogotá: el video del día llega al grupo por la mañana
+    # 11:00 UTC = 6:00 en Bogotá: el guion del día (y la imagen nueva) llega por la mañana
     - cron: '0 11 * * *'
+    # lunes 10:30 UTC = 5:30 en Bogotá: el plan de la semana (7 ideas)
+    - cron: '30 10 * * 1'
   workflow_dispatch:
     inputs:
       encargo:
@@ -20,10 +22,19 @@ on:
         description: 'Render de prueba con una voz ya hecha (sin gastar llaves de IA)'
         type: boolean
         default: false
+      plan:
+        description: 'Proponer ahora el plan de la semana'
+        type: boolean
+        default: false
+      imagen:
+        description: 'Generar ahora la imagen del día (si queda cupo)'
+        type: boolean
+        default: false
   repository_dispatch:
     # fabrica-voz: someone replied to the script with the audio (file_id from Telegram)
     # fabrica-generar: the script was approved; ElevenLabs voices it and the video is built
-    types: [fabrica-encargo, fabrica-ajuste, fabrica-voz, fabrica-generar]
+    # fabrica-plan-ajuste: change one idea of the weekly plan; fabrica-imagen: an AI image approved or discarded
+    types: [fabrica-encargo, fabrica-ajuste, fabrica-voz, fabrica-generar, fabrica-plan-ajuste, fabrica-imagen]
 
 # one at a time: each run commits its episode back to the repo
 concurrency:
@@ -59,6 +70,12 @@ jobs:
       # read the app's code and keep the episodes private (fine-grained token: Contents read
       # on Alexis1661/Ducki, read & write on Alexis1661/ducki-fabrica-episodios)
       DUCKI_REPO_TOKEN: ${{ secrets.DUCKI_REPO_TOKEN }}
+      # the app's numbers and the team's choices (API /fabrica)
+      FABRICA_TOKEN: ${{ secrets.FABRICA_TOKEN }}
+      # AI images with the production OpenAI key; at most this many a day
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      FABRICA_IMAGENES_DIA: ${{ vars.FABRICA_IMAGENES_DIA }}
+      SCHEDULE: ${{ github.event.schedule }}
     steps:
       - uses: actions/checkout@v5
 
@@ -135,6 +152,12 @@ jobs:
           openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -pass env:CAPTURAS_KEY \
             -in promo/capturas.tar.enc | tar -xf -
 
+      # one new AI image a day for the director's catalog (never stops the video)
+      - name: Imagen del día
+        if: (github.event_name == 'schedule' && github.event.schedule == '0 11 * * *') || inputs.imagen
+        continue-on-error: true
+        run: node scripts/fabrica/imagenes.mjs generar
+
       - name: Armar y enviar
         id: armar
         env:
@@ -147,8 +170,21 @@ jobs:
           EPISODIO: ${{ github.event.client_payload.episodio }}
           TEXTO: ${{ github.event.client_payload.texto }}
           ARCHIVO: ${{ github.event.client_payload.archivo }}
+          IDEA: ${{ github.event.client_payload.idea }}
+          IMAGEN: ${{ github.event.client_payload.imagen }}
+          IMAGEN_ACCION: ${{ github.event.client_payload.accion }}
+          PLAN: ${{ inputs.plan }}
+          SOLO_IMAGEN: ${{ inputs.imagen }}
         run: |
-          if [ "$EVENTO" = "repository_dispatch" ] && [ "$ACCION" = "fabrica-generar" ]; then
+          if { [ "$EVENTO" = "schedule" ] && [ "$SCHEDULE" = "30 10 * * 1" ]; } || [ "$PLAN" = "true" ]; then
+            node scripts/fabrica/semana.mjs nueva
+          elif [ "$SOLO_IMAGEN" = "true" ]; then
+            echo "solo la imagen del día"
+          elif [ "$EVENTO" = "repository_dispatch" ] && [ "$ACCION" = "fabrica-plan-ajuste" ]; then
+            node scripts/fabrica/semana.mjs ajustar --idea "$IDEA" --texto "$TEXTO"
+          elif [ "$EVENTO" = "repository_dispatch" ] && [ "$ACCION" = "fabrica-imagen" ]; then
+            node scripts/fabrica/imagenes.mjs decidir --imagen "$IMAGEN" --accion "$IMAGEN_ACCION"
+          elif [ "$EVENTO" = "repository_dispatch" ] && [ "$ACCION" = "fabrica-generar" ]; then
             node scripts/fabrica/ci.mjs generar --episodio "$EPISODIO"
           elif [ "$EVENTO" = "repository_dispatch" ] && [ "$ACCION" = "fabrica-voz" ]; then
             node scripts/fabrica/ci.mjs voz --episodio "$EPISODIO" --archivo "$ARCHIVO"
@@ -168,13 +204,15 @@ jobs:
       # no artifact: in a public repo anyone could download the unapproved
       # video; it only goes to the Telegram topic
 
+      # the episodes, the weekly plan and the image queue (private repo when the token reaches it)
       - name: Guardar el episodio
-        if: success() && steps.armar.outputs.carpeta != ''
+        if: success()
         working-directory: .
         env:
           CARPETA: ${{ steps.armar.outputs.carpeta }}
         run: |
-          MSG="episodio: $(basename "$CARPETA")"
+          MSG="${CARPETA:+episodio: $(basename "$CARPETA")}"
+          MSG="${MSG:-fábrica: ${{ github.event.action || github.event_name }}}"
           if [ "$EPISODIOS_PRIVADOS" = "1" ]; then
             cd fabrica/episodios
             git config user.name "fabrica-bot"
@@ -193,6 +231,18 @@ jobs:
             git commit -q -m "$MSG"
             git pull -q --rebase && git push -q
           fi
+
+      # the AI images (pending ones and the approved catalog) live in this public repo
+      - name: Guardar las imágenes
+        if: success()
+        working-directory: .
+        run: |
+          git config user.name "fabrica-bot"
+          git config user.email "fabrica-bot@users.noreply.github.com"
+          git add -A promo/public/generados fabrica/catalogo/generados.json 2>/dev/null || true
+          git diff --cached --quiet && exit 0
+          git commit -q -m "imágenes generadas: ${{ github.event.action || github.event_name }}"
+          git pull -q --rebase && git push -q
 
       - name: Avisar si falló
         if: failure()

@@ -23,6 +23,26 @@ function entornoLimpio() {
   return Object.fromEntries(keep.filter((k) => process.env[k] !== undefined).map((k) => [k, process.env[k]]));
 }
 
+/** What the last videos looked like (colours, entrances, pieces), so the director does not repeat it. */
+function recientesDirector(dir, n = 6) {
+  const base = path.join(FAB, 'episodios');
+  if (!fs.existsSync(base)) return '';
+  const lines = [];
+  for (const d of fs.readdirSync(base).sort().filter((x) => path.join(base, x) !== dir).slice(-40)) {
+    const f = path.join(base, d, 'storyboard.json');
+    if (!fs.existsSync(f)) continue;
+    let sb;
+    try { sb = readJson(f); } catch { continue; }
+    const esc = sb.escenas ?? [];
+    const piezas = esc.flatMap((s) => s.elementos ?? []);
+    const uniq = (xs) => [...new Set(xs.filter(Boolean))];
+    lines.push(`- ${d}: hojas ${esc.map((s) => s.prefab ? `[${s.prefab}]` : s.hoja?.color ?? '?').join(' → ')}; entradas ${uniq(esc.map((s) => s.hoja?.entrada)).join(', ')}; ` +
+      `recursos ${uniq(piezas.map((e) => e.recurso)).slice(0, 10).join(', ') || '-'}; íconos ${uniq(piezas.map((e) => e.nombre)).join(', ') || '-'}; ` +
+      `títulos ${uniq(piezas.filter((e) => e.tipo === 'titulo').map((e) => e.estilo ?? 'recortes')).join(', ') || '-'}; presentador en ${esc.filter((s) => s.presentador).length} escena(s)`);
+  }
+  return lines.slice(-n).join('\n');
+}
+
 /**
  * Writes the director's inputs into the episode folder, runs the agent, and returns the
  * storyboard it left (checked). Throws, with the reason, when there is none worth using.
@@ -30,6 +50,7 @@ function entornoLimpio() {
 export async function dirigir({ dir, spec, words, vozDur, seed, mouth, segs, starts, formato = 'lista-scrapbook' }) {
   writeJson(path.join(dir, 'director-base.json'), { spec, words, vozDur, seed, mouth, segs, starts });
   fs.writeFileSync(path.join(dir, 'palabras-numeradas.txt'), palabrasNumeradas(words, segs, starts));
+  fs.writeFileSync(path.join(dir, 'recientes-director.txt'), `# Cómo se vieron los últimos videos: no repitas sus combinaciones\n${recientesDirector(dir) || '(todavía no hay)'}\n`);
   fs.rmSync(path.join(dir, 'storyboard.json'), { force: true });
   fs.rmSync(path.join(dir, 'revision'), { recursive: true, force: true });
 

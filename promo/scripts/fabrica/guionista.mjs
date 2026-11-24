@@ -19,24 +19,26 @@ function systemPrompt(fmt) {
   const fun = readJson(path.join(FAB, 'funciones.json'));
   const usable = fun.funciones.filter((f) => f.mencionar && f.escena);
   const leer = (n) => (fs.existsSync(path.join(fmt.dir, n)) ? fs.readFileSync(path.join(fmt.dir, n), 'utf8') : '');
-  const ejemplo = leer('ejemplo.json');
   const ficha = usable.map((f) => ({
     funcion: f.id, nombre: f.nombre, que_es: f.que_es, ideas: f.ideas, no_decir: f.no_decir,
     palabras_que_animan: Object.values(f.anclas).flatMap((a) => a.palabras.slice(0, 2)),
   }));
+  const pilares = readJson(path.join(FAB, 'pilares.json')).pilares;
+  const tipos = fs.readFileSync(path.join(FAB, 'tipos.md'), 'utf8');
   return [
-    'Escribes los guiones de los videos cortos de Ducki (TikTok e Instagram Reels). Los lee en voz alta un pato presentador; la plantilla de video pone en pantalla las piezas de cada función.',
+    'Escribes los guiones de los videos cortos de Ducki (app social para universitarios de Cali; TikTok e Instagram Reels). Los lee en voz alta un pato presentador y un director arma después lo que se ve. Tu meta: que cada video sorprenda y se sienta distinto al de ayer, no un anuncio de funciones.',
+    tipos,
+    'Pilares de contenido:\n' + JSON.stringify(pilares.map(({ id, nombre, tipo, que }) => ({ id, nombre, tipo, que })), null, 1),
     'Reglas que no se rompen:\n- ' + fun.reglas_generales.join('\n- '),
-    'Funciones que puedes usar (solo estas, y solo afirmando lo que dice cada ficha):\n' + JSON.stringify(ficha, null, 1),
+    'Lo que hace la app, por si el guion lo necesita (contexto, no una lista para recorrer; afirma solo lo que dice cada ficha):\n' + JSON.stringify(ficha, null, 1),
     'Funciones que NO se mencionan por ahora: ' + fun.funciones.filter((f) => !f.mencionar).map((f) => f.nombre).join(', ') + '.',
     fs.existsSync(path.resolve(FAB, '..', 'ducki-app'))
-      ? 'Tienes el código de la app en ducki-app/ (solo lectura; herramientas Read, Glob y Grep). Si el encargo habla de una función o de una actualización que no está en las fichas (por ejemplo «Marketplace»), investígala ahí antes de escribir: mobile/src/features/<nombre>/ (pantallas, textos que ve el usuario), Backend/internal/<nombre>/ (reglas) y docs/. Escribe solo lo que el código confirma, con las palabras que usa la app; nunca pongas en el guion código, correos, llaves ni datos de usuarios. Para esas funciones usa "funcion": "otra" en el punto.'
+      ? 'Tienes el código de la app en ducki-app/ (solo lectura; herramientas Read, Glob y Grep). Si el encargo habla de una función o de una actualización que no está en las fichas (por ejemplo «Marketplace»), investígala ahí antes de escribir: mobile/src/features/<nombre>/ (pantallas, textos que ve el usuario), Backend/internal/<nombre>/ (reglas) y docs/. Escribe solo lo que el código confirma, con las palabras que usa la app; nunca pongas en el guion código, correos, llaves ni datos de usuarios.'
       : '',
     `Formato de hoy: «${fmt.nombre}».`,
     leer('formato.md'),
     leer('guia.md'),
     fmt.contexto ? fmt.contexto() : '',
-    ejemplo ? 'Ejemplo de un guion que ya funcionó en este formato (no lo copies; varía el ángulo, el gancho, las funciones y el plan):\n' + ejemplo : '',
   ].filter(Boolean).join('\n\n');
 }
 
@@ -48,8 +50,8 @@ function recientes(fmt, n = 8) {
     const f = path.join(dir, d, 'spec.json');
     if (!fs.existsSync(f)) return [];
     const spec = readJson(f);
-    if ((spec.formato || 'lista-scrapbook') !== fmt.id) return [];
-    return [{ episodio: d, ...(fmt.resumen ? fmt.resumen(spec) : {}) }];
+    // every format: the variety is across the channel, not within one format
+    return [{ episodio: d, formato: spec.formato || 'lista-scrapbook', tipo: spec.tipo, pilar: spec.pilar, gancho: spec.gancho?.titulo, ...(fmt.resumen && (spec.formato || 'lista-scrapbook') === fmt.id ? fmt.resumen(spec) : {}) }];
   }).slice(-n);
 }
 
@@ -126,9 +128,21 @@ async function askChecked(userText, fmt) {
   return spec;
 }
 
-export async function escribirGuion(encargo, fmt) {
-  const hoy = new Date().toISOString().slice(0, 10);
-  return askChecked(`Fecha: ${hoy}.\nEpisodios recientes de este formato (no repitas gancho, ni el mismo grupo de funciones, ni el mismo estilo): ${JSON.stringify(recientes(fmt))}\n\nEncargo: ${encargo}`, fmt);
+/** The app's numbers and the recent videos, as context for a new script. */
+async function contextoDelDia(fmt, extra = {}) {
+  const { datosApp } = await import('./datos.mjs');
+  const datos = await datosApp();
+  return [
+    `Fecha: ${new Date().toISOString().slice(0, 10)}.`,
+    `Videos recientes (no repitas gancho, tipo ni pilar del último; varía la estructura y el estilo): ${JSON.stringify(recientes(fmt))}`,
+    datos ? `Datos reales de la app (agregados): ${JSON.stringify(datos)}` : '',
+    extra.tipo ? `Tipo pedido: ${extra.tipo}.` : '',
+    extra.pilar ? `Pilar pedido: ${extra.pilar}.` : '',
+  ].filter(Boolean).join('\n');
+}
+
+export async function escribirGuion(encargo, fmt, extra = {}) {
+  return askChecked(`${await contextoDelDia(fmt, extra)}\n\nEncargo: ${encargo}`, fmt);
 }
 
 export async function reescribirGuion(spec, ajuste, fmt) {
