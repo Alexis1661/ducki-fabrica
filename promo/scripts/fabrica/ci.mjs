@@ -26,7 +26,7 @@ import path from 'node:path';
 import { FAB, loadEnv, readJson, slugify, writeJson } from './comun.mjs';
 import { armarEpisodio } from './episodio.mjs';
 import { revisarSpec, segmentos } from './linea.mjs';
-import { bajarArchivo, enviarGuion, enviarPropuesta } from './telegram.mjs';
+import { bajarArchivo, enviarArchivos, enviarGuion, enviarPropuesta } from './telegram.mjs';
 
 const DAILY = 'Elige tú el tema del video de hoy: un ángulo concreto y distinto a los episodios recientes (una función a fondo, un top, una situación de la U, un POV, una pregunta). Que enganche en el primer segundo.';
 const manual = () => (process.env.FABRICA_VOZ || 'manual') !== 'eleven';
@@ -95,6 +95,7 @@ async function nuevo(o) {
   salida(ep.dir);
   if (!ep.files.length) return;
   await enviarPropuesta({ dir: ep.dir, id: path.basename(ep.dir), spec: ep.spec, video: ep.files[0] });
+  await enviarArchivos({ dir: ep.dir, files: ep.files });
   console.log(`enviado a Telegram: ${path.basename(ep.dir)}`);
 }
 
@@ -108,6 +109,7 @@ async function voz(o) {
   const ep = await armarEpisodio({ specObj: spec, voz: audio, salida: dir });
   if (!ep.files.length) return;
   await enviarPropuesta({ dir: ep.dir, id: path.basename(ep.dir), spec: ep.spec, video: ep.files[0], version });
+  await enviarArchivos({ dir: ep.dir, files: ep.files });
   console.log(`video enviado a Telegram: ${path.basename(ep.dir)}`);
 }
 
@@ -134,6 +136,7 @@ async function ajuste(o) {
   salida(ep.dir);
   fs.writeFileSync(path.join(ep.dir, 'ajuste.txt'), `${o.texto}\n`);
   await enviarPropuesta({ dir: ep.dir, id: path.basename(ep.dir), spec: ep.spec, video: ep.files[0], version });
+  await enviarArchivos({ dir: ep.dir, files: ep.files });
   console.log(`versión ${version} enviada: ${path.basename(ep.dir)}`);
 }
 

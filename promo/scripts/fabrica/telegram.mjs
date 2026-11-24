@@ -116,6 +116,37 @@ export async function bajarArchivo(fileId, destSinExt) {
   return out;
 }
 
+/**
+ * The full-quality videos (1080p, with and without music) as files, in reply to the
+ * proposal: Telegram keeps a document as it is, so these are the ones to publish.
+ * A bot can upload up to 50 MB; a heavier file is said in the topic instead.
+ */
+export async function enviarArchivos({ dir, files }) {
+  const token = need('TELEGRAM_BOT_TOKEN'), chat = need('TELEGRAM_CHAT_ID');
+  const topic = Number(process.env.TELEGRAM_TOPIC_FABRICA ?? 0);
+  const tg = fs.existsSync(path.join(dir, 'telegram.json')) ? readJson(path.join(dir, 'telegram.json')) : {};
+  const base = { chat_id: chat, ...(topic ? { message_thread_id: String(topic) } : {}), ...(tg.message_id ? { reply_to_message_id: String(tg.message_id) } : {}) };
+  for (const file of files) {
+    const mb = fs.statSync(file).size / 1e6;
+    const label = file.includes('sin-musica') ? 'sin música (TikTok: ponle un sonido en tendencia)' : 'con música (Instagram)';
+    if (mb > 49.5) {
+      await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...base, text: `⚠️ El video ${label} pesa ${mb.toFixed(0)} MB y el bot solo sube hasta 50 MB.` }),
+      });
+      continue;
+    }
+    const form = new FormData();
+    for (const [k, v] of Object.entries(base)) form.set(k, v);
+    form.set('caption', `📦 Calidad completa · ${label} · ${mb.toFixed(1)} MB`);
+    form.set('disable_content_type_detection', 'true');
+    form.set('document', new Blob([fs.readFileSync(file)], { type: 'video/mp4' }), path.basename(file));
+    const res = await fetch(`https://api.telegram.org/bot${token}/sendDocument`, { method: 'POST', body: form });
+    const body = await res.json();
+    if (!body.ok) throw new Error(`Telegram no aceptó ${path.basename(file)}: ${body.description}`);
+  }
+}
+
 function estado() {
   return fs.existsSync(ESTADO) ? readJson(ESTADO) : {};
 }
