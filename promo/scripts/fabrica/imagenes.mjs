@@ -8,6 +8,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { decidirKlein, esKlein, reconciliarKlein } from './klein-estado.mjs';
 import { FAB, PROMO, loadEnv, python, readJson, slugify, writeJson } from './comun.mjs';
 
 const PUB = path.join(PROMO, 'public');
@@ -116,6 +117,13 @@ async function generar() {
 }
 
 async function decidir(o) {
+  // Replay pending Klein decisions: Actions may replace an older queued run.
+  await reconciliarKlein().catch(() => console.log('imagenes: no pude recuperar otras decisiones Klein; aplico la actual.'));
+  if (esKlein(o.imagen)) {
+    decidirKlein({ id: o.imagen, accion: o.accion });
+    console.log('imagenes: decisión Klein guardada');
+    return;
+  }
   const meta = path.join(PEND, 'pendientes.json');
   const pend = fs.existsSync(meta) ? readJson(meta) : {};
   const id = Object.keys(pend).find((k) => k.startsWith(o.imagen));

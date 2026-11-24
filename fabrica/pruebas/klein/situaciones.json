@@ -1,0 +1,42 @@
+[
+  {
+    "id": "estudiando",
+    "prompt": "Estudiando frente a un escritorio con libros abiertos en una biblioteca universitaria."
+  },
+  {
+    "id": "cafe",
+    "prompt": "Tomando una taza de café sentado en una cafetería universitaria."
+  },
+  {
+    "id": "celular",
+    "prompt": "De pie, mirando un celular que sostiene con un ala."
+  },
+  {
+    "id": "mapa",
+    "prompt": "Leyendo un mapa desplegado del campus, frente a una señal de caminos sin texto."
+  },
+  {
+    "id": "carta",
+    "prompt": "Escribiendo una carta con lápiz, sentado junto a un sobre y un escritorio."
+  },
+  {
+    "id": "pintando",
+    "prompt": "Pintando un cuadro en un caballete, con pincel y paleta."
+  },
+  {
+    "id": "minigolf",
+    "prompt": "Jugando minigolf, sosteniendo un palo junto a una pelota y un hoyo."
+  },
+  {
+    "id": "kart",
+    "prompt": "Conduciendo un pequeño kart, con las alas sobre el volante."
+  },
+  {
+    "id": "lluvia",
+    "prompt": "Caminando bajo la lluvia con un paraguas, entre pequeños charcos."
+  },
+  {
+    "id": "celebrando",
+    "prompt": "Celebrando con ambas alas levantadas y confeti alrededor."
+  }
+]
