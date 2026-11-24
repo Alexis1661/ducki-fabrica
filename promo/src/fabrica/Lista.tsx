@@ -97,9 +97,14 @@ const Sheet: React.FC<{ i: number; color: string; grid?: boolean; children: Reac
 
 // titles sit right of the counter; long ones wrap onto two lines. The plan picks the
 // style: cut-out letters (the format's own), marker, rubber stamp or label-maker tape.
-const Title: React.FC<{ text: string; seed: number; x?: number; y?: number; size?: number; start?: number; palette?: string[]; maxWidth?: number }> = ({ text, seed, x = 690, y = 175, size = 96, start = ENTER, palette, maxWidth = 700 }) => {
+const Title: React.FC<{ text: string; seed: number; x?: number; y?: number; size?: number; start?: number; palette?: string[]; maxWidth?: number }> = ({ text: own, seed, x: ownX = 690, y = 175, size: ownSize = 96, start = ENTER, palette, maxWidth: ownMax = 700 }) => {
   const f = useCurrentFrame();
   const look = useContext(LookCtx);
+  // outside a list the sheet is titled by its moment, and with no counter it centres
+  const text = look?.rotulo ?? own;
+  const x = look?.rotulo ? 540 : ownX;
+  const maxWidth = look?.rotulo ? 980 : ownMax;
+  const size = look?.rotulo ? Math.max(76, Math.min(110, 1000 / ([...text].length * 0.95))) : ownSize;
   const style = look?.titulo ?? 'recortes';
   if (style === 'recortes') {
     return (

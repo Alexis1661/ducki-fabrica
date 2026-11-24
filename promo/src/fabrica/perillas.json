@@ -14,6 +14,8 @@
     "todo":    { "hoja": "paper",  "hojas": ["paper", "cream", "kraft", "lime", "pink", "orange"], "cuadricula": true, "nota": null },
     "fin":     { "hoja": "orange", "hojas": ["orange", "lime", "pink", "kraft", "cream"], "cuadricula": false, "nota": null }
   },
+  "estructuras": ["lista", "historia", "pov", "pregunta"],
+  "rotulo_max": 16,
   "oscuras": ["cobalt", "night", "green", "red", "hot"],
   "entradas": ["deslizar", "caer", "zoom", "voltear", "rasgar"],
   "direcciones": ["derecha", "izquierda", "arriba", "abajo"],

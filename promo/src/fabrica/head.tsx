@@ -61,18 +61,24 @@ export type Look = {
   impacto: 'ninguno' | 'sacudida' | 'zoom';
   mano: boolean;
   nota: { text: string; x: number; y: number } | null;
+  /** The sheet's title instead of the function's name (historia, pov, pregunta). */
+  rotulo?: string | null;
 };
 export type Estilo = {
   subtitulos: 'papel' | 'cinta' | 'marcador' | 'maquina';
   resaltado: 'lime' | 'pink' | 'orange';
   contador: 'cinta' | 'sello' | 'postit';
   presentador: 'centro' | 'izquierda' | 'derecha';
+  /** lista: numbered points with the counter; historia / pov / pregunta: no numbers, each sheet titled by its moment. */
+  estructura?: 'lista' | 'historia' | 'pov' | 'pregunta';
 };
 export type Plan = { estilo: Estilo; escenas: Look[] };
 export const ESTILO_BASE: Estilo = { subtitulos: 'papel', resaltado: 'lime', contador: 'cinta', presentador: 'centro' };
 export const useEstilo = (): Estilo => useEp().ep.plan?.estilo ?? ESTILO_BASE;
 /** Scene i's look, or null when the episode has no plan (each scene then keeps its own). */
 export const useLookAt = (i: number): Look | null => useEp().ep.plan?.escenas[i] ?? null;
+/** Whether the episode is a numbered list (the counter and the flying numbers only show then). */
+export const useIsList = () => (useEp().ep.plan?.estilo.estructura ?? 'lista') === 'lista';
 export const isDark = (hoja: string) => (perillas.oscuras as string[]).includes(hoja);
 
 export const FPS = 30;
@@ -244,9 +250,10 @@ export const Spoken: React.FC = () => {
   const frame = useCurrentFrame();
   const { ep, T, SC } = useEp();
   const hi = P[useEstilo().resaltado];
+  const isList = useIsList();
   const f = stepped(frame);
   const items = [
-    ...SC.filter((s) => s.n).map((s) => ({ t: s.t, text: NUMS[(s.n as number) - 1] ?? String(s.n), num: true, x: 0, y: 0 })),
+    ...SC.filter((s) => s.n && isList).map((s) => ({ t: s.t, text: NUMS[(s.n as number) - 1] ?? String(s.n), num: true, x: 0, y: 0 })),
     ...ep.spoken.map((s) => ({ ...s, num: false })),
   ];
   return (
@@ -279,8 +286,9 @@ export const Counter: React.FC = () => {
   const frame = useCurrentFrame();
   const { ep, SC } = useEp();
   const estilo = useEstilo();
+  const isList = useIsList();
   const s = [...SC].reverse().find((x) => frame >= x.from);
-  if (!s || !s.n) return null;
+  if (!s || !s.n || !isList) return null;
   if (frame < s.from + FLY) return null;
   if (estilo.contador === 'sello') {
     return (

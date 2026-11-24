@@ -10,6 +10,7 @@
     {
       "funcion": "publica",
       "texto": "Uno, publica lo que pasa en tu U… y si te da pena, en anónimo.",
+      "rotulo": null,
       "favorita": false,
       "look": {
         "entrada": "deslizar",
@@ -24,6 +25,7 @@
     {
       "funcion": "mapa",
       "texto": "Dos, mira en el mapa dónde andan tus amigos.",
+      "rotulo": null,
       "favorita": false,
       "look": {
         "entrada": "deslizar",
@@ -38,6 +40,7 @@
     {
       "funcion": "pato",
       "texto": "Tres, arma tu pato con cientos de accesorios.",
+      "rotulo": null,
       "favorita": false,
       "look": {
         "entrada": "deslizar",
@@ -52,6 +55,7 @@
     {
       "funcion": "arte",
       "texto": "Cuatro, dibuja en DuckiArt. Y si ganas, tu dibujo sale en el celular de todos.",
+      "rotulo": null,
       "favorita": false,
       "look": {
         "entrada": "deslizar",
@@ -66,6 +70,7 @@
     {
       "funcion": "parche",
       "texto": "Cinco, encuentra tu parche. Gente con tus mismos gustos de cualquier universidad.",
+      "rotulo": null,
       "favorita": false,
       "look": {
         "entrada": "deslizar",
@@ -80,6 +85,7 @@
     {
       "funcion": "carta",
       "texto": "Seis, déjale una carta a alguien en su casillero, firmada o anónima.",
+      "rotulo": null,
       "favorita": false,
       "look": {
         "entrada": "deslizar",
@@ -94,6 +100,7 @@
     {
       "funcion": "crush",
       "texto": "Siete, ¿te gusta alguien? Márcalo como crush. Si te marca también, match.",
+      "rotulo": null,
       "favorita": false,
       "look": {
         "entrada": "deslizar",
@@ -108,6 +115,7 @@
     {
       "funcion": "sala",
       "texto": "Ocho, arma una Duckisala y hablen por voz con tus amigos.",
+      "rotulo": null,
       "favorita": false,
       "look": {
         "entrada": "deslizar",
@@ -122,6 +130,7 @@
     {
       "funcion": "juegos",
       "texto": "Y nueve, mi favorita, los juegos. Ducki Kart, minigolf, juego del impostor, ¿quién soy?, todo por voz.",
+      "rotulo": null,
       "favorita": true,
       "look": {
         "entrada": "deslizar",
@@ -146,6 +155,7 @@
   ],
   "plan": {
     "estilo": {
+      "estructura": "lista",
       "subtitulos": "papel",
       "resaltado": "lime",
       "contador": "cinta",

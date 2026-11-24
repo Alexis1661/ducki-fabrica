@@ -13,6 +13,7 @@ posibles están en `promo/src/fabrica/perillas.json`; el validador rechaza cualq
   con las piezas reales de esa función y un contador «n/N» arriba a la izquierda.
 - Las piezas de cada función, sus posiciones y los momentos en que se animan (las anclas que dice la
   voz) son fijos. No se inventan escenas ni recursos.
+- No todo es una lista: la estructura cambia de un día a otro (lista, historia, POV, pregunta).
 - Subtítulos abajo, palabra por palabra.
 
 ## Lo que mueves cada día (el plan)
@@ -24,6 +25,7 @@ El plan va en el guion: `plan.estilo` (todo el video), `plan.intro`, `plan.todo`
 
 | Perilla | Opciones | Qué se ve |
 |---|---|---|
+| `estructura` | `lista`, `historia`, `pov`, `pregunta` | Cómo se cuenta (reglas en formato.md). En `lista` sale el contador «n/N» y cada hoja dice el nombre de la función; en las otras tres no hay contador ni números y cada hoja se titula con su `rotulo` (el momento), centrado. |
 | `subtitulos` | `papel` | Tira de papel crema rasgado, letra de máquina; la palabra dicha se resalta con un fondo de color. El original. |
 | | `cinta` | Cinta adhesiva amarillenta, letra gruesa en mayúsculas; la palabra dicha se subraya. Más directo, más «TikTok». |
 | | `marcador` | Sin fondo: letra de marcador blanca con borde negro grueso; la palabra dicha cambia de color y crece. El más enérgico. |
@@ -70,9 +72,12 @@ El plan va en el guion: `plan.estilo` (todo el video), `plan.intro`, `plan.todo`
    compartir color (cierra el círculo).
 6. **Notas**: 0 a 2 por video, con gracia y en el tono del guion («sí, de verdad», «el de la 3 es
    mío», «sin juzgar»). Nunca repitas lo que dice la voz.
-7. **No repitas el video de ayer**: mira el plan de los episodios recientes y cambia al menos los
+7. **Estructura**: si el encargo no la pide, no repitas la de ayer; en una semana deberían salir al
+   menos tres estructuras distintas. Una historia o un POV suelen ir mejor con `subtitulos: maquina`
+   o `papel` y entradas suaves (`deslizar`, `voltear`); una lista o una pregunta aguantan más golpe.
+8. **No repitas el video de ayer**: mira el plan de los episodios recientes y cambia al menos los
    subtítulos o el contador, y la mezcla de entradas.
-8. La `mano` en `true` es la firma; apágala en 1 o 2 hojas como mucho, cuando quieras un ritmo más seco.
+9. La `mano` en `true` es la firma; apágala en 1 o 2 hojas como mucho, cuando quieras un ritmo más seco.
 
 ## Ejemplo de plan (un día «enérgico»)
 

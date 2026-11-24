@@ -3,9 +3,9 @@
   "formatos": [
     {
       "id": "lista-scrapbook",
-      "nombre": "Lista scrapbook",
+      "nombre": "Scrapbook",
       "emoji": "✂️",
-      "descripcion": "Collage de papel en stop-motion: el pato presenta una lista de 2 a 9 cosas de Ducki."
+      "descripcion": "Collage de papel en stop-motion con el pato presentador: lista, mini historia, POV o pregunta."
     }
   ]
 }

@@ -42,8 +42,9 @@ const PLAN = {
     estilo: {
       type: 'object',
       additionalProperties: false,
-      required: ['subtitulos', 'resaltado', 'contador', 'presentador', 'musica'],
+      required: ['estructura', 'subtitulos', 'resaltado', 'contador', 'presentador', 'musica'],
       properties: {
+        estructura: { type: 'string', enum: PERILLAS.estructuras, description: 'Cómo se cuenta el video: lista numerada, historia, POV o pregunta. Ver formato.md.' },
         subtitulos: { type: 'string', enum: PERILLAS.subtitulos },
         resaltado: { type: 'string', enum: PERILLAS.resaltados },
         contador: { type: 'string', enum: PERILLAS.contadores },
@@ -83,14 +84,15 @@ export function esquema() {
       intro: { type: 'string', description: 'Lo primero que dice el presentador: el gancho hablado, nombra a Ducki.' },
       puntos: {
         type: 'array',
-        description: 'Entre 2 y 9 puntos, cada uno de una función distinta.',
+        description: 'Entre 2 y 9 hojas, cada una con una función distinta (en una lista son los puntos; en historia, POV o pregunta, los momentos).',
         items: {
           type: 'object',
           additionalProperties: false,
-          required: ['funcion', 'texto', 'favorita', 'look'],
+          required: ['funcion', 'texto', 'rotulo', 'favorita', 'look'],
           properties: {
             funcion: { type: 'string', enum: ESCENAS },
-            texto: { type: 'string', description: 'Lo que dice en este punto; empieza con el número en palabra.' },
+            texto: { type: 'string', description: 'Lo que dice la voz en esta hoja. En una lista empieza con el número en palabra; en historia, POV o pregunta, nunca.' },
+            rotulo: nullable({ type: 'string', description: `Título de la hoja fuera de una lista: el momento de la historia, en mayúsculas, máximo ${PERILLAS.rotulo_max} caracteres (ej. "LUNES 7 AM", "EN LA FILA"). null en una lista.` }),
             favorita: { type: 'boolean' },
             look: LOOK,
           },
@@ -137,6 +139,6 @@ export function resumen(spec) {
   const e = spec.plan?.estilo;
   return {
     gancho: spec.gancho?.titulo, funciones: (spec.puntos ?? []).map((p) => p.funcion),
-    ...(e ? { estilo: `${e.subtitulos}/${e.contador}/${e.resaltado}/${e.musica?.bpm}bpm`, entradas: (spec.puntos ?? []).map((p) => p.look?.entrada) } : {}),
+    ...(e ? { estructura: e.estructura ?? 'lista', estilo: `${e.subtitulos}/${e.contador}/${e.resaltado}/${e.musica?.bpm}bpm`, entradas: (spec.puntos ?? []).map((p) => p.look?.entrada) } : {}),
   };
 }

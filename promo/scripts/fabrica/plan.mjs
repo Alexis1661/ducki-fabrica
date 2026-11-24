@@ -31,6 +31,14 @@ export function revisarPlan(spec, funciones) {
   one(e.resaltado, K.resaltados, 'estilo.resaltado');
   one(e.contador, K.contadores, 'estilo.contador');
   one(e.presentador, K.presentador, 'estilo.presentador');
+  one(e.estructura, K.estructuras, 'estilo.estructura');
+  if ((e.estructura ?? 'lista') !== 'lista') {
+    (spec.puntos ?? []).forEach((p, k) => {
+      if (!p.rotulo?.trim()) err.push(`puntos[${k}].rotulo: en una ${e.estructura} cada hoja lleva su rótulo (el momento, no el nombre de la función)`);
+      else if ([...p.rotulo].length > K.rotulo_max) err.push(`puntos[${k}].rotulo tiene más de ${K.rotulo_max} caracteres`);
+      if (/^\s*(y\s+)?(uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez)\s*[,.:]/i.test(p.texto ?? '')) err.push(`puntos[${k}].texto empieza con un número: eso es de una lista, no de una ${e.estructura}`);
+    });
+  }
   const m = e.musica ?? {};
   if (m.bpm != null && (m.bpm < K.musica.bpm[0] || m.bpm > K.musica.bpm[1])) err.push(`musica.bpm fuera de ${K.musica.bpm.join('–')}`);
   if (m.tono != null && (m.tono < K.musica.tono[0] || m.tono > K.musica.tono[1])) err.push(`musica.tono fuera de ${K.musica.tono.join('…')}`);
@@ -56,7 +64,10 @@ export function revisarPlan(spec, funciones) {
 /** The plan the template reads (Episode.plan): one look per scene, every knob set. */
 export function planEpisodio(spec, funciones) {
   const e = spec.plan?.estilo ?? {};
+  const estructura = e.estructura ?? 'lista';
   const ids = escenasDe(spec, funciones);
+  // the title each sheet shows instead of the function's name (not in a list)
+  const rotulos = ['', ...spec.puntos.map((p) => (estructura === 'lista' ? '' : (p.rotulo ?? '').trim().toUpperCase())), ...(spec.cierre_todo ? [''] : []), ''];
   const escenas = looksDe(spec).map((l, i) => {
     const def = K.escenas[ids[i]] ?? { hoja: 'paper', cuadricula: false, nota: null };
     return {
@@ -68,6 +79,7 @@ export function planEpisodio(spec, funciones) {
       impacto: l.impacto ?? 'ninguno',
       mano: l.mano ?? true,
       nota: def.nota && l.nota ? { text: l.nota, x: def.nota[0], y: def.nota[1] } : null,
+      rotulo: rotulos[i] || null,
     };
   });
   return {
@@ -76,6 +88,7 @@ export function planEpisodio(spec, funciones) {
       resaltado: e.resaltado ?? 'lime',
       contador: e.contador ?? 'cinta',
       presentador: e.presentador ?? 'centro',
+      estructura,
     },
     escenas,
   };
