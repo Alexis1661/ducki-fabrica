@@ -22,7 +22,8 @@ on:
         default: false
   repository_dispatch:
     # fabrica-voz: someone replied to the script with the audio (file_id from Telegram)
-    types: [fabrica-encargo, fabrica-ajuste, fabrica-voz]
+    # fabrica-generar: the script was approved; ElevenLabs voices it and the video is built
+    types: [fabrica-encargo, fabrica-ajuste, fabrica-voz, fabrica-generar]
 
 # one at a time: each run commits its episode back to the repo
 concurrency:
@@ -109,7 +110,9 @@ jobs:
           TEXTO: ${{ github.event.client_payload.texto }}
           ARCHIVO: ${{ github.event.client_payload.archivo }}
         run: |
-          if [ "$EVENTO" = "repository_dispatch" ] && [ "$ACCION" = "fabrica-voz" ]; then
+          if [ "$EVENTO" = "repository_dispatch" ] && [ "$ACCION" = "fabrica-generar" ]; then
+            node scripts/fabrica/ci.mjs generar --episodio "$EPISODIO"
+          elif [ "$EVENTO" = "repository_dispatch" ] && [ "$ACCION" = "fabrica-voz" ]; then
             node scripts/fabrica/ci.mjs voz --episodio "$EPISODIO" --archivo "$ARCHIVO"
           elif [ "$EVENTO" = "repository_dispatch" ] && [ "$ACCION" = "fabrica-ajuste" ]; then
             node scripts/fabrica/ci.mjs ajuste --episodio "$EPISODIO" --texto "$TEXTO"

@@ -5,7 +5,8 @@
 //
 // With the voice made by hand (FABRICA_VOZ=manual, the default):
 //   node scripts/fabrica/ci.mjs nuevo [--formato id] [--encargo "…"]   writes the script, posts it to the topic
-//   (someone replies to it with the audio → «fabrica-voz»)
+//   («Aprobar guion» → «fabrica-generar»; or someone replies with their own audio → «fabrica-voz»)
+//   node scripts/fabrica/ci.mjs generar --episodio <id>     ElevenLabs voices the script, builds the video
 //   node scripts/fabrica/ci.mjs voz --episodio <id> --archivo <telegram file_id>
 //                                                            builds the video, posts it for review
 //   node scripts/fabrica/ci.mjs ajuste --episodio <id> --texto "…"
@@ -103,6 +104,18 @@ async function voz(o) {
   console.log(`video enviado a Telegram: ${path.basename(ep.dir)}`);
 }
 
+/** The script was approved: ElevenLabs voices it and the video goes for review. */
+async function generar(o) {
+  const dir = carpeta(o.episodio);
+  const spec = readJson(path.join(dir, 'spec.json'));
+  const version = Number(path.basename(dir).match(/-v(\d+)$/)?.[1] ?? 1);
+  const ep = await armarEpisodio({ specObj: spec, voz: 'eleven', salida: dir });
+  salida(ep.dir);
+  if (!ep.files.length) return;
+  await enviarPropuesta({ dir: ep.dir, id: path.basename(ep.dir), spec: ep.spec, video: ep.files[0], version });
+  console.log(`video enviado a Telegram: ${path.basename(ep.dir)}`);
+}
+
 async function ajuste(o) {
   if (!o.texto || o.texto === true) throw new Error('ajuste necesita --episodio y --texto');
   const dir = carpeta(o.episodio);
@@ -132,6 +145,6 @@ async function ajuste(o) {
 
 loadEnv();
 const cmd = process.argv[2];
-const run = { nuevo, voz, ajuste }[cmd];
-if (!run) { console.error('uso: ci.mjs nuevo|voz|ajuste …'); process.exit(2); }
+const run = { nuevo, voz, generar, ajuste }[cmd];
+if (!run) { console.error('uso: ci.mjs nuevo|voz|generar|ajuste …'); process.exit(2); }
 run(args()).catch((e) => { console.error(String(e.message ?? e)); process.exit(1); });

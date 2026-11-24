@@ -18,8 +18,8 @@ const need = (k) => {
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const ESTADO = path.join(FAB, '.estado.json');
 
-/** Callback data is capped at 64 bytes: "f:ok:" + the episode id. */
-export const idCorto = (id) => Buffer.from(id).subarray(0, 59).toString().replace(/�+$/, '');
+/** Callback data is capped at 64 bytes: "f:ok:" + the episode id (the factory finds a folder by its prefix). */
+export const idCorto = (id, max = 59) => Buffer.from(id).subarray(0, max).toString().replace(/�+$/, '');
 
 /**
  * The video goes as it was rendered (1080p, with music): Telegram keeps a bot's
@@ -90,22 +90,28 @@ export async function enviarGuion({ dir, id, spec, texto, version = 1 }) {
   const token = need('TELEGRAM_BOT_TOKEN'), chat = need('TELEGRAM_CHAT_ID');
   const topic = Number(process.env.TELEGRAM_TOPIC_FABRICA ?? 0);
   const text = [
-    `<b>🎙 Guion · ${esc(spec.gancho?.titulo)}</b>${version > 1 ? ` (versión ${version})` : ''}`,
-    'Pega esto en ElevenLabs con la voz del pato:',
+    `<b>📝 Guion · ${esc(spec.gancho?.titulo)}</b>${version > 1 ? ` (versión ${version})` : ''}`,
     `<pre>${esc(texto)}</pre>`,
-    '<b>Responde a este mensaje</b> (mantén presionado → Responder) con:',
-    '🎙 el audio (mp3 o wav) → arma el video',
-    '💬 una instrucción («más corto», «otro gancho») → la IA lo reescribe',
-    '📝 el texto del recuadro editado, con las mismas líneas → queda como lo escribiste',
+    '<b>✅ Aprobar guion</b> → la voz del pato (ElevenLabs) y el video llegan aquí en unos minutos.',
+    'Para cambiarlo, toca <b>✏️ Ajustar</b> o <b>responde a este mensaje</b> con una instrucción («más corto», «otro gancho») o con el texto del recuadro editado (mismas líneas).',
     '',
     `<i>Texto para publicar:</i> ${esc(spec.caption)}`,
     '',
     `🆔 <code>${esc(id)}</code>`,
   ].join('\n');
+  const short = idCorto(id, 58);
   const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: chat, ...(topic ? { message_thread_id: topic } : {}), text, parse_mode: 'HTML' }),
+    body: JSON.stringify({
+      chat_id: chat, ...(topic ? { message_thread_id: topic } : {}), text, parse_mode: 'HTML',
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: '✅ Aprobar guion', callback_data: `f:gok:${short}` }, { text: '✏️ Ajustar', callback_data: `f:aj:${short}` }],
+          [{ text: '🗑 Descartar', callback_data: `f:no:${short}` }],
+        ],
+      },
+    }),
   });
   const body = await res.json();
   if (!body.ok) throw new Error(`Telegram no aceptó el guion: ${body.description}`);
