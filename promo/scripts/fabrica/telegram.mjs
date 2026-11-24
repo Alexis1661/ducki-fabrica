@@ -21,17 +21,28 @@ const ESTADO = path.join(FAB, '.estado.json');
 /** Callback data is capped at 64 bytes: "f:ok:" + the episode id. */
 export const idCorto = (id) => Buffer.from(id).subarray(0, 59).toString().replace(/�+$/, '');
 
-/** Telegram bots upload up to 50 MB: the preview is a lighter copy (720p). */
-function preview(video, dir) {
-  const out = path.join(dir, 'vista-previa.mp4');
-  ffmpeg(['-i', video, '-vf', 'scale=720:-2', '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '27', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart', out]);
+/**
+ * The video goes as it was rendered (1080p, with music): Telegram keeps a bot's
+ * upload as it is, so the one in the topic is the one to publish. Bots upload up
+ * to 50 MB; a heavier render is re-encoded at the bitrate that just fits, still 1080p.
+ */
+const MAX_MB = 49.5;
+function paraTelegram(video, dir) {
+  if (fs.statSync(video).size / 1e6 <= MAX_MB) return video;
+  const secs = duration(video);
+  const kbps = Math.floor(((MAX_MB - 1.5) * 8000) / secs) - 192;
+  const out = path.join(dir, 'telegram-1080p.mp4');
+  const pass = path.join(dir, 'ffpass');
+  ffmpeg(['-i', video, '-c:v', 'libx264', '-preset', 'slow', '-b:v', `${kbps}k`, '-pass', '1', '-passlogfile', pass, '-an', '-f', 'mp4', process.platform === 'win32' ? 'NUL' : '/dev/null']);
+  ffmpeg(['-i', video, '-c:v', 'libx264', '-preset', 'slow', '-b:v', `${kbps}k`, '-pass', '2', '-passlogfile', pass, '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', out]);
+  for (const f of fs.readdirSync(dir)) if (f.startsWith('ffpass')) fs.rmSync(path.join(dir, f));
   return out;
 }
 
 export async function enviarPropuesta({ dir, id, spec, video, version = 1 }) {
   const token = need('TELEGRAM_BOT_TOKEN'), chat = need('TELEGRAM_CHAT_ID');
   const topic = Number(process.env.TELEGRAM_TOPIC_FABRICA ?? 0);
-  const file = preview(video, dir);
+  const file = paraTelegram(video, dir);
   const secs = Math.round(duration(file));
   let caption = [
     `<b>🎬 Fábrica · ${esc(spec.gancho?.titulo)}</b>${version > 1 ? ` (versión ${version})` : ''}`,
@@ -51,8 +62,8 @@ export async function enviarPropuesta({ dir, id, spec, video, version = 1 }) {
   form.set('caption', caption);
   form.set('parse_mode', 'HTML');
   form.set('supports_streaming', 'true');
-  form.set('width', '720');
-  form.set('height', '1280');
+  form.set('width', '1080');
+  form.set('height', '1920');
   form.set('duration', String(secs));
   form.set('reply_markup', JSON.stringify({
     inline_keyboard: [
@@ -114,37 +125,6 @@ export async function bajarArchivo(fileId, destSinExt) {
   const out = destSinExt + ext;
   fs.writeFileSync(out, Buffer.from(await bin.arrayBuffer()));
   return out;
-}
-
-/**
- * The full-quality videos (1080p, with and without music) as files, in reply to the
- * proposal: Telegram keeps a document as it is, so these are the ones to publish.
- * A bot can upload up to 50 MB; a heavier file is said in the topic instead.
- */
-export async function enviarArchivos({ dir, files }) {
-  const token = need('TELEGRAM_BOT_TOKEN'), chat = need('TELEGRAM_CHAT_ID');
-  const topic = Number(process.env.TELEGRAM_TOPIC_FABRICA ?? 0);
-  const tg = fs.existsSync(path.join(dir, 'telegram.json')) ? readJson(path.join(dir, 'telegram.json')) : {};
-  const base = { chat_id: chat, ...(topic ? { message_thread_id: String(topic) } : {}), ...(tg.message_id ? { reply_to_message_id: String(tg.message_id) } : {}) };
-  for (const file of files) {
-    const mb = fs.statSync(file).size / 1e6;
-    const label = file.includes('sin-musica') ? 'sin música (TikTok: ponle un sonido en tendencia)' : 'con música (Instagram)';
-    if (mb > 49.5) {
-      await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...base, text: `⚠️ El video ${label} pesa ${mb.toFixed(0)} MB y el bot solo sube hasta 50 MB.` }),
-      });
-      continue;
-    }
-    const form = new FormData();
-    for (const [k, v] of Object.entries(base)) form.set(k, v);
-    form.set('caption', `📦 Calidad completa · ${label} · ${mb.toFixed(1)} MB`);
-    form.set('disable_content_type_detection', 'true');
-    form.set('document', new Blob([fs.readFileSync(file)], { type: 'video/mp4' }), path.basename(file));
-    const res = await fetch(`https://api.telegram.org/bot${token}/sendDocument`, { method: 'POST', body: form });
-    const body = await res.json();
-    if (!body.ok) throw new Error(`Telegram no aceptó ${path.basename(file)}: ${body.description}`);
-  }
 }
 
 function estado() {

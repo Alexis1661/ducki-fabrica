@@ -167,7 +167,7 @@ async function main() {
     const dir = path.resolve(o.revisar);
     const spec = readJson(path.join(dir, 'spec.json'));
     const files = fs.readdirSync(dir)
-      .filter((f) => f.endsWith('.mp4') && !f.includes('sin-musica') && f !== 'vista-previa.mp4')
+      .filter((f) => f.endsWith('.mp4') && !f.includes('sin-musica') && f !== 'vista-previa.mp4' && f !== 'telegram-1080p.mp4')
       .map((f) => path.join(dir, f));
     if (!files.length) throw new Error(`No hay video en ${dir}`);
     const seed = fs.existsSync(path.join(dir, 'episodio.json')) ? readJson(path.join(dir, 'episodio.json')).seed : 1;
