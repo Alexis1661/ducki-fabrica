@@ -10,8 +10,8 @@ import path from 'node:path';
 import { FAB, readJson } from './comun.mjs';
 import { ESCENAS } from './linea.mjs';
 
-const MODEL = () => process.env.FABRICA_MODELO ?? 'claude-opus-5-5';
-const EFFORT = () => process.env.FABRICA_ESFUERZO ?? 'low';
+const MODEL = () => process.env.FABRICA_MODELO || 'claude-opus-5-5';
+const EFFORT = () => process.env.FABRICA_ESFUERZO || 'low';
 
 const nullable = (s) => ({ anyOf: [s, { type: 'null' }] });
 export const SPEC_SCHEMA = {
@@ -95,7 +95,7 @@ async function askCli(userText) {
   const env = { ...process.env };
   delete env.ANTHROPIC_API_KEY; // an empty one would shadow the subscription token
   const args = ['-p', '--output-format', 'json', '--json-schema', JSON.stringify(SPEC_SCHEMA),
-    '--system-prompt-file', sysFile, '--model', process.env.FABRICA_MODELO_CLI ?? 'opus',
+    '--system-prompt-file', sysFile, '--model', process.env.FABRICA_MODELO_CLI || 'opus',
     '--effort', EFFORT(), '--tools', '', '--no-session-persistence'];
   const out = await new Promise((resolve, reject) => {
     const p = spawn(process.env.CLAUDE_BIN ?? 'claude', args, { env, stdio: ['pipe', 'pipe', 'pipe'] });
@@ -104,7 +104,7 @@ async function askCli(userText) {
     p.stderr.on('data', (d) => { se += d; });
     p.on('error', (e) => reject(new Error(`No pude correr Claude Code (${e.message}); ¿está instalado?`)));
     p.on('close', (code) => (code === 0 ? resolve(so) : reject(new Error(
-      `Claude Code salió con código ${code}: ${(se || so).trim().slice(-600)} (si dice límite de uso, la suscripción llegó al tope de hoy)`))));
+      `Claude Code salió con código ${code}: ${(so.trim().slice(-500) + ' ' + se.trim().slice(-300)).trim()} (si dice límite de uso, la suscripción llegó al tope de hoy)`))));
     p.stdin.end(userText);
   });
   fs.rmSync(tmp, { recursive: true, force: true });
