@@ -37,6 +37,9 @@ jobs:
         working-directory: promo
     env:
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      # without an API key, the script is written through Claude Code with the
+      # Pro subscription token (`claude setup-token`)
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
       ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
       ELEVENLABS_VOICE_ID: ${{ secrets.ELEVENLABS_VOICE_ID }}
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -45,15 +48,15 @@ jobs:
       FABRICA_MODELO: ${{ vars.FABRICA_MODELO }}
       FABRICA_ESFUERZO: ${{ vars.FABRICA_ESFUERZO }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
           cache-dependency-path: promo/package-lock.json
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
@@ -63,6 +66,7 @@ jobs:
           pip install -q numpy scipy
           npm ci --no-audit --no-fund
           npx remotion browser ensure
+          npm install -g --no-audit --no-fund @anthropic-ai/claude-code@2.1.331
 
       # app captures show real users, so the public repo only has them encrypted
       - name: Capturas

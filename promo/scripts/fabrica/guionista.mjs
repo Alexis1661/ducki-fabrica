@@ -3,7 +3,9 @@
 // adjustment; the long, stable part of the prompt (rules, the functions sheet, the
 // format, an example) is cached between calls.
 import Anthropic from '@anthropic-ai/sdk';
+import { spawn } from 'node:child_process';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { FAB, readJson } from './comun.mjs';
 import { ESCENAS } from './linea.mjs';
@@ -81,7 +83,42 @@ function recientes(n = 8) {
   });
 }
 
+// Without an API key but with CLAUDE_CODE_OAUTH_TOKEN (`claude setup-token`, a
+// Pro/Max subscription), the script goes through the Claude Code CLI instead:
+// same prompt and schema, billed against the subscription's usage limits.
+const viaCli = () => !process.env.ANTHROPIC_API_KEY && !!process.env.CLAUDE_CODE_OAUTH_TOKEN;
+
+async function askCli(userText) {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'guionista-'));
+  const sysFile = path.join(tmp, 'system.md');
+  fs.writeFileSync(sysFile, systemPrompt());
+  const env = { ...process.env };
+  delete env.ANTHROPIC_API_KEY; // an empty one would shadow the subscription token
+  const args = ['-p', '--output-format', 'json', '--json-schema', JSON.stringify(SPEC_SCHEMA),
+    '--system-prompt-file', sysFile, '--model', process.env.FABRICA_MODELO_CLI ?? 'opus',
+    '--effort', EFFORT(), '--tools', '', '--no-session-persistence'];
+  const out = await new Promise((resolve, reject) => {
+    const p = spawn(process.env.CLAUDE_BIN ?? 'claude', args, { env, stdio: ['pipe', 'pipe', 'pipe'] });
+    let so = '', se = '';
+    p.stdout.on('data', (d) => { so += d; });
+    p.stderr.on('data', (d) => { se += d; });
+    p.on('error', (e) => reject(new Error(`No pude correr Claude Code (${e.message}); ¿está instalado?`)));
+    p.on('close', (code) => (code === 0 ? resolve(so) : reject(new Error(
+      `Claude Code salió con código ${code}: ${(se || so).trim().slice(-600)} (si dice límite de uso, la suscripción llegó al tope de hoy)`))));
+    p.stdin.end(userText);
+  });
+  fs.rmSync(tmp, { recursive: true, force: true });
+  const res = JSON.parse(out);
+  if (res.is_error) throw new Error(`Claude Code no escribió el guion: ${String(res.result ?? res.subtype).slice(0, 400)}`);
+  const u = res.usage ?? {};
+  console.log(`guionista (Claude Code, suscripción): entrada ${u.input_tokens ?? '?'} (+${u.cache_read_input_tokens ?? 0} en caché), salida ${u.output_tokens ?? '?'} tokens`);
+  if (res.structured_output) return res.structured_output;
+  const text = String(res.result ?? '').replace(/^```(?:json)?\s*|\s*```$/g, '');
+  return JSON.parse(text);
+}
+
 async function ask(userText) {
+  if (viaCli()) return askCli(userText);
   const client = new Anthropic();
   const res = await client.beta.messages.create({
     model: MODEL(),
