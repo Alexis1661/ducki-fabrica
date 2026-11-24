@@ -9,7 +9,10 @@
 //   node scripts/fabrica/ci.mjs voz --episodio <id> --archivo <telegram file_id>
 //                                                            builds the video, posts it for review
 //   node scripts/fabrica/ci.mjs ajuste --episodio <id> --texto "…"
-//                                                            new script version, posted for a new voice
+//                                                            new script version, posted for a new voice:
+//                                                            the script's own lines edited by hand are
+//                                                            taken as they are; anything else is an
+//                                                            instruction for the writer
 //
 // With FABRICA_VOZ=eleven (ElevenLabs API on a paid plan), nuevo and ajuste build
 // the video straight away.
@@ -47,6 +50,24 @@ function carpeta(id) {
   const exact = hits.filter((d) => !/-v\d+$/.test(d.slice(id.length)));
   if (exact.length === 1 || hits.length === 1) return path.join(EPIS, (exact[0] ?? hits[0]));
   throw new Error(hits.length ? `«${id}» coincide con varios episodios: ${hits.join(', ')}` : `No encuentro ${id} en fabrica/episodios`);
+}
+
+/**
+ * The script edited by hand: the reply has exactly the script's lines (intro,
+ * one per point, closing), so each one replaces its own. Null when the text is
+ * an instruction instead.
+ */
+function editadoAMano(spec, texto) {
+  const segs = segmentos(spec);
+  const lines = String(texto).split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+  if (segs.length < 3 || lines.length !== segs.length) return null;
+  const out = structuredClone(spec);
+  let k = 0;
+  out.intro = lines[k++];
+  for (const p of out.puntos) p.texto = lines[k++];
+  if (out.cierre_todo) out.cierre_todo = lines[k++];
+  out.cierre = lines[k++];
+  return out;
 }
 
 /** Saves a script and posts it to the topic, waiting for someone's voice. */
@@ -97,8 +118,12 @@ async function ajuste(o) {
   const prev = readJson(path.join(dir, 'spec.json'));
   const version = Number(id.match(/-v(\d+)$/)?.[1] ?? 1) + 1;
   const nueva = path.join(EPIS, `${id.replace(/-v\d+$/, '')}-v${version}`);
-  const { reescribirGuion } = await import('./guionista.mjs');
-  const specObj = await reescribirGuion(prev, o.texto);
+  let specObj = manual() ? editadoAMano(prev, o.texto) : null;
+  if (specObj) console.log('ajuste: el guion editado a mano, línea por línea');
+  else {
+    const { reescribirGuion } = await import('./guionista.mjs');
+    specObj = await reescribirGuion(prev, o.texto);
+  }
   if (manual()) {
     await guardarGuion(specObj, nueva, version);
     fs.writeFileSync(path.join(nueva, 'ajuste.txt'), `${o.texto}\n`);
