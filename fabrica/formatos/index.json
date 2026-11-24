@@ -1,0 +1,11 @@
+{
+  "_": "Formatos de la fábrica. El bot de Telegram lee este archivo (desde main) para ofrecerlos en /video; cada uno tiene su carpeta aquí y su módulo en promo/scripts/fabrica/formatos/<id>.mjs.",
+  "formatos": [
+    {
+      "id": "lista-scrapbook",
+      "nombre": "Lista scrapbook",
+      "emoji": "✂️",
+      "descripcion": "Collage de papel en stop-motion: el pato presenta una lista de 2 a 9 cosas de Ducki."
+    }
+  ]
+}

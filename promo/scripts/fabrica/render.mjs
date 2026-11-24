@@ -9,16 +9,12 @@ import path from 'node:path';
 import { PROMO, ffmpeg } from './comun.mjs';
 
 // Only what the template uses: bundling all of public/ would copy ~1 GB of clips into %TEMP%.
-function publicDir() {
+function publicDir(fmt) {
   const pub = path.resolve(process.env.TEMP ?? '.', 'fabrica-public');
   fs.rmSync(pub, { recursive: true, force: true });
   const walk = (d) => fs.readdirSync(path.join(PROMO, 'public', d), { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(`${d}/${e.name}`) : [`${d}/${e.name}`]));
-  const files = [
-    ...walk('todo').filter((f) => !/\/(voz|voz16|music|sfx)\.wav$/.test(f)),
-    ...walk('fabrica/piezas'), ...walk('fuentes'), ...walk('ducks'), ...walk('duckart/weekly'), ...walk('parches/cat'), ...walk('logos'),
-    'app/icon.png', 'app/duck-anon.png', 'screens/feed.jpg', 'map/cali.png', 'stores/app-store.svg', 'stores/google-play.png',
-    'parches/duckisalas-ducks.png', 'parches/games/kart.mp4', 'parches/games/golf.mp4', 'v0110/carta.mp4',
-  ];
+  const files = fmt.publico.flatMap((p) => (fs.statSync(path.join(PROMO, 'public', p)).isDirectory() ? walk(p) : [p]))
+    .filter((f) => !/^todo\/.*\/?(voz|voz16|music|sfx)\.wav$/.test(f));
   for (const f of files) {
     fs.mkdirSync(path.dirname(path.join(pub, f)), { recursive: true });
     fs.copyFileSync(path.join(PROMO, 'public', f), path.join(pub, f));
@@ -38,12 +34,13 @@ export function mix(video, out, { voz, sfx, musica, v0, musicVol = 0.13 }) {
   ffmpeg([...inputs, '-filter_complex', filter, '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-movflags', '+faststart', '-shortest', out]);
 }
 
-export async function renderEpisodio({ episode, dir, slug, stills = null }) {
-  const pub = publicDir();
+export async function renderEpisodio({ episode, dir, slug, stills = null, fmt }) {
+  if (!fmt) fmt = await (await import('./formatos/index.mjs')).cargarFormato(null);
+  const pub = publicDir(fmt);
   try {
     const serveUrl = await bundle({ entryPoint: path.join(PROMO, 'src', 'fabrica', 'index.ts'), publicDir: pub });
     const inputProps = { episode };
-    const composition = await selectComposition({ serveUrl, id: 'Lista', inputProps });
+    const composition = await selectComposition({ serveUrl, id: fmt.composicion, inputProps });
     if (stills) {
       for (const s of stills) {
         const frame = Math.min(composition.durationInFrames - 1, Math.round(s * composition.fps));

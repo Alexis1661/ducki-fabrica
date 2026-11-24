@@ -1,0 +1,180 @@
+# Formatos nuevos de la fábrica. El bot de moderación lanza estos eventos desde Telegram:
+#   fabrica-formato            /formato con links de TikTok o videos → Opus estudia las referencias,
+#                              crea el formato en la rama formato/<id> y manda su primer video
+#   fabrica-formato-ajuste     «Ajustar» en ese video → Opus aplica el cambio en la misma rama
+#   fabrica-formato-aprobar    «Aprobar formato» → la rama se une a main y aparece en /video
+#   fabrica-formato-descartar  «Descartar» → se borra la rama
+# Opus corre con la suscripción Pro (CLAUDE_CODE_OAUTH_TOKEN): un formato gasta bastante del límite.
+name: Formato
+
+on:
+  repository_dispatch:
+    types: [fabrica-formato, fabrica-formato-ajuste, fabrica-formato-aprobar, fabrica-formato-descartar]
+
+concurrency:
+  group: fabrica-formato
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+env:
+  TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+  TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+  TELEGRAM_TOPIC_FABRICA: ${{ secrets.TELEGRAM_TOPIC_FABRICA }}
+
+jobs:
+  crear:
+    if: github.event.action == 'fabrica-formato' || github.event.action == 'fabrica-formato-ajuste'
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    defaults:
+      run:
+        working-directory: promo
+    env:
+      ACCION: ${{ github.event.action }}
+      FORMATO: ${{ github.event.client_payload.formato }}
+      TEXTO: ${{ github.event.client_payload.texto }}
+      ARCHIVOS: ${{ github.event.client_payload.archivos }}
+      WHISPER_MODEL: small
+    steps:
+      - name: Rama
+        id: rama
+        working-directory: .
+        run: |
+          if [ "$ACCION" = "fabrica-formato-ajuste" ]; then
+            case "$FORMATO" in ''|*[!a-z0-9-]*) echo "formato inválido: $FORMATO"; exit 1;; esac
+            echo "ref=formato/$FORMATO" >> "$GITHUB_OUTPUT"
+          else
+            echo "ref=main" >> "$GITHUB_OUTPUT"
+          fi
+
+      # no credentials left in the checkout: the agent cannot push; the last step does
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ steps.rama.outputs.ref }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: promo/package-lock.json
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: whisper-small-v1
+
+      - name: Dependencias
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-color-emoji > /dev/null
+          pip install -q numpy scipy faster-whisper yt-dlp
+          npm ci --no-audit --no-fund
+          npx remotion browser ensure
+          npm install -g --no-audit --no-fund @anthropic-ai/claude-code@2.1.331
+
+      - name: Capturas
+        env:
+          CAPTURAS_KEY: ${{ secrets.CAPTURAS_KEY }}
+        working-directory: .
+        run: |
+          openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -pass env:CAPTURAS_KEY \
+            -in promo/capturas.tar.enc | tar -xf -
+
+      - name: Referencias
+        if: env.ACCION == 'fabrica-formato'
+        run: |
+          node scripts/fabrica/formato-telegram.mjs aviso "🧠 Opus está estudiando las referencias. El formato y su primer video llegan aquí en 30–90 minutos."
+          node scripts/fabrica/referencias.mjs --texto "$TEXTO" --archivos "$ARCHIVOS" --salida ../referencias
+
+      # Opus gets only its own token: no Telegram or repo credentials in this step
+      - name: Opus crea el formato
+        working-directory: .
+        env:
+          TELEGRAM_BOT_TOKEN: ''
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          if [ "$ACCION" = "fabrica-formato-ajuste" ]; then
+            PROMPT="El formato «$FORMATO» (la rama actual) recibió este ajuste del equipo, entre comillas angulares: «$TEXTO». Lee fabrica/formatos/AGENTE-FORMATO.md (mismas reglas; las referencias están en fabrica/formatos/$FORMATO/referencias/), aplica el ajuste, vuelve a renderizar el primer video en fabrica/formatos/$FORMATO/primer-video y escribe de nuevo formato-nuevo.json con un resumen de lo que cambiaste."
+          else
+            PROMPT="Lee fabrica/formatos/AGENTE-FORMATO.md y síguelo de principio a fin. Las referencias están en referencias/ (empieza por referencias/README.md). El id del formato: kebab-case, sin tildes, máximo 40 caracteres, distinto de los que ya están en fabrica/formatos/index.json."
+          fi
+          claude -p "$PROMPT" --model opus --max-turns 400 --output-format json \
+            --allowedTools "Read,Write,Edit,Glob,Grep,Bash,TodoWrite" \
+            --disallowedTools "WebFetch,WebSearch,Bash(curl:*),Bash(wget:*),Bash(git push:*),Bash(git remote:*)" \
+            > ../opus.json || true
+          node -e "const r=require('./opus.json');console.log('Opus:', r.subtype, '· turnos', r.num_turns, '·', String(r.result||'').slice(-1500))" || tail -c 2000 opus.json
+          test -f formato-nuevo.json || { echo "Opus no dejó formato-nuevo.json"; exit 1; }
+
+      - name: Comprobar
+        id: comprobar
+        working-directory: .
+        run: |
+          ID=$(node -p "require('./formato-nuevo.json').id")
+          case "$ID" in ''|*[!a-z0-9-]*) echo "id inválido: $ID"; exit 1;; esac
+          test -f "$(node -p "require('./formato-nuevo.json').video")"
+          (cd promo && npx tsc -p .)
+          node -e "const f=require('./fabrica/formatos/index.json').formatos;if(!f.some(x=>x.id==='$ID'))throw new Error('falta en index.json')"
+          echo "id=$ID" >> "$GITHUB_OUTPUT"
+
+      - name: Guardar en la rama
+        working-directory: .
+        env:
+          ID: ${{ steps.comprobar.outputs.id }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -d referencias ]; then mkdir -p "fabrica/formatos/$ID" && rm -rf "fabrica/formatos/$ID/referencias" && mv referencias "fabrica/formatos/$ID/referencias"; fi
+          V=$(( $(cat "fabrica/formatos/$ID/.version" 2>/dev/null || echo 0) + 1 )); echo "$V" > "fabrica/formatos/$ID/.version"
+          git config user.name "fabrica-bot"
+          git config user.email "fabrica-bot@users.noreply.github.com"
+          git checkout -B "formato/$ID"
+          git add -A fabrica promo
+          git commit -q -m "formato: $ID (versión $V)" || true
+          git push -q --force "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" "formato/$ID"
+          echo "V=$V" >> "$GITHUB_ENV"
+
+      - name: Mandar a Telegram
+        run: node scripts/fabrica/formato-telegram.mjs propuesta ../formato-nuevo.json "$V"
+
+      - name: Avisar si falló
+        if: failure()
+        run: node scripts/fabrica/formato-telegram.mjs aviso "⚠️ No pude terminar el formato. Detalle en ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" || true
+
+  decidir:
+    if: github.event.action == 'fabrica-formato-aprobar' || github.event.action == 'fabrica-formato-descartar'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      ACCION: ${{ github.event.action }}
+      FORMATO: ${{ github.event.client_payload.formato }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Unir o borrar
+        run: |
+          case "$FORMATO" in ''|*[!a-z0-9-]*) echo "formato inválido: $FORMATO"; exit 1;; esac
+          git config user.name "fabrica-bot"
+          git config user.email "fabrica-bot@users.noreply.github.com"
+          if [ "$ACCION" = "fabrica-formato-aprobar" ]; then
+            git merge --no-ff -q "origin/formato/$FORMATO" -m "Formato aprobado: $FORMATO"
+            git push -q origin HEAD:main
+            git push -q origin --delete "formato/$FORMATO" || true
+            MSG="✅ Formato <b>$FORMATO</b> aprobado: ya aparece en /video."
+          else
+            git push -q origin --delete "formato/$FORMATO" || true
+            MSG="🗑 Formato <b>$FORMATO</b> descartado."
+          fi
+          cd promo && node scripts/fabrica/formato-telegram.mjs aviso "$MSG"
+      - name: Avisar si falló
+        if: failure()
+        run: cd promo && node scripts/fabrica/formato-telegram.mjs aviso "⚠️ No pude ${ACCION#fabrica-formato-} el formato $FORMATO. Detalle en ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" || true

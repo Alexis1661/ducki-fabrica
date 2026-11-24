@@ -13,6 +13,9 @@ on:
       encargo:
         description: 'Encargo (vacío: el guionista elige el tema del día)'
         required: false
+      formato:
+        description: 'Formato (vacío: lista-scrapbook)'
+        required: false
       prueba:
         description: 'Render de prueba con una voz ya hecha (sin gastar llaves de IA)'
         type: boolean
@@ -101,6 +104,7 @@ jobs:
           ENCARGO_MANUAL: ${{ inputs.encargo }}
           PRUEBA: ${{ inputs.prueba }}
           ENCARGO_BOT: ${{ github.event.client_payload.encargo }}
+          FORMATO: ${{ github.event.client_payload.formato || inputs.formato }}
           EPISODIO: ${{ github.event.client_payload.episodio }}
           TEXTO: ${{ github.event.client_payload.texto }}
           ARCHIVO: ${{ github.event.client_payload.archivo }}
@@ -112,12 +116,12 @@ jobs:
           elif [ "$PRUEBA" = "true" ]; then
             node scripts/fabrica/ci.mjs nuevo --spec ../fabrica/formatos/lista-scrapbook/prueba-crush.json \
               --voz ../fabrica/pruebas/3-formas/voz-windows.wav --palabras ../fabrica/pruebas/3-formas/palabras.json
-          elif [ -n "$ENCARGO_BOT" ]; then
-            node scripts/fabrica/ci.mjs nuevo --encargo "$ENCARGO_BOT"
-          elif [ -n "$ENCARGO_MANUAL" ]; then
-            node scripts/fabrica/ci.mjs nuevo --encargo "$ENCARGO_MANUAL"
           else
-            node scripts/fabrica/ci.mjs nuevo
+            ENCARGO="${ENCARGO_BOT:-$ENCARGO_MANUAL}"
+            set -- nuevo
+            [ -n "$FORMATO" ] && set -- "$@" --formato "$FORMATO"
+            [ -n "$ENCARGO" ] && set -- "$@" --encargo "$ENCARGO"
+            node scripts/fabrica/ci.mjs "$@"
           fi
 
       # no artifact: in a public repo anyone could download the unapproved

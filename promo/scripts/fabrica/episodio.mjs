@@ -20,7 +20,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { FAB, duration, ffmpeg, loadEnv, norm, python, readJson, slugify, writeJson } from './comun.mjs';
-import { construirEpisodio, revisarSpec, segmentos } from './linea.mjs';
+import { cargarFormato } from './formatos/index.mjs';
 import { palabrasWhisper, segmentStarts, vozEleven, vozSapi, wordsFromAlignment } from './voz.mjs';
 
 function args() {
@@ -73,12 +73,14 @@ export async function armarEpisodio(o) {
   let spec = o.specObj;
   if (spec) { /* given (a new version after an adjustment) */ }
   else if (o.spec) spec = readJson(o.spec);
-  else if (o.encargo) {
+  const fmt = await cargarFormato(spec?.formato ?? o.formato);
+  if (!spec && o.encargo) {
     const { escribirGuion } = await import('./guionista.mjs');
-    console.log('guionista: escribiendo…');
-    spec = await escribirGuion(o.encargo);
-  } else throw new Error('Usa --encargo "…" o --spec archivo.json');
-  const problems = revisarSpec(spec, funciones);
+    console.log(`guionista: escribiendo (${fmt.id})…`);
+    spec = await escribirGuion(o.encargo, fmt);
+  } else if (!spec) throw new Error('Usa --encargo "…" o --spec archivo.json');
+  spec.formato = fmt.id;
+  const problems = fmt.revisar(spec, funciones);
   if (problems.length) throw new Error('El guion no sirve para la plantilla:\n- ' + problems.join('\n- '));
 
   const fecha = new Date().toISOString().slice(0, 10);
@@ -86,7 +88,7 @@ export async function armarEpisodio(o) {
   const dir = path.resolve(o.salida ?? path.join(FAB, 'episodios', `${fecha}-${slug}`));
   fs.mkdirSync(dir, { recursive: true });
   writeJson(path.join(dir, 'spec.json'), spec);
-  const segs = segmentos(spec);
+  const segs = fmt.segmentos(spec);
   const texto = segs.join('\n');
   fs.writeFileSync(path.join(dir, 'guion.txt'), texto);
   console.log(`episodio: ${dir}`);
@@ -115,7 +117,7 @@ export async function armarEpisodio(o) {
   python(['scripts/fabrica/boca.py', wav, path.join(dir, 'palabras.json'), path.join(dir, 'boca.json')]);
 
   const seed = Number(o.semilla ?? [...`${fecha}${slug}`].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 9973, 7));
-  const episode = construirEpisodio({ spec, words, starts, vozDur, funciones, seed, mouth: readJson(path.join(dir, 'boca.json')) });
+  const episode = fmt.construir({ spec, words, starts, vozDur, funciones, seed, mouth: readJson(path.join(dir, 'boca.json')) });
   writeJson(path.join(dir, 'episodio.json'), episode);
   console.log(python(['scripts/fabrica/audio.py', path.join(dir, 'episodio.json'), dir]).trim());
   fs.writeFileSync(path.join(dir, 'texto.txt'), `${spec.caption}\n\n${(spec.hashtags ?? []).join(' ')}\n`);
@@ -124,7 +126,7 @@ export async function armarEpisodio(o) {
   if (o.sinRender) return { dir, slug, spec, files: [], episode, seed };
   const { renderEpisodio } = await import('./render.mjs');
   const stills = o.cuadros ? o.cuadros.split(',').map(Number) : null;
-  const files = await renderEpisodio({ episode, dir, slug, stills });
+  const files = await renderEpisodio({ episode, dir, slug, stills, fmt });
   console.log(stills ? `cuadros en ${dir}` : `listo:\n  ${files.join('\n  ')}\n  ${path.join(dir, 'texto.txt')}`);
   return { dir, slug, spec, files, episode, seed };
 }
@@ -151,7 +153,7 @@ export async function revisar(ep, o = {}) {
     }
     const { reescribirGuion } = await import('./guionista.mjs');
     console.log('guionista: aplicando el ajuste…');
-    const specObj = await reescribirGuion(ep.spec, d.texto);
+    const specObj = await reescribirGuion(ep.spec, d.texto, await cargarFormato(ep.spec.formato));
     version += 1;
     ep = await armarEpisodio({
       ...o, specObj, spec: undefined, encargo: undefined, cuadros: undefined,

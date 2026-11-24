@@ -4,7 +4,7 @@
 // repository_dispatch.
 //
 // With the voice made by hand (FABRICA_VOZ=manual, the default):
-//   node scripts/fabrica/ci.mjs nuevo [--encargo "…"]       writes the script, posts it to the topic
+//   node scripts/fabrica/ci.mjs nuevo [--formato id] [--encargo "…"]   writes the script, posts it to the topic
 //   (someone replies to it with the audio → «fabrica-voz»)
 //   node scripts/fabrica/ci.mjs voz --episodio <id> --archivo <telegram file_id>
 //                                                            builds the video, posts it for review
@@ -25,7 +25,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { FAB, loadEnv, readJson, slugify, writeJson } from './comun.mjs';
 import { armarEpisodio } from './episodio.mjs';
-import { revisarSpec, segmentos } from './linea.mjs';
+import { cargarFormato } from './formatos/index.mjs';
 import { bajarArchivo, enviarGuion, enviarPropuesta } from './telegram.mjs';
 
 const DAILY = 'Elige tú el tema del video de hoy: un ángulo concreto y distinto a los episodios recientes (una función a fondo, un top, una situación de la U, un POV, una pregunta). Que enganche en el primer segundo.';
@@ -52,31 +52,22 @@ function carpeta(id) {
   throw new Error(hits.length ? `«${id}» coincide con varios episodios: ${hits.join(', ')}` : `No encuentro ${id} en fabrica/episodios`);
 }
 
-/**
- * The script edited by hand: the reply has exactly the script's lines (intro,
- * one per point, closing), so each one replaces its own. Null when the text is
- * an instruction instead.
- */
-function editadoAMano(spec, texto) {
-  const segs = segmentos(spec);
+/** The script edited by hand: the reply has exactly the script's lines. Null when it is an instruction. */
+function editadoAMano(spec, texto, fmt) {
   const lines = String(texto).split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
-  if (segs.length < 3 || lines.length !== segs.length) return null;
-  const out = structuredClone(spec);
-  let k = 0;
-  out.intro = lines[k++];
-  for (const p of out.puntos) p.texto = lines[k++];
-  if (out.cierre_todo) out.cierre_todo = lines[k++];
-  out.cierre = lines[k++];
-  return out;
+  if (!fmt.aplicarTexto || lines.length < 3) return null;
+  return fmt.aplicarTexto(spec, lines);
 }
 
 /** Saves a script and posts it to the topic, waiting for someone's voice. */
 async function guardarGuion(spec, dir, version = 1) {
-  const problems = revisarSpec(spec, readJson(path.join(FAB, 'funciones.json')));
+  const fmt = await cargarFormato(spec.formato);
+  spec.formato = fmt.id;
+  const problems = fmt.revisar(spec, readJson(path.join(FAB, 'funciones.json')));
   if (problems.length) throw new Error('El guion no sirve para la plantilla:\n- ' + problems.join('\n- '));
   fs.mkdirSync(dir, { recursive: true });
   writeJson(path.join(dir, 'spec.json'), spec);
-  const texto = segmentos(spec).join('\n');
+  const texto = fmt.segmentos(spec).join('\n');
   fs.writeFileSync(path.join(dir, 'guion.txt'), `${texto}\n`);
   salida(dir);
   await enviarGuion({ dir, id: path.basename(dir), spec, texto, version });
@@ -85,8 +76,9 @@ async function guardarGuion(spec, dir, version = 1) {
 
 async function nuevo(o) {
   if (manual() && !o.spec) {
+    const fmt = await cargarFormato(o.formato && o.formato !== true ? o.formato : null);
     const { escribirGuion } = await import('./guionista.mjs');
-    const spec = await escribirGuion(o.encargo && o.encargo !== true ? o.encargo : DAILY);
+    const spec = await escribirGuion(o.encargo && o.encargo !== true ? o.encargo : DAILY, fmt);
     const fecha = new Date().toISOString().slice(0, 10);
     return guardarGuion(spec, path.join(EPIS, `${fecha}-${slugify(spec.slug || spec.gancho.titulo)}`));
   }
@@ -118,11 +110,12 @@ async function ajuste(o) {
   const prev = readJson(path.join(dir, 'spec.json'));
   const version = Number(id.match(/-v(\d+)$/)?.[1] ?? 1) + 1;
   const nueva = path.join(EPIS, `${id.replace(/-v\d+$/, '')}-v${version}`);
-  let specObj = manual() ? editadoAMano(prev, o.texto) : null;
+  const fmt = await cargarFormato(prev.formato);
+  let specObj = manual() ? editadoAMano(prev, o.texto, fmt) : null;
   if (specObj) console.log('ajuste: el guion editado a mano, línea por línea');
   else {
     const { reescribirGuion } = await import('./guionista.mjs');
-    specObj = await reescribirGuion(prev, o.texto);
+    specObj = await reescribirGuion(prev, o.texto, fmt);
   }
   if (manual()) {
     await guardarGuion(specObj, nueva, version);

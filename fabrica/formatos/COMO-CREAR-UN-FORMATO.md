@@ -20,6 +20,27 @@ dentro de él, cambiando las perillas para que ningún día se vea igual.
 6. **El primer video**, hecho por Opus con ese formato y aprobado en el grupo. Su plan queda como
    referencia en `ejemplo.json`.
 
+## El módulo del formato (`promo/scripts/fabrica/formatos/<id>.mjs`)
+
+La fábrica no sabe nada de cada formato salvo lo que exporta su módulo:
+
+| Export | Qué es |
+|---|---|
+| `id`, `composicion`, `dir` | Su id (igual a la entrada de `index.json`), el id de su composición en `src/fabrica/index.ts` y la carpeta de sus documentos. |
+| `publico` | Archivos y carpetas de `promo/public` que usa la plantilla (el render copia solo esos). |
+| `esquema()` | El JSON schema del guion + plan que devuelve el guionista (con `slug`, `caption` y `hashtags`). |
+| `contexto()` | Texto extra para el guionista, además de formato.md, guia.md y ejemplo.json (opcional). |
+| `revisar(spec, funciones)` | Lista de problemas (vacía si la plantilla puede armarlo). |
+| `segmentos(spec)` | Lo que dice la voz, en orden, un segmento por escena. |
+| `aplicarTexto(spec, líneas)` | El guion editado a mano línea por línea, o `null` si no cuadra. |
+| `construir({ spec, words, starts, vozDur, funciones, seed, mouth })` | Las props de la composición. |
+| `resumen(spec)` | Un resumen corto de un episodio, para no repetir los recientes. |
+
+Con el bot: `/formato` + links de TikTok o videos → Opus (en GitHub Actions, con la suscripción
+Pro) estudia las referencias con `fabrica/formatos/AGENTE-FORMATO.md`, crea el formato en una rama
+`formato/<id>` y manda el primer video al tema «Fábrica». Aprobar lo une a `main` y aparece en
+`/video`; Ajustar le pide cambios a Opus; Descartar borra la rama.
+
 ## Cómo se comprueba antes de soltarlo
 
 - `node scripts/fabrica/cuadros.mjs <episodio.json> <carpeta>`: un cuadro por escena, para ver
@@ -33,4 +54,4 @@ dentro de él, cambiando las perillas para que ningún día se vea igual.
 devuelve guion + plan → el validador lo revisa (un reintento con los errores) → el guion va al tema
 «Fábrica» → la voz que le responden arma el video con ese plan.
 
-Hoy hay un solo formato, `lista-scrapbook`.
+Los formatos disponibles están en `fabrica/formatos/index.json`.
