@@ -147,4 +147,8 @@ loadEnv();
 const cmd = process.argv[2];
 const run = { nuevo, voz, generar, ajuste }[cmd];
 if (!run) { console.error('uso: ci.mjs nuevo|voz|generar|ajuste …'); process.exit(2); }
-run(args()).catch((e) => { console.error(String(e.message ?? e)); process.exit(1); });
+run(args()).catch((e) => {
+  const cause = e.cause ? ` (${e.cause.code ?? ''} ${e.cause.message ?? e.cause})` : '';
+  console.error(String(e.message ?? e) + cause);
+  process.exit(1);
+});

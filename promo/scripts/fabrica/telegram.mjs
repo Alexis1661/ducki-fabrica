@@ -15,6 +15,22 @@ const need = (k) => {
   if (!v) throw new Error(`Falta ${k} en RecursosVideo/fabrica/.env`);
   return v;
 };
+/**
+ * fetch with retries: a network hiccup on the runner («fetch failed») is retried 3 times;
+ * the error says the real cause (undici hides it in e.cause).
+ */
+async function fetchTg(url, opts, intentos = 4) {
+  for (let k = 1; ; k++) {
+    try {
+      return await fetch(url, opts);
+    } catch (e) {
+      const why = e.cause ? `${e.cause.code ?? ''} ${e.cause.message ?? e.cause}`.trim() : String(e.message ?? e);
+      if (k >= intentos) throw new Error(`Telegram no respondió tras ${intentos} intentos: ${why}`);
+      console.log(`  (Telegram no respondió: ${why}; reintento ${k}/${intentos - 1})`);
+      await new Promise((r) => setTimeout(r, 2000 * k));
+    }
+  }
+}
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const ESTADO = path.join(FAB, '.estado.json');
 
@@ -72,7 +88,7 @@ export async function enviarPropuesta({ dir, id, spec, video, version = 1 }) {
     ],
   }));
   form.set('video', new Blob([fs.readFileSync(file)], { type: 'video/mp4' }), path.basename(file));
-  const res = await fetch(`https://api.telegram.org/bot${token}/sendVideo`, { method: 'POST', body: form });
+  const res = await fetchTg(`https://api.telegram.org/bot${token}/sendVideo`, { method: 'POST', body: form });
   const body = await res.json();
   if (!body.ok) throw new Error(`Telegram no aceptó el video: ${body.description}`);
   writeJson(path.join(dir, 'telegram.json'), { message_id: body.result.message_id, enviado: new Date().toISOString(), version, id: short });
@@ -100,7 +116,7 @@ export async function enviarGuion({ dir, id, spec, texto, version = 1 }) {
     `🆔 <code>${esc(id)}</code>`,
   ].join('\n');
   const short = idCorto(id, 58);
-  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+  const res = await fetchTg(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -121,12 +137,12 @@ export async function enviarGuion({ dir, id, spec, texto, version = 1 }) {
 /** Downloads a file the team sent to the bot (bots can fetch up to 20 MB). */
 export async function bajarArchivo(fileId, destSinExt) {
   const token = need('TELEGRAM_BOT_TOKEN');
-  const res = await fetch(`https://api.telegram.org/bot${token}/getFile?file_id=${encodeURIComponent(fileId)}`);
+  const res = await fetchTg(`https://api.telegram.org/bot${token}/getFile?file_id=${encodeURIComponent(fileId)}`);
   const body = await res.json();
   if (!body.ok) throw new Error(`Telegram no entregó el audio (${body.description}); ¿pesa más de 20 MB?`);
   const p = body.result.file_path;
   const ext = path.extname(p) || '.mp3';
-  const bin = await fetch(`https://api.telegram.org/file/bot${token}/${p}`);
+  const bin = await fetchTg(`https://api.telegram.org/file/bot${token}/${p}`);
   if (!bin.ok) throw new Error(`No pude bajar el audio: HTTP ${bin.status}`);
   const out = destSinExt + ext;
   fs.writeFileSync(out, Buffer.from(await bin.arrayBuffer()));
