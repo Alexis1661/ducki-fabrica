@@ -9,6 +9,7 @@ import {
   handPaths, hostFace, hostPlace, makeCtx, makePose, pick, pop, rnd, staticFile, stepIn, stepped, tornPath, useCurrentFrame, useEp, useL,
   useScene, wobble, Look, isDark, useLookAt,
 } from './head';
+import { Libre } from './Libre';
 
 // ------------------------------------------------------------------ a sheet coming in
 // How it comes in, its colour, its title style, its hit and its note come from the
@@ -17,7 +18,7 @@ import {
 const DIRS = ['right', 'top', 'left', 'bottom'] as const;
 const DIR_OF = { derecha: 'right', arriba: 'top', izquierda: 'left', abajo: 'bottom' } as const;
 /** The scene's look, for the pieces inside its sheet (null without a plan). */
-const LookCtx = createContext<Look | null>(null);
+export const LookCtx = createContext<Look | null>(null);
 /** Which anchor of each scene is its big moment (where `impacto` hits and the note lands). */
 const MOMENT: Record<string, string> = {
   intro: 'ducki', publica: 'anon', mapa: 'amigos', pato: 'cientos', arte: 'celular', parche: 'gente', carta: 'carta',
@@ -33,7 +34,7 @@ function ripReveal(t: number, seed: number) {
   }
   return `polygon(${[...left, ...right].join(', ')})`;
 }
-const Sheet: React.FC<{ i: number; color: string; grid?: boolean; children: React.ReactNode }> = ({ i, color, grid, children }) => {
+export const Sheet: React.FC<{ i: number; color: string; grid?: boolean; children: React.ReactNode }> = ({ i, color, grid, children }) => {
   const f = useCurrentFrame();
   const look = useLookAt(i);
   const scene = useScene(i);
@@ -186,7 +187,7 @@ const Carried: React.FC<{ start: number; x: number; y: number; edge: Edge; rot: 
 };
 
 /** A piece that pops in at `start` and keeps its stop-motion wobble (or is carried in by the hand). */
-const Pop: React.FC<{ start: number; x: number; y: number; rot?: number; seed?: number; children: React.ReactNode; scale?: number; hand?: Edge }> = ({ start, x, y, rot = 0, seed = 1, children, scale = 1, hand: edge }) => {
+export const Pop: React.FC<{ start: number; x: number; y: number; rot?: number; seed?: number; children: React.ReactNode; scale?: number; hand?: Edge }> = ({ start, x, y, rot = 0, seed = 1, children, scale = 1, hand: edge }) => {
   const f = useCurrentFrame();
   const look = useContext(LookCtx);
   const hand = look && !look.mano ? undefined : edge;
@@ -196,7 +197,7 @@ const Pop: React.FC<{ start: number; x: number; y: number; rot?: number; seed?: 
 };
 
 /** A piece that slams down (big → its size in two drawings), or is slammed down by the hand. */
-const Slam: React.FC<{ start: number; x: number; y: number; rot?: number; seed?: number; children: React.ReactNode; hand?: Edge }> = ({ start, x, y, rot = 0, seed = 1, children, hand: edge }) => {
+export const Slam: React.FC<{ start: number; x: number; y: number; rot?: number; seed?: number; children: React.ReactNode; hand?: Edge }> = ({ start, x, y, rot = 0, seed = 1, children, hand: edge }) => {
   const f = useCurrentFrame();
   const look = useContext(LookCtx);
   const hand = look && !look.mano ? undefined : edge;
@@ -207,10 +208,10 @@ const Slam: React.FC<{ start: number; x: number; y: number; rot?: number; seed?:
   return <At x={x} y={y} rot={rot} seed={seed} scale={s}>{children}</At>;
 };
 
-const Shot: React.FC<{ src: string; w: number; h: number; pos?: string }> = ({ src, w, h, pos = 'top' }) => (
+export const Shot: React.FC<{ src: string; w: number; h: number; pos?: string }> = ({ src, w, h, pos = 'top' }) => (
   <Img src={staticFile(src)} style={{ width: w, height: h, objectFit: 'cover', objectPosition: pos, display: 'block', filter: 'contrast(1.05) saturate(.92)' }} />
 );
-const Clip: React.FC<{ src: string; w: number; h: number; from: number; rate?: number; pos?: string }> = ({ src, w, h, from, rate = 1, pos = 'top' }) => (
+export const Clip: React.FC<{ src: string; w: number; h: number; from: number; rate?: number; pos?: string }> = ({ src, w, h, from, rate = 1, pos = 'top' }) => (
   <OffthreadVideo src={staticFile(src)} startFrom={Math.round(from * FPS)} playbackRate={rate} muted style={{ width: w, height: h, objectFit: 'cover', objectPosition: pos, display: 'block' }} />
 );
 
@@ -359,7 +360,7 @@ export const Pato: React.FC<{ i: number }> = ({ i }) => {
   );
 };
 
-const Phone: React.FC<{ w: number; children: React.ReactNode }> = ({ w, children }) => (
+export const Phone: React.FC<{ w: number; children: React.ReactNode }> = ({ w, children }) => (
   <div style={{ width: w, height: w * 2.05, borderRadius: w * 0.14, background: '#111', padding: w * 0.04, boxShadow: '10px 14px 0 rgba(0,0,0,.25)' }}>
     <div style={{ width: '100%', height: '100%', borderRadius: w * 0.11, overflow: 'hidden', position: 'relative', background: 'linear-gradient(160deg,#FDA646,#FF6A3D 55%,#7B4DFF)' }}>{children}</div>
   </div>
@@ -590,7 +591,7 @@ export const Fin: React.FC<{ i: number }> = ({ i }) => {
 };
 
 
-const FEATURES: Record<string, React.FC<{ i: number }>> = {
+export const FEATURES: Record<string, React.FC<{ i: number }>> = {
   publica: Publica, mapa: Mapa, pato: Pato, arte: Arte, parche: Parche, carta: Carta, crush: Crush, sala: Sala, juegos: Juegos,
 };
 /** Scene ids the template can show (scripts/fabrica checks specs against this). */
@@ -612,7 +613,8 @@ export const Lista: React.FC<{ episode: Episode }> = ({ episode }) => {
       <AbsoluteFill style={{ background: P.ink }}>
         <BoilDefs />
         {ctx.SC.map((s, i) => {
-          const C = s.kind === 'intro' ? Intro : s.kind === 'todo' ? Todo : s.kind === 'fin' ? Fin : FEATURES[s.feature ?? ''];
+          // a director's episode composes its own scenes; the prefabricated ones keep their component
+          const C = s.kind === 'libre' ? Libre : s.kind === 'intro' ? Intro : s.kind === 'todo' ? Todo : s.kind === 'fin' ? Fin : FEATURES[s.feature ?? ''];
           if (!C) return null;
           return (
             <Sequence key={i} from={i === 0 ? 0 : s.from - ENTER} durationInFrames={s.to - s.from + ENTER + 2}>

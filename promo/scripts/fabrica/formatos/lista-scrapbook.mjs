@@ -9,13 +9,14 @@ import { PERILLAS } from '../plan.mjs';
 export const id = 'lista-scrapbook';
 /** Composition id in src/fabrica/index.ts. */
 export const composicion = 'Lista';
+/** A director decides what each scene shows (fabrica/formatos/lista-scrapbook/DIRECTOR.md). */
+export const director = true;
 /** Folder with formato.md, guia.md and ejemplo.json. */
 export const dir = path.join(FAB, 'formatos', id);
 /** Files and folders of promo/public the template uses (render copies only these). */
 export const publico = [
-  'todo', 'fabrica/piezas', 'fuentes', 'ducks', 'duckart/weekly', 'parches/cat', 'logos',
-  'app/icon.png', 'app/duck-anon.png', 'screens/feed.jpg', 'map/cali.png', 'stores/app-store.svg', 'stores/google-play.png',
-  'parches/duckisalas-ducks.png', 'parches/games/kart.mp4', 'parches/games/golf.mp4', 'v0110/carta.mp4',
+  'todo', 'fabrica/piezas', 'fabrica/disfraces', 'fuentes', 'ducks', 'duckart/weekly', 'parches/cat', 'parches/games', 'logos', 'app',
+  'screens', 'map', 'stores', 'parches/duckisalas-ducks.png', 'v0110', 'tutorial-salas',
 ];
 
 const nullable = (s) => ({ anyOf: [s, { type: 'null' }] });
@@ -90,7 +91,7 @@ export function esquema() {
           additionalProperties: false,
           required: ['funcion', 'texto', 'rotulo', 'favorita', 'look'],
           properties: {
-            funcion: { type: 'string', enum: ESCENAS },
+            funcion: { type: 'string', enum: [...ESCENAS, 'otra'], description: 'La función de la app de la que habla este punto; "otra" si no está en las fichas (una novedad que leíste en el código) o si el punto no habla de una función.' },
             texto: { type: 'string', description: 'Lo que dice la voz en esta hoja. En una lista empieza con el número en palabra; en historia, POV o pregunta, nunca.' },
             rotulo: nullable({ type: 'string', description: `Título de la hoja fuera de una lista: el momento de la historia, en mayúsculas, máximo ${PERILLAS.rotulo_max} caracteres (ej. "LUNES 7 AM", "EN LA FILA"). null en una lista.` }),
             favorita: { type: 'boolean' },

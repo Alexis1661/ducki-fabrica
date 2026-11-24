@@ -123,7 +123,28 @@ export async function armarEpisodio(o) {
   python(['scripts/fabrica/boca.py', wav, path.join(dir, 'palabras.json'), path.join(dir, 'boca.json')]);
 
   const seed = Number(o.semilla ?? [...`${fecha}${slug}`].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 9973, 7));
-  const episode = fmt.construir({ spec, words, starts, vozDur, funciones, seed, mouth: readJson(path.join(dir, 'boca.json')) });
+  const mouth = readJson(path.join(dir, 'boca.json'));
+  // what each scene shows: decided by the director for this script, or the format's fixed scenes
+  let episode;
+  const { directorDisponible } = await import('./director/director.mjs');
+  const reuse = o.storyboard ? path.resolve(o.storyboard) : null;
+  if (fmt.director && (reuse || directorDisponible())) {
+    const { dirigir } = await import('./director/director.mjs');
+    const { episodioLibre, revisarStoryboard } = await import('./director/storyboard.mjs');
+    let storyboard;
+    if (reuse) {
+      storyboard = readJson(reuse);
+      const problems = revisarStoryboard(storyboard, words);
+      if (problems.length) throw new Error(`El storyboard ${reuse} tiene problemas:\n- ${problems.join('\n- ')}`);
+    } else {
+      storyboard = await dirigir({ dir, spec, words, vozDur, seed, mouth, segs, starts, formato: fmt.id });
+    }
+    writeJson(path.join(dir, 'storyboard.json'), storyboard);
+    episode = episodioLibre({ spec, words, vozDur, funciones, seed, mouth, storyboard });
+  } else {
+    if (fmt.director) console.log('director: no disponible aquí (sin CLAUDE_CODE_OAUTH_TOKEN); uso las escenas fijas del formato');
+    episode = fmt.construir({ spec, words, starts, vozDur, funciones, seed, mouth });
+  }
   writeJson(path.join(dir, 'episodio.json'), episode);
   console.log(python(['scripts/fabrica/audio.py', path.join(dir, 'episodio.json'), dir]).trim());
   fs.writeFileSync(path.join(dir, 'texto.txt'), `${spec.caption}\n\n${(spec.hashtags ?? []).join(' ')}\n`);

@@ -36,7 +36,7 @@ permissions:
 jobs:
   episodio:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 75
     defaults:
       run:
         working-directory: promo
@@ -56,8 +56,40 @@ jobs:
       # eleven: ElevenLabs API voices it (needs a paid plan for library voices)
       FABRICA_VOZ: ${{ vars.FABRICA_VOZ }}
       WHISPER_MODEL: small
+      # read the app's code and keep the episodes private (fine-grained token: Contents read
+      # on Alexis1661/Ducki, read & write on Alexis1661/ducki-fabrica-episodios)
+      DUCKI_REPO_TOKEN: ${{ secrets.DUCKI_REPO_TOKEN }}
     steps:
       - uses: actions/checkout@v5
+
+      # the app's code (private repo Ducki), read-only, so the writer and the director
+      # understand what a feature does and how it looks; only with DUCKI_REPO_TOKEN
+      - name: Código de Ducki
+        if: env.DUCKI_REPO_TOKEN != ''
+        uses: actions/checkout@v5
+        with:
+          repository: Alexis1661/Ducki
+          token: ${{ secrets.DUCKI_REPO_TOKEN }}
+          path: ducki-app
+          fetch-depth: 1
+          persist-credentials: false
+          sparse-checkout: |
+            mobile/src
+            mobile/app.json
+            Backend/internal
+            docs
+            README.md
+
+      # the episodes (scripts, storyboards) live in a private repo: a script about a feature
+      # not launched yet must not sit in this public one
+      - name: Episodios privados
+        if: env.DUCKI_REPO_TOKEN != ''
+        working-directory: .
+        run: |
+          rm -rf fabrica/episodios
+          git clone -q --depth 50 "https://x-access-token:${DUCKI_REPO_TOKEN}@github.com/Alexis1661/ducki-fabrica-episodios.git" fabrica/episodios
+          git -C fabrica/episodios remote set-url origin "https://github.com/Alexis1661/ducki-fabrica-episodios.git"
+
 
       - uses: actions/setup-node@v5
         with:
@@ -72,7 +104,7 @@ jobs:
       - name: Dependencias
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-color-emoji > /dev/null
-          pip install -q numpy scipy
+          pip install -q numpy scipy pillow
           npm ci --no-audit --no-fund
           npx remotion browser ensure
           npm install -g --no-audit --no-fund @anthropic-ai/claude-code@2.1.331
@@ -131,13 +163,31 @@ jobs:
       # no artifact: in a public repo anyone could download the unapproved
       # video; it only goes to the Telegram topic
 
-      - name: Guardar el episodio en el repo
+      - name: Guardar el episodio
         if: success() && steps.armar.outputs.carpeta != ''
         working-directory: .
+        env:
+          CARPETA: ${{ steps.armar.outputs.carpeta }}
         run: |
-          git config user.name "fabrica-bot"
-          git config user.email "fabrica-bot@users.noreply.github.com"
-          git add fabrica/episodios
-          git diff --cached --quiet && exit 0
-          git commit -q -m "episodio: $(basename '${{ steps.armar.outputs.carpeta }}')"
-          git pull -q --rebase && git push -q
+          MSG="episodio: $(basename "$CARPETA")"
+          if [ -n "$DUCKI_REPO_TOKEN" ]; then
+            cd fabrica/episodios
+            git config user.name "fabrica-bot"
+            git config user.email "fabrica-bot@users.noreply.github.com"
+            git add -A
+            git diff --cached --quiet && exit 0
+            git commit -q -m "$MSG"
+            git pull -q --rebase "https://x-access-token:${DUCKI_REPO_TOKEN}@github.com/Alexis1661/ducki-fabrica-episodios.git" main
+            git push -q "https://x-access-token:${DUCKI_REPO_TOKEN}@github.com/Alexis1661/ducki-fabrica-episodios.git" HEAD:main
+          else
+            git config user.name "fabrica-bot"
+            git config user.email "fabrica-bot@users.noreply.github.com"
+            git add fabrica/episodios
+            git diff --cached --quiet && exit 0
+            git commit -q -m "$MSG"
+            git pull -q --rebase && git push -q
+          fi
+
+      - name: Avisar si falló
+        if: failure()
+        run: node scripts/fabrica/formato-telegram.mjs aviso "⚠️ La fábrica no pudo terminar (${{ github.event.action || github.event_name }}). Detalle en ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" || true

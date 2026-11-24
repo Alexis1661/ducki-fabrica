@@ -1,0 +1,192 @@
+{
+  "_": "Qué muestra cada recurso, para el director. catalogo.py junta esto con fabrica/recursos.json y las medidas reales en catalogo.json. 'evitar' son avisos que el director tiene que respetar.",
+  "screens/casillero.jpg": {
+    "d": "Casillero social de un usuario: casillero verde con su pato, notas pegadas, una foto y stickers.",
+    "evitar": "Muestra el @ de un usuario real: úsalo mediano o pequeño."
+  },
+  "screens/chats.jpg": {
+    "d": "Lista de chats de la app (conversaciones recientes).",
+    "evitar": "Tiene nombres reales: solo pequeño o tapado con otra pieza."
+  },
+  "screens/duckart-podio-semana.png": {
+    "d": "Podio semanal de DuckiArt: los dibujos ganadores de la semana."
+  },
+  "screens/feed-captura-post.jpg": {
+    "d": "Una publicación del feed con texto grande («Muchachos feliz navidad, yo ya no doy más») y un meme."
+  },
+  "screens/feed-captura-timeline.jpg": {
+    "d": "El feed con historias arriba y publicaciones con memes debajo."
+  },
+  "screens/feed.jpg": {
+    "d": "El feed «Para ti»: publicaciones de estudiantes, una de ellas anónima, con likes y comentarios."
+  },
+  "screens/mapa.jpg": {
+    "d": "El mapa de amigos: patos de amigos sobre el mapa de Cali."
+  },
+  "screens/parches-captura.png": {
+    "d": "Pantalla de Parches: categorías arriba y un parche con foto de fiesta."
+  },
+  "screens/perfil.jpg": {
+    "d": "Perfil de un usuario: foto de portada, su pato y botones."
+  },
+  "todo/stills/crush-menu.jpg": {
+    "d": "Casillero oscuro con el menú de Ducki Crush abierto (marcar como crush)."
+  },
+  "todo/stills/golf.jpg": {
+    "d": "Minigolf de Ducki: un hoyo con agua y un puente de madera, vista desde arriba."
+  },
+  "todo/stills/juegos-menu.jpg": {
+    "d": "Menú de juegos dentro de una sala: íconos de colores de cada juego."
+  },
+  "todo/stills/kart.jpg": {
+    "d": "Ducki Kart: un pato en kart corriendo por la pista, vista desde atrás."
+  },
+  "todo/stills/match.jpg": {
+    "d": "Modal «¡Hicieron match!» de Ducki Crush con dos patos y un corazón.",
+    "evitar": "Muestra un @ de usuario."
+  },
+  "todo/stills/sala.jpg": {
+    "d": "Una Duckisala recién abierta: 8 puestos vacíos, el chat y el botón de juegos."
+  },
+  "v0110/carta.mp4": {
+    "d": "Escribir una carta en el casillero de alguien: se abre la hoja, se escribe con el teclado y se envía."
+  },
+  "v0110/locker.mp4": {
+    "d": "Recorrido por un casillero social: el pato, las notas, la foto; al final el menú de opciones."
+  },
+  "v0110/match.mp4": {
+    "d": "Ducki Crush: marcar a alguien como crush, sale «¡Hicieron match!» y vuelve al casillero."
+  },
+  "v0110/pareja.mp4": {
+    "d": "Casillero de pareja con dos patos vestidos; al final el feed con el banner de la Copa Ducki."
+  },
+  "v0110/quien.mp4": {
+    "d": "Juegos en sala: mapa del juego, lista de juegos y el juego ¿Quién soy?.",
+    "evitar": "Después de 3 s sale la foto de un famoso: usa solo de 0 a 3 s.",
+    "prohibido": [
+      [
+        3,
+        999
+      ]
+    ]
+  },
+  "v0110/sala.mp4": {
+    "d": "Comunidad → crear una sala → la sala con su chat.",
+    "evitar": "Entre 11 y 15 s salen nombres de WhatsApp: no uses ese tramo.",
+    "prohibido": [
+      [
+        11,
+        15
+      ]
+    ]
+  },
+  "parches/games/kart.mp4": {
+    "d": "Ducki Kart en plena carrera (3,5 s)."
+  },
+  "parches/games/golf.mp4": {
+    "d": "Minigolf: un tiro hacia el hoyo (3 s)."
+  },
+  "parches/games/tanks.mp4": {
+    "d": "Tanques: partida vista desde arriba (3 s)."
+  },
+  "tutorial-salas/clip1.mp4": {
+    "d": "Una sala llena: los avatares de los participantes y el chat moviéndose.",
+    "evitar": "Se leen nombres reales: úsalo pequeño (dentro de un celular)."
+  },
+  "tutorial-salas/clip2.mp4": {
+    "d": "Ducki Kart jugado dentro de una sala, con los controles en pantalla."
+  },
+  "tutorial-salas/clip3.mp4": {
+    "d": "Cómo se crea una sala: feed → Comunidad → «¿Cómo quieres hablar?» → nombre de la sala con el teclado."
+  },
+  "app/icon.png": {
+    "d": "Ícono de la app Ducki: el pato sobre fondo naranja, esquinas redondeadas."
+  },
+  "app/wordmark.png": {
+    "d": "Logo «Ducki» en letras blancas (para hojas oscuras)."
+  },
+  "app/wordmark-dark.png": {
+    "d": "Logo «Ducki» en letras negras (para hojas claras)."
+  },
+  "app/duck-anon.png": {
+    "d": "Pato de cuerpo entero con máscara de anónimo."
+  },
+  "app/anonimo.png": {
+    "d": "Cabeza de pato con máscara de anónimo."
+  },
+  "app/default-head.png": {
+    "d": "Cabeza del pato básico, sin accesorios (el pato de todos al empezar)."
+  },
+  "app/default-body.png": {
+    "d": "Cuerpo del pato básico, sin ropa."
+  },
+  "app/duck-head.png": {
+    "d": "Cara del pato en primer plano, ojos grandes."
+  },
+  "app/duck-cap.png": {
+    "d": "Pato con audífonos asomándose por un borde."
+  },
+  "app/duck-carter.png": {
+    "d": "Pato cartero con gorra y bolso de cartas (cartas, mensajes, entregas)."
+  },
+  "app/duck-confused.png": {
+    "d": "Cara de pato confundido con un signo de pregunta (dudas, no entender, no encajar)."
+  },
+  "app/duck-technician.png": {
+    "d": "Pato técnico con overol y llave inglesa (arreglos, mantenimiento, construir)."
+  },
+  "app/duck-waving.png": {
+    "d": "Pato saludando con la mano y la lengua afuera (hola, bienvenida)."
+  },
+  "app/accessory-backpack.svg": {
+    "d": "Accesorio suelto: morral."
+  },
+  "app/accessory-cap.svg": {
+    "d": "Accesorio suelto: gorra."
+  },
+  "app/accessory-grad-cap.svg": {
+    "d": "Accesorio suelto: birrete de graduación."
+  },
+  "app/accessory-headphones.svg": {
+    "d": "Accesorio suelto: audífonos."
+  },
+  "app/accessory-sunglasses.svg": {
+    "d": "Accesorio suelto: gafas de sol."
+  },
+  "app/sparkle-large.svg": {
+    "d": "Destello grande (brillo)."
+  },
+  "app/sparkle-small.svg": {
+    "d": "Destello pequeño (brillo)."
+  },
+  "map/cali.png": {
+    "d": "Mapa de Cali (calles), para recortar como fondo de un mapa."
+  },
+  "stores/app-store.svg": {
+    "d": "Botón oficial de App Store."
+  },
+  "stores/google-play.png": {
+    "d": "Botón oficial de Google Play."
+  },
+  "parches/duckisalas-ducks.png": {
+    "d": "Grupo de patos juntos con audífonos (una Duckisala, amigos hablando)."
+  },
+  "duckart/weekly/drawing-01.jpeg": {
+    "d": "Dibujo ganador de DuckiArt: pato con un pan diciendo «cuack cuack»."
+  },
+  "duckart/weekly/drawing-02.jpeg": {
+    "d": "Dibujo ganador de DuckiArt."
+  },
+  "duckart/weekly/drawing-03.jpeg": {
+    "d": "Dibujo ganador de DuckiArt: pato blanco con una taza, en un cuadro."
+  },
+  "duckart/weekly/drawing-04.jpeg": {
+    "d": "Dibujo ganador de DuckiArt."
+  },
+  "duckart/weekly/drawing-05.jpeg": {
+    "d": "Dibujo ganador de DuckiArt: personaje gato con cartel."
+  },
+  "duckart/weekly/drawing-06.jpeg": {
+    "d": "Dibujo ganador de DuckiArt."
+  }
+}

@@ -10,6 +10,8 @@ fabrica/episodios/**/partes/
 fabrica/episodios/**/cuadro-*.jpg
 fabrica/episodios/**/telegram.json
 fabrica/episodios/**/voz-*
+# the director's review frames render app captures with real users
+fabrica/episodios/**/revision/
 fabrica/episodios/**/*.ogg
 fabrica/episodios/**/*.m4a
 fabrica/episodios/**/*.oga
@@ -22,9 +24,12 @@ promo/public/parches/games/
 promo/public/v0110/
 promo/public/map/
 # new formats: the agent's working files and the rendered first video stay out of git
+/ducki-app/
 /formato-nuevo.json
 /opus.json
 /referencias/
 fabrica/formatos/**/*.mp4
 fabrica/formatos/**/*.wav
 fabrica/formatos/**/partes/
+promo/public/tutorial-salas/
+.remotion/

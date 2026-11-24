@@ -25,6 +25,7 @@ export function revisarSpec(spec, funciones) {
   if (!Array.isArray(spec.puntos) || spec.puntos.length < 2 || spec.puntos.length > 9) err.push('puntos debe tener entre 2 y 9');
   const seen = new Set();
   for (const p of spec.puntos ?? []) {
+    if (p.funcion === 'otra') { if (!p.texto?.trim()) err.push('un punto sin texto'); continue; }
     const f = byId[p.funcion];
     if (!f) err.push(`función desconocida: ${p.funcion}`);
     else if (!f.escena || !ESCENAS.includes(f.escena)) err.push(`${p.funcion} no tiene escena en este formato`);
@@ -44,7 +45,7 @@ export function segmentos(spec) {
 }
 
 /** Each anchor: the first word in the scene (after the previous anchor) that starts like one of its words; else a share of the scene. */
-function anchors(defs, words, t0, t1) {
+export function anchors(defs, words, t0, t1) {
   const ev = {}, found = {};
   let from = words.findIndex((w) => w.s >= t0 - 0.02);
   if (from < 0) from = words.length;
@@ -66,7 +67,9 @@ export function construirEpisodio({ spec, words, starts, vozDur, funciones, seed
   const fixed = funciones.escenas_fijas;
   const plan = [
     { kind: 'intro', defs: fixed.intro.anclas },
-    ...spec.puntos.map((p, k) => ({ kind: 'feature', feature: byId[p.funcion].escena, n: k + 1, fav: !!p.favorita, defs: byId[p.funcion].anclas })),
+    ...spec.puntos.map((p, k) => (p.funcion === 'otra'
+      ? { kind: 'todo', defs: fixed.todo.anclas }
+      : { kind: 'feature', feature: byId[p.funcion].escena, n: k + 1, fav: !!p.favorita, defs: byId[p.funcion].anclas })),
     ...(spec.cierre_todo ? [{ kind: 'todo', defs: fixed.todo.anclas }] : []),
     { kind: 'fin', defs: fixed.fin.anclas },
   ];

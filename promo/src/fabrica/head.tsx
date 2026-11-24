@@ -5,6 +5,7 @@ import React, { createContext, useContext } from 'react';
 import { AbsoluteFill, Img, OffthreadVideo, staticFile, useCurrentFrame } from 'remotion';
 import { HostDuck, FaceKey, Mouth } from '../todo/HostDuck';
 import perillas from './perillas.json';
+import type { EscenaLibre } from './Libre';
 import { HAND_W, handPaths } from '../todo/hand';
 import {
   ARROW, At, BURST, BoilDefs, Doodle, FONTS, HEART, Hand, P, Paper, Print, Ransom, SCRIBBLE_CIRCLE, SQUIGGLE, STAR, STEP,
@@ -19,7 +20,8 @@ export type { FaceKey };
 
 export type Word = { w: string; s: number; e: number };
 export type EpScene = {
-  kind: 'intro' | 'feature' | 'todo' | 'fin';
+  /** libre: a scene the director composed (Libre.tsx); the others are the scrapbook's own. */
+  kind: 'intro' | 'feature' | 'todo' | 'fin' | 'libre';
   feature?: string;
   /** Voice seconds where the scene starts. */
   t: number;
@@ -49,6 +51,8 @@ export type Episode = {
   seed: number;
   /** The edit plan (scripts/fabrica/plan.mjs): the knobs of perillas.json this episode turns. Absent = the format's own look. */
   plan?: Plan;
+  /** A director's episode: what each scene shows (scripts/fabrica/director/storyboard.mjs). */
+  libre?: EscenaLibre[];
 };
 
 // ------------------------------------------------------------------ the edit plan

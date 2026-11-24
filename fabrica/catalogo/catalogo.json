@@ -1,0 +1,3827 @@
+{
+ "_": "Generado por promo/scripts/fabrica/director/catalogo.py. Rutas relativas a promo/public. Las piezas sin descripción se eligen mirando fabrica/catalogo/hojas/.",
+ "hojas": {
+  "cabezas": "fabrica/catalogo/hojas/cabezas.jpg",
+  "cuerpos": "fabrica/catalogo/hojas/cuerpos.jpg",
+  "disfraces": "fabrica/catalogo/hojas/disfraces.jpg",
+  "patos_sticker": "fabrica/catalogo/hojas/patos_sticker.jpg",
+  "categorias_parches": "fabrica/catalogo/hojas/categorias_parches.jpg",
+  "logos_universidades": "fabrica/catalogo/hojas/logos_universidades.jpg",
+  "app": "fabrica/catalogo/hojas/app.jpg"
+ },
+ "recursos": [
+  {
+   "id": "h000",
+   "ruta": "fabrica/piezas/h000.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h001",
+   "ruta": "fabrica/piezas/h001.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h002",
+   "ruta": "fabrica/piezas/h002.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h003",
+   "ruta": "fabrica/piezas/h003.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h004",
+   "ruta": "fabrica/piezas/h004.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h005",
+   "ruta": "fabrica/piezas/h005.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h006",
+   "ruta": "fabrica/piezas/h006.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h007",
+   "ruta": "fabrica/piezas/h007.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h008",
+   "ruta": "fabrica/piezas/h008.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h009",
+   "ruta": "fabrica/piezas/h009.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h010",
+   "ruta": "fabrica/piezas/h010.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h011",
+   "ruta": "fabrica/piezas/h011.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h012",
+   "ruta": "fabrica/piezas/h012.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h013",
+   "ruta": "fabrica/piezas/h013.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h014",
+   "ruta": "fabrica/piezas/h014.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h015",
+   "ruta": "fabrica/piezas/h015.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h016",
+   "ruta": "fabrica/piezas/h016.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h017",
+   "ruta": "fabrica/piezas/h017.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h018",
+   "ruta": "fabrica/piezas/h018.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h019",
+   "ruta": "fabrica/piezas/h019.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h020",
+   "ruta": "fabrica/piezas/h020.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h021",
+   "ruta": "fabrica/piezas/h021.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h022",
+   "ruta": "fabrica/piezas/h022.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h023",
+   "ruta": "fabrica/piezas/h023.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h024",
+   "ruta": "fabrica/piezas/h024.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h025",
+   "ruta": "fabrica/piezas/h025.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h026",
+   "ruta": "fabrica/piezas/h026.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h027",
+   "ruta": "fabrica/piezas/h027.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h028",
+   "ruta": "fabrica/piezas/h028.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h029",
+   "ruta": "fabrica/piezas/h029.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h030",
+   "ruta": "fabrica/piezas/h030.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h031",
+   "ruta": "fabrica/piezas/h031.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h032",
+   "ruta": "fabrica/piezas/h032.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h033",
+   "ruta": "fabrica/piezas/h033.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h034",
+   "ruta": "fabrica/piezas/h034.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h035",
+   "ruta": "fabrica/piezas/h035.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h036",
+   "ruta": "fabrica/piezas/h036.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h037",
+   "ruta": "fabrica/piezas/h037.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h038",
+   "ruta": "fabrica/piezas/h038.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h039",
+   "ruta": "fabrica/piezas/h039.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h040",
+   "ruta": "fabrica/piezas/h040.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h041",
+   "ruta": "fabrica/piezas/h041.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h042",
+   "ruta": "fabrica/piezas/h042.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h043",
+   "ruta": "fabrica/piezas/h043.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h044",
+   "ruta": "fabrica/piezas/h044.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h045",
+   "ruta": "fabrica/piezas/h045.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h046",
+   "ruta": "fabrica/piezas/h046.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h047",
+   "ruta": "fabrica/piezas/h047.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h048",
+   "ruta": "fabrica/piezas/h048.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h049",
+   "ruta": "fabrica/piezas/h049.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h050",
+   "ruta": "fabrica/piezas/h050.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h051",
+   "ruta": "fabrica/piezas/h051.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h052",
+   "ruta": "fabrica/piezas/h052.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h053",
+   "ruta": "fabrica/piezas/h053.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h054",
+   "ruta": "fabrica/piezas/h054.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h055",
+   "ruta": "fabrica/piezas/h055.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h056",
+   "ruta": "fabrica/piezas/h056.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h057",
+   "ruta": "fabrica/piezas/h057.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h058",
+   "ruta": "fabrica/piezas/h058.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h059",
+   "ruta": "fabrica/piezas/h059.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h060",
+   "ruta": "fabrica/piezas/h060.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h061",
+   "ruta": "fabrica/piezas/h061.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h062",
+   "ruta": "fabrica/piezas/h062.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h063",
+   "ruta": "fabrica/piezas/h063.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h064",
+   "ruta": "fabrica/piezas/h064.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h065",
+   "ruta": "fabrica/piezas/h065.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h066",
+   "ruta": "fabrica/piezas/h066.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h067",
+   "ruta": "fabrica/piezas/h067.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h068",
+   "ruta": "fabrica/piezas/h068.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h069",
+   "ruta": "fabrica/piezas/h069.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h070",
+   "ruta": "fabrica/piezas/h070.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h071",
+   "ruta": "fabrica/piezas/h071.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h072",
+   "ruta": "fabrica/piezas/h072.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h073",
+   "ruta": "fabrica/piezas/h073.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h074",
+   "ruta": "fabrica/piezas/h074.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h075",
+   "ruta": "fabrica/piezas/h075.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h076",
+   "ruta": "fabrica/piezas/h076.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h077",
+   "ruta": "fabrica/piezas/h077.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h078",
+   "ruta": "fabrica/piezas/h078.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h079",
+   "ruta": "fabrica/piezas/h079.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h080",
+   "ruta": "fabrica/piezas/h080.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h081",
+   "ruta": "fabrica/piezas/h081.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h082",
+   "ruta": "fabrica/piezas/h082.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h083",
+   "ruta": "fabrica/piezas/h083.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h084",
+   "ruta": "fabrica/piezas/h084.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h085",
+   "ruta": "fabrica/piezas/h085.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h086",
+   "ruta": "fabrica/piezas/h086.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h087",
+   "ruta": "fabrica/piezas/h087.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h088",
+   "ruta": "fabrica/piezas/h088.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h089",
+   "ruta": "fabrica/piezas/h089.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h090",
+   "ruta": "fabrica/piezas/h090.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h091",
+   "ruta": "fabrica/piezas/h091.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h092",
+   "ruta": "fabrica/piezas/h092.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h093",
+   "ruta": "fabrica/piezas/h093.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h094",
+   "ruta": "fabrica/piezas/h094.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h095",
+   "ruta": "fabrica/piezas/h095.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h096",
+   "ruta": "fabrica/piezas/h096.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h097",
+   "ruta": "fabrica/piezas/h097.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h098",
+   "ruta": "fabrica/piezas/h098.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h099",
+   "ruta": "fabrica/piezas/h099.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h100",
+   "ruta": "fabrica/piezas/h100.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h101",
+   "ruta": "fabrica/piezas/h101.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h102",
+   "ruta": "fabrica/piezas/h102.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h103",
+   "ruta": "fabrica/piezas/h103.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h104",
+   "ruta": "fabrica/piezas/h104.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h105",
+   "ruta": "fabrica/piezas/h105.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h106",
+   "ruta": "fabrica/piezas/h106.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h107",
+   "ruta": "fabrica/piezas/h107.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h108",
+   "ruta": "fabrica/piezas/h108.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h109",
+   "ruta": "fabrica/piezas/h109.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h110",
+   "ruta": "fabrica/piezas/h110.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h111",
+   "ruta": "fabrica/piezas/h111.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h112",
+   "ruta": "fabrica/piezas/h112.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h113",
+   "ruta": "fabrica/piezas/h113.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h114",
+   "ruta": "fabrica/piezas/h114.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h115",
+   "ruta": "fabrica/piezas/h115.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h116",
+   "ruta": "fabrica/piezas/h116.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h117",
+   "ruta": "fabrica/piezas/h117.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h118",
+   "ruta": "fabrica/piezas/h118.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h119",
+   "ruta": "fabrica/piezas/h119.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h120",
+   "ruta": "fabrica/piezas/h120.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h121",
+   "ruta": "fabrica/piezas/h121.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h122",
+   "ruta": "fabrica/piezas/h122.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h123",
+   "ruta": "fabrica/piezas/h123.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h124",
+   "ruta": "fabrica/piezas/h124.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h125",
+   "ruta": "fabrica/piezas/h125.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h126",
+   "ruta": "fabrica/piezas/h126.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h127",
+   "ruta": "fabrica/piezas/h127.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h128",
+   "ruta": "fabrica/piezas/h128.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h129",
+   "ruta": "fabrica/piezas/h129.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h130",
+   "ruta": "fabrica/piezas/h130.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h131",
+   "ruta": "fabrica/piezas/h131.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h132",
+   "ruta": "fabrica/piezas/h132.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h133",
+   "ruta": "fabrica/piezas/h133.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h134",
+   "ruta": "fabrica/piezas/h134.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h135",
+   "ruta": "fabrica/piezas/h135.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h136",
+   "ruta": "fabrica/piezas/h136.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h137",
+   "ruta": "fabrica/piezas/h137.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h138",
+   "ruta": "fabrica/piezas/h138.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h139",
+   "ruta": "fabrica/piezas/h139.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h140",
+   "ruta": "fabrica/piezas/h140.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h141",
+   "ruta": "fabrica/piezas/h141.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h142",
+   "ruta": "fabrica/piezas/h142.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h143",
+   "ruta": "fabrica/piezas/h143.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h144",
+   "ruta": "fabrica/piezas/h144.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h145",
+   "ruta": "fabrica/piezas/h145.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h146",
+   "ruta": "fabrica/piezas/h146.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h147",
+   "ruta": "fabrica/piezas/h147.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h148",
+   "ruta": "fabrica/piezas/h148.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h149",
+   "ruta": "fabrica/piezas/h149.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h150",
+   "ruta": "fabrica/piezas/h150.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h151",
+   "ruta": "fabrica/piezas/h151.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h152",
+   "ruta": "fabrica/piezas/h152.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h153",
+   "ruta": "fabrica/piezas/h153.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h154",
+   "ruta": "fabrica/piezas/h154.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h155",
+   "ruta": "fabrica/piezas/h155.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h156",
+   "ruta": "fabrica/piezas/h156.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h157",
+   "ruta": "fabrica/piezas/h157.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h158",
+   "ruta": "fabrica/piezas/h158.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h159",
+   "ruta": "fabrica/piezas/h159.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h160",
+   "ruta": "fabrica/piezas/h160.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "h161",
+   "ruta": "fabrica/piezas/h161.png",
+   "tipo": "pieza",
+   "grupo": "cabezas",
+   "w": 330,
+   "h": 297
+  },
+  {
+   "id": "b000",
+   "ruta": "fabrica/piezas/b000.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b001",
+   "ruta": "fabrica/piezas/b001.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b002",
+   "ruta": "fabrica/piezas/b002.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b003",
+   "ruta": "fabrica/piezas/b003.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b004",
+   "ruta": "fabrica/piezas/b004.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b005",
+   "ruta": "fabrica/piezas/b005.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b006",
+   "ruta": "fabrica/piezas/b006.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b007",
+   "ruta": "fabrica/piezas/b007.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b008",
+   "ruta": "fabrica/piezas/b008.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b009",
+   "ruta": "fabrica/piezas/b009.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b010",
+   "ruta": "fabrica/piezas/b010.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b011",
+   "ruta": "fabrica/piezas/b011.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b012",
+   "ruta": "fabrica/piezas/b012.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b013",
+   "ruta": "fabrica/piezas/b013.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b014",
+   "ruta": "fabrica/piezas/b014.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b015",
+   "ruta": "fabrica/piezas/b015.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b016",
+   "ruta": "fabrica/piezas/b016.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b017",
+   "ruta": "fabrica/piezas/b017.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b018",
+   "ruta": "fabrica/piezas/b018.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b019",
+   "ruta": "fabrica/piezas/b019.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b020",
+   "ruta": "fabrica/piezas/b020.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b021",
+   "ruta": "fabrica/piezas/b021.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b022",
+   "ruta": "fabrica/piezas/b022.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b023",
+   "ruta": "fabrica/piezas/b023.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b024",
+   "ruta": "fabrica/piezas/b024.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b025",
+   "ruta": "fabrica/piezas/b025.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b026",
+   "ruta": "fabrica/piezas/b026.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b027",
+   "ruta": "fabrica/piezas/b027.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b028",
+   "ruta": "fabrica/piezas/b028.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b029",
+   "ruta": "fabrica/piezas/b029.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b030",
+   "ruta": "fabrica/piezas/b030.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b031",
+   "ruta": "fabrica/piezas/b031.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b032",
+   "ruta": "fabrica/piezas/b032.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b033",
+   "ruta": "fabrica/piezas/b033.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b034",
+   "ruta": "fabrica/piezas/b034.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b035",
+   "ruta": "fabrica/piezas/b035.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b036",
+   "ruta": "fabrica/piezas/b036.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b037",
+   "ruta": "fabrica/piezas/b037.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b038",
+   "ruta": "fabrica/piezas/b038.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b039",
+   "ruta": "fabrica/piezas/b039.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b040",
+   "ruta": "fabrica/piezas/b040.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b041",
+   "ruta": "fabrica/piezas/b041.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b042",
+   "ruta": "fabrica/piezas/b042.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b043",
+   "ruta": "fabrica/piezas/b043.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b044",
+   "ruta": "fabrica/piezas/b044.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b045",
+   "ruta": "fabrica/piezas/b045.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b046",
+   "ruta": "fabrica/piezas/b046.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b047",
+   "ruta": "fabrica/piezas/b047.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b048",
+   "ruta": "fabrica/piezas/b048.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b049",
+   "ruta": "fabrica/piezas/b049.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b050",
+   "ruta": "fabrica/piezas/b050.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b051",
+   "ruta": "fabrica/piezas/b051.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b052",
+   "ruta": "fabrica/piezas/b052.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b053",
+   "ruta": "fabrica/piezas/b053.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b054",
+   "ruta": "fabrica/piezas/b054.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b055",
+   "ruta": "fabrica/piezas/b055.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b056",
+   "ruta": "fabrica/piezas/b056.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b057",
+   "ruta": "fabrica/piezas/b057.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b058",
+   "ruta": "fabrica/piezas/b058.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b059",
+   "ruta": "fabrica/piezas/b059.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b060",
+   "ruta": "fabrica/piezas/b060.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b061",
+   "ruta": "fabrica/piezas/b061.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b062",
+   "ruta": "fabrica/piezas/b062.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b063",
+   "ruta": "fabrica/piezas/b063.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b064",
+   "ruta": "fabrica/piezas/b064.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b065",
+   "ruta": "fabrica/piezas/b065.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b066",
+   "ruta": "fabrica/piezas/b066.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b067",
+   "ruta": "fabrica/piezas/b067.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b068",
+   "ruta": "fabrica/piezas/b068.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b069",
+   "ruta": "fabrica/piezas/b069.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b070",
+   "ruta": "fabrica/piezas/b070.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b071",
+   "ruta": "fabrica/piezas/b071.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b072",
+   "ruta": "fabrica/piezas/b072.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b073",
+   "ruta": "fabrica/piezas/b073.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b074",
+   "ruta": "fabrica/piezas/b074.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b075",
+   "ruta": "fabrica/piezas/b075.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b076",
+   "ruta": "fabrica/piezas/b076.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b077",
+   "ruta": "fabrica/piezas/b077.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b078",
+   "ruta": "fabrica/piezas/b078.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b079",
+   "ruta": "fabrica/piezas/b079.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b080",
+   "ruta": "fabrica/piezas/b080.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b081",
+   "ruta": "fabrica/piezas/b081.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b082",
+   "ruta": "fabrica/piezas/b082.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b083",
+   "ruta": "fabrica/piezas/b083.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b084",
+   "ruta": "fabrica/piezas/b084.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b085",
+   "ruta": "fabrica/piezas/b085.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b086",
+   "ruta": "fabrica/piezas/b086.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b087",
+   "ruta": "fabrica/piezas/b087.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b088",
+   "ruta": "fabrica/piezas/b088.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b089",
+   "ruta": "fabrica/piezas/b089.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b090",
+   "ruta": "fabrica/piezas/b090.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b091",
+   "ruta": "fabrica/piezas/b091.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b092",
+   "ruta": "fabrica/piezas/b092.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b093",
+   "ruta": "fabrica/piezas/b093.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b094",
+   "ruta": "fabrica/piezas/b094.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b095",
+   "ruta": "fabrica/piezas/b095.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b096",
+   "ruta": "fabrica/piezas/b096.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b097",
+   "ruta": "fabrica/piezas/b097.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b098",
+   "ruta": "fabrica/piezas/b098.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b099",
+   "ruta": "fabrica/piezas/b099.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b100",
+   "ruta": "fabrica/piezas/b100.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b101",
+   "ruta": "fabrica/piezas/b101.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b102",
+   "ruta": "fabrica/piezas/b102.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b103",
+   "ruta": "fabrica/piezas/b103.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b104",
+   "ruta": "fabrica/piezas/b104.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b105",
+   "ruta": "fabrica/piezas/b105.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b106",
+   "ruta": "fabrica/piezas/b106.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b107",
+   "ruta": "fabrica/piezas/b107.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b108",
+   "ruta": "fabrica/piezas/b108.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b109",
+   "ruta": "fabrica/piezas/b109.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b110",
+   "ruta": "fabrica/piezas/b110.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b111",
+   "ruta": "fabrica/piezas/b111.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b112",
+   "ruta": "fabrica/piezas/b112.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b113",
+   "ruta": "fabrica/piezas/b113.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b114",
+   "ruta": "fabrica/piezas/b114.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b115",
+   "ruta": "fabrica/piezas/b115.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b116",
+   "ruta": "fabrica/piezas/b116.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b117",
+   "ruta": "fabrica/piezas/b117.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b118",
+   "ruta": "fabrica/piezas/b118.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b119",
+   "ruta": "fabrica/piezas/b119.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b120",
+   "ruta": "fabrica/piezas/b120.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b121",
+   "ruta": "fabrica/piezas/b121.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b122",
+   "ruta": "fabrica/piezas/b122.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b123",
+   "ruta": "fabrica/piezas/b123.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b124",
+   "ruta": "fabrica/piezas/b124.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b125",
+   "ruta": "fabrica/piezas/b125.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b126",
+   "ruta": "fabrica/piezas/b126.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b127",
+   "ruta": "fabrica/piezas/b127.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b128",
+   "ruta": "fabrica/piezas/b128.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b129",
+   "ruta": "fabrica/piezas/b129.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b130",
+   "ruta": "fabrica/piezas/b130.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b131",
+   "ruta": "fabrica/piezas/b131.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b132",
+   "ruta": "fabrica/piezas/b132.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b133",
+   "ruta": "fabrica/piezas/b133.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b134",
+   "ruta": "fabrica/piezas/b134.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b135",
+   "ruta": "fabrica/piezas/b135.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b136",
+   "ruta": "fabrica/piezas/b136.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b137",
+   "ruta": "fabrica/piezas/b137.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b138",
+   "ruta": "fabrica/piezas/b138.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b139",
+   "ruta": "fabrica/piezas/b139.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b140",
+   "ruta": "fabrica/piezas/b140.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b141",
+   "ruta": "fabrica/piezas/b141.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b142",
+   "ruta": "fabrica/piezas/b142.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b143",
+   "ruta": "fabrica/piezas/b143.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b144",
+   "ruta": "fabrica/piezas/b144.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b145",
+   "ruta": "fabrica/piezas/b145.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b146",
+   "ruta": "fabrica/piezas/b146.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b147",
+   "ruta": "fabrica/piezas/b147.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b148",
+   "ruta": "fabrica/piezas/b148.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "b149",
+   "ruta": "fabrica/piezas/b149.png",
+   "tipo": "pieza",
+   "grupo": "cuerpos",
+   "w": 330,
+   "h": 353
+  },
+  {
+   "id": "d000",
+   "ruta": "fabrica/disfraces/d000.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: alien"
+  },
+  {
+   "id": "d001",
+   "ruta": "fabrica/disfraces/d001.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: bandido lunar"
+  },
+  {
+   "id": "d002",
+   "ruta": "fabrica/disfraces/d002.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: bruja del mar"
+  },
+  {
+   "id": "d003",
+   "ruta": "fabrica/disfraces/d003.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: bruja"
+  },
+  {
+   "id": "d004",
+   "ruta": "fabrica/disfraces/d004.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: bufon"
+  },
+  {
+   "id": "d005",
+   "ruta": "fabrica/disfraces/d005.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: calabaza"
+  },
+  {
+   "id": "d006",
+   "ruta": "fabrica/disfraces/d006.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: calavera"
+  },
+  {
+   "id": "d007",
+   "ruta": "fabrica/disfraces/d007.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: caperucita"
+  },
+  {
+   "id": "d008",
+   "ruta": "fabrica/disfraces/d008.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: cazafantasmas"
+  },
+  {
+   "id": "d009",
+   "ruta": "fabrica/disfraces/d009.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: cazamisterios"
+  },
+  {
+   "id": "d010",
+   "ruta": "fabrica/disfraces/d010.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: cientifico loco"
+  },
+  {
+   "id": "d011",
+   "ruta": "fabrica/disfraces/d011.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: criatura del lago"
+  },
+  {
+   "id": "d012",
+   "ruta": "fabrica/disfraces/d012.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: criatura helada"
+  },
+  {
+   "id": "d013",
+   "ruta": "fabrica/disfraces/d013.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: cupido"
+  },
+  {
+   "id": "d014",
+   "ruta": "fabrica/disfraces/d014.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: diablo"
+  },
+  {
+   "id": "d015",
+   "ruta": "fabrica/disfraces/d015.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: dragon"
+  },
+  {
+   "id": "d016",
+   "ruta": "fabrica/disfraces/d016.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: espantapajaros"
+  },
+  {
+   "id": "d017",
+   "ruta": "fabrica/disfraces/d017.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: esqueleto"
+  },
+  {
+   "id": "d018",
+   "ruta": "fabrica/disfraces/d018.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: fantasma"
+  },
+  {
+   "id": "d019",
+   "ruta": "fabrica/disfraces/d019.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: faraon"
+  },
+  {
+   "id": "d020",
+   "ruta": "fabrica/disfraces/d020.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: frankenstein"
+  },
+  {
+   "id": "d021",
+   "ruta": "fabrica/disfraces/d021.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: fresa"
+  },
+  {
+   "id": "d022",
+   "ruta": "fabrica/disfraces/d022.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: gato lunar"
+  },
+  {
+   "id": "d023",
+   "ruta": "fabrica/disfraces/d023.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: gato negro"
+  },
+  {
+   "id": "d024",
+   "ruta": "fabrica/disfraces/d024.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: hada"
+  },
+  {
+   "id": "d025",
+   "ruta": "fabrica/disfraces/d025.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: hawaiano"
+  },
+  {
+   "id": "d026",
+   "ruta": "fabrica/disfraces/d026.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: mago"
+  },
+  {
+   "id": "d027",
+   "ruta": "fabrica/disfraces/d027.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: momia"
+  },
+  {
+   "id": "d028",
+   "ruta": "fabrica/disfraces/d028.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: monje del viento"
+  },
+  {
+   "id": "d029",
+   "ruta": "fabrica/disfraces/d029.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: ninja"
+  },
+  {
+   "id": "d030",
+   "ruta": "fabrica/disfraces/d030.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: payaso"
+  },
+  {
+   "id": "d031",
+   "ruta": "fabrica/disfraces/d031.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: perro caliente"
+  },
+  {
+   "id": "d032",
+   "ruta": "fabrica/disfraces/d032.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: pesadilla"
+  },
+  {
+   "id": "d033",
+   "ruta": "fabrica/disfraces/d033.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: pirata"
+  },
+  {
+   "id": "d034",
+   "ruta": "fabrica/disfraces/d034.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: princesa de la torre"
+  },
+  {
+   "id": "d035",
+   "ruta": "fabrica/disfraces/d035.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: princesa del desierto"
+  },
+  {
+   "id": "d036",
+   "ruta": "fabrica/disfraces/d036.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: rayo"
+  },
+  {
+   "id": "d037",
+   "ruta": "fabrica/disfraces/d037.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: reina de corazones"
+  },
+  {
+   "id": "d038",
+   "ruta": "fabrica/disfraces/d038.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: retazos"
+  },
+  {
+   "id": "d039",
+   "ruta": "fabrica/disfraces/d039.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: rey"
+  },
+  {
+   "id": "d040",
+   "ruta": "fabrica/disfraces/d040.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: robot"
+  },
+  {
+   "id": "d041",
+   "ruta": "fabrica/disfraces/d041.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: sombra nocturna"
+  },
+  {
+   "id": "d042",
+   "ruta": "fabrica/disfraces/d042.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: telarana"
+  },
+  {
+   "id": "d043",
+   "ruta": "fabrica/disfraces/d043.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: vampiro"
+  },
+  {
+   "id": "d044",
+   "ruta": "fabrica/disfraces/d044.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: vaquero"
+  },
+  {
+   "id": "d045",
+   "ruta": "fabrica/disfraces/d045.png",
+   "tipo": "sticker",
+   "grupo": "disfraces",
+   "w": 330,
+   "h": 637,
+   "d": "Pato disfrazado de cuerpo entero: zombie"
+  },
+  {
+   "id": "anonimo",
+   "ruta": "ducks/anonimo.png",
+   "tipo": "sticker",
+   "grupo": "patos_sticker",
+   "w": 331,
+   "h": 808,
+   "d": "Pato vestido de cuerpo entero: anonimo"
+  },
+  {
+   "id": "artista",
+   "ruta": "ducks/artista.png",
+   "tipo": "sticker",
+   "grupo": "patos_sticker",
+   "w": 375,
+   "h": 906,
+   "d": "Pato vestido de cuerpo entero: artista"
+  },
+  {
+   "id": "astro",
+   "ruta": "ducks/astro.png",
+   "tipo": "sticker",
+   "grupo": "patos_sticker",
+   "w": 335,
+   "h": 849,
+   "d": "Pato vestido de cuerpo entero: astro"
+  },
+  {
+   "id": "basket",
+   "ruta": "ducks/basket.png",
+   "tipo": "sticker",
+   "grupo": "patos_sticker",
+   "w": 332,
+   "h": 814,
+   "d": "Pato vestido de cuerpo entero: basket"
+  },
+  {
+   "id": "chef",
+   "ruta": "ducks/chef.png",
+   "tipo": "sticker",
+   "grupo": "patos_sticker",
+   "w": 332,
+   "h": 908,
+   "d": "Pato vestido de cuerpo entero: chef"
+  },
+  {
+   "id": "code",
+   "ruta": "ducks/code.png",
+   "tipo": "sticker",
+   "grupo": "patos_sticker",
+   "w": 332,
+   "h": 807,
+   "d": "Pato vestido de cuerpo entero: code"
+  },
+  {
+   "id": "conejita",
+   "ruta": "ducks/conejita.png",
+   "tipo": "sticker",
+   "grupo": "patos_sticker",
+   "w": 350,
+   "h": 899,
+   "d": "Pato vestido de cuerpo entero: conejita"
+  },
+  {
+   "id": "cool",
+   "ruta": "ducks/cool.png",
+   "tipo": "sticker",
+   "grupo": "patos_sticker",
+   "w": 345,
+   "h": 807,
+   "d": "Pato vestido de cuerpo entero: cool"
+  },
+  {
+   "id": "doctor",
+   "ruta": "ducks/doctor.png",
+   "tipo": "sticker",
+   "grupo": "patos_sticker",
+   "w": 369,
+   "h": 899,
+   "d": "Pato vestido de cuerpo entero: doctor"
+  },
+  {
+   "id": "estudiante",
+   "ruta": "ducks/estudiante.png",
+   "tipo": "sticker",
+   "grupo": "patos_sticker",
+   "w": 331,
+   "h": 807,
+   "d": "Pato vestido de cuerpo entero: estudiante"
+  },
+  {
+   "id": "fiesta",
+   "ruta": "ducks/fiesta.png",
+   "tipo": "sticker",
+   "grupo": "patos_sticker",
+   "w": 427,
+   "h": 838,
+   "d": "Pato vestido de cuerpo entero: fiesta"
+  },
+  {
+   "id": "flores",
+   "ruta": "ducks/flores.png",
+   "tipo": "sticker",
+   "grupo": "patos_sticker",
+   "w": 332,
+   "h": 807,
+   "d": "Pato vestido de cuerpo entero: flores"
+  },
+  {
+   "id": "grad",
+   "ruta": "ducks/grad.png",
+   "tipo": "sticker",
+   "grupo": "patos_sticker",
+   "w": 336,
+   "h": 913,
+   "d": "Pato vestido de cuerpo entero: grad"
+  },
+  {
+   "id": "invierno",
+   "ruta": "ducks/invierno.png",
+   "tipo": "sticker",
+   "grupo": "patos_sticker",
+   "w": 332,
+   "h": 906,
+   "d": "Pato vestido de cuerpo entero: invierno"
+  },
+  {
+   "id": "obrero",
+   "ruta": "ducks/obrero.png",
+   "tipo": "sticker",
+   "grupo": "patos_sticker",
+   "w": 332,
+   "h": 856,
+   "d": "Pato vestido de cuerpo entero: obrero"
+  },
+  {
+   "id": "pirata",
+   "ruta": "ducks/pirata.png",
+   "tipo": "sticker",
+   "grupo": "patos_sticker",
+   "w": 382,
+   "h": 895,
+   "d": "Pato vestido de cuerpo entero: pirata"
+  },
+  {
+   "id": "reina",
+   "ruta": "ducks/reina.png",
+   "tipo": "sticker",
+   "grupo": "patos_sticker",
+   "w": 335,
+   "h": 920,
+   "d": "Pato vestido de cuerpo entero: reina"
+  },
+  {
+   "id": "rock",
+   "ruta": "ducks/rock.png",
+   "tipo": "sticker",
+   "grupo": "patos_sticker",
+   "w": 332,
+   "h": 807,
+   "d": "Pato vestido de cuerpo entero: rock"
+  },
+  {
+   "id": "vaquero",
+   "ruta": "ducks/vaquero.png",
+   "tipo": "sticker",
+   "grupo": "patos_sticker",
+   "w": 342,
+   "h": 870,
+   "d": "Pato vestido de cuerpo entero: vaquero"
+  },
+  {
+   "id": "arte",
+   "ruta": "parches/cat/arte.png",
+   "tipo": "sticker",
+   "grupo": "categorias_parches",
+   "w": 300,
+   "h": 300,
+   "d": "Ilustración de la categoría de parches «arte» (patos haciendo esa actividad)."
+  },
+  {
+   "id": "causas",
+   "ruta": "parches/cat/causas.png",
+   "tipo": "sticker",
+   "grupo": "categorias_parches",
+   "w": 300,
+   "h": 300,
+   "d": "Ilustración de la categoría de parches «causas» (patos haciendo esa actividad)."
+  },
+  {
+   "id": "comida",
+   "ruta": "parches/cat/comida.png",
+   "tipo": "sticker",
+   "grupo": "categorias_parches",
+   "w": 300,
+   "h": 300,
+   "d": "Ilustración de la categoría de parches «comida» (patos haciendo esa actividad)."
+  },
+  {
+   "id": "deportes",
+   "ruta": "parches/cat/deportes.png",
+   "tipo": "sticker",
+   "grupo": "categorias_parches",
+   "w": 300,
+   "h": 300,
+   "d": "Ilustración de la categoría de parches «deportes» (patos haciendo esa actividad)."
+  },
+  {
+   "id": "estudio",
+   "ruta": "parches/cat/estudio.png",
+   "tipo": "sticker",
+   "grupo": "categorias_parches",
+   "w": 300,
+   "h": 300,
+   "d": "Ilustración de la categoría de parches «estudio» (patos haciendo esa actividad)."
+  },
+  {
+   "id": "fiesta",
+   "ruta": "parches/cat/fiesta.png",
+   "tipo": "sticker",
+   "grupo": "categorias_parches",
+   "w": 300,
+   "h": 300,
+   "d": "Ilustración de la categoría de parches «fiesta» (patos haciendo esa actividad)."
+  },
+  {
+   "id": "fitness",
+   "ruta": "parches/cat/fitness.png",
+   "tipo": "sticker",
+   "grupo": "categorias_parches",
+   "w": 300,
+   "h": 300,
+   "d": "Ilustración de la categoría de parches «fitness» (patos haciendo esa actividad)."
+  },
+  {
+   "id": "gaming",
+   "ruta": "parches/cat/gaming.png",
+   "tipo": "sticker",
+   "grupo": "categorias_parches",
+   "w": 300,
+   "h": 300,
+   "d": "Ilustración de la categoría de parches «gaming» (patos haciendo esa actividad)."
+  },
+  {
+   "id": "musica",
+   "ruta": "parches/cat/musica.png",
+   "tipo": "sticker",
+   "grupo": "categorias_parches",
+   "w": 300,
+   "h": 300,
+   "d": "Ilustración de la categoría de parches «musica» (patos haciendo esa actividad)."
+  },
+  {
+   "id": "otros",
+   "ruta": "parches/cat/otros.png",
+   "tipo": "sticker",
+   "grupo": "categorias_parches",
+   "w": 300,
+   "h": 300,
+   "d": "Ilustración de la categoría de parches «otros» (patos haciendo esa actividad)."
+  },
+  {
+   "id": "series",
+   "ruta": "parches/cat/series.png",
+   "tipo": "sticker",
+   "grupo": "categorias_parches",
+   "w": 300,
+   "h": 300,
+   "d": "Ilustración de la categoría de parches «series» (patos haciendo esa actividad)."
+  },
+  {
+   "id": "viajes",
+   "ruta": "parches/cat/viajes.png",
+   "tipo": "sticker",
+   "grupo": "categorias_parches",
+   "w": 300,
+   "h": 300,
+   "d": "Ilustración de la categoría de parches «viajes» (patos haciendo esa actividad)."
+  },
+  {
+   "id": "autonoma",
+   "ruta": "logos/autonoma.png",
+   "tipo": "sticker",
+   "grupo": "logos_universidades",
+   "w": 160,
+   "h": 138,
+   "d": "Logo de la universidad AUTONOMA"
+  },
+  {
+   "id": "camacho",
+   "ruta": "logos/camacho.png",
+   "tipo": "sticker",
+   "grupo": "logos_universidades",
+   "w": 365,
+   "h": 512,
+   "d": "Logo de la universidad CAMACHO"
+  },
+  {
+   "id": "end",
+   "ruta": "logos/end.png",
+   "tipo": "sticker",
+   "grupo": "logos_universidades",
+   "w": 512,
+   "h": 245,
+   "d": "Logo de la universidad END"
+  },
+  {
+   "id": "icesi",
+   "ruta": "logos/icesi.png",
+   "tipo": "sticker",
+   "grupo": "logos_universidades",
+   "w": 447,
+   "h": 447,
+   "d": "Logo de la universidad ICESI"
+  },
+  {
+   "id": "javeriana",
+   "ruta": "logos/javeriana.png",
+   "tipo": "sticker",
+   "grupo": "logos_universidades",
+   "w": 158,
+   "h": 160,
+   "d": "Logo de la universidad JAVERIANA"
+  },
+  {
+   "id": "libre",
+   "ruta": "logos/libre.png",
+   "tipo": "sticker",
+   "grupo": "logos_universidades",
+   "w": 160,
+   "h": 160,
+   "d": "Logo de la universidad LIBRE"
+  },
+  {
+   "id": "sanbue",
+   "ruta": "logos/sanbue.png",
+   "tipo": "sticker",
+   "grupo": "logos_universidades",
+   "w": 115,
+   "h": 160,
+   "d": "Logo de la universidad SANBUE"
+  },
+  {
+   "id": "santiago",
+   "ruta": "logos/santiago.png",
+   "tipo": "sticker",
+   "grupo": "logos_universidades",
+   "w": 160,
+   "h": 160,
+   "d": "Logo de la universidad SANTIAGO"
+  },
+  {
+   "id": "univalle",
+   "ruta": "logos/univalle.png",
+   "tipo": "sticker",
+   "grupo": "logos_universidades",
+   "w": 160,
+   "h": 160,
+   "d": "Logo de la universidad UNIVALLE"
+  },
+  {
+   "id": "casillero",
+   "ruta": "screens/casillero.jpg",
+   "tipo": "imagen",
+   "grupo": "capturas_app",
+   "w": 852,
+   "h": 1846,
+   "d": "Casillero social de un usuario: casillero verde con su pato, notas pegadas, una foto y stickers.",
+   "evitar": "Muestra el @ de un usuario real: úsalo mediano o pequeño."
+  },
+  {
+   "id": "chats",
+   "ruta": "screens/chats.jpg",
+   "tipo": "imagen",
+   "grupo": "capturas_app",
+   "w": 591,
+   "h": 1280,
+   "d": "Lista de chats de la app (conversaciones recientes).",
+   "evitar": "Tiene nombres reales: solo pequeño o tapado con otra pieza."
+  },
+  {
+   "id": "duckart-podio-semana",
+   "ruta": "screens/duckart-podio-semana.png",
+   "tipo": "imagen",
+   "grupo": "capturas_app",
+   "w": 739,
+   "h": 1600,
+   "d": "Podio semanal de DuckiArt: los dibujos ganadores de la semana."
+  },
+  {
+   "id": "feed-captura-post",
+   "ruta": "screens/feed-captura-post.jpg",
+   "tipo": "imagen",
+   "grupo": "capturas_app",
+   "w": 591,
+   "h": 1280,
+   "d": "Una publicación del feed con texto grande («Muchachos feliz navidad, yo ya no doy más») y un meme."
+  },
+  {
+   "id": "feed-captura-timeline",
+   "ruta": "screens/feed-captura-timeline.jpg",
+   "tipo": "imagen",
+   "grupo": "capturas_app",
+   "w": 591,
+   "h": 1280,
+   "d": "El feed con historias arriba y publicaciones con memes debajo."
+  },
+  {
+   "id": "feed",
+   "ruta": "screens/feed.jpg",
+   "tipo": "imagen",
+   "grupo": "capturas_app",
+   "w": 591,
+   "h": 1280,
+   "d": "El feed «Para ti»: publicaciones de estudiantes, una de ellas anónima, con likes y comentarios."
+  },
+  {
+   "id": "mapa",
+   "ruta": "screens/mapa.jpg",
+   "tipo": "imagen",
+   "grupo": "capturas_app",
+   "w": 591,
+   "h": 1280,
+   "d": "El mapa de amigos: patos de amigos sobre el mapa de Cali."
+  },
+  {
+   "id": "parches-captura",
+   "ruta": "screens/parches-captura.png",
+   "tipo": "imagen",
+   "grupo": "capturas_app",
+   "w": 739,
+   "h": 1600,
+   "d": "Pantalla de Parches: categorías arriba y un parche con foto de fiesta."
+  },
+  {
+   "id": "perfil",
+   "ruta": "screens/perfil.jpg",
+   "tipo": "imagen",
+   "grupo": "capturas_app",
+   "w": 852,
+   "h": 1846,
+   "d": "Perfil de un usuario: foto de portada, su pato y botones."
+  },
+  {
+   "id": "crush-menu",
+   "ruta": "todo/stills/crush-menu.jpg",
+   "tipo": "imagen",
+   "grupo": "capturas_app",
+   "w": 768,
+   "h": 1664,
+   "d": "Casillero oscuro con el menú de Ducki Crush abierto (marcar como crush)."
+  },
+  {
+   "id": "golf",
+   "ruta": "todo/stills/golf.jpg",
+   "tipo": "imagen",
+   "grupo": "capturas_app",
+   "w": 500,
+   "h": 600,
+   "d": "Minigolf de Ducki: un hoyo con agua y un puente de madera, vista desde arriba."
+  },
+  {
+   "id": "juegos-menu",
+   "ruta": "todo/stills/juegos-menu.jpg",
+   "tipo": "imagen",
+   "grupo": "capturas_app",
+   "w": 768,
+   "h": 1664,
+   "d": "Menú de juegos dentro de una sala: íconos de colores de cada juego."
+  },
+  {
+   "id": "kart",
+   "ruta": "todo/stills/kart.jpg",
+   "tipo": "imagen",
+   "grupo": "capturas_app",
+   "w": 780,
+   "h": 680,
+   "d": "Ducki Kart: un pato en kart corriendo por la pista, vista desde atrás."
+  },
+  {
+   "id": "match",
+   "ruta": "todo/stills/match.jpg",
+   "tipo": "imagen",
+   "grupo": "capturas_app",
+   "w": 768,
+   "h": 1664,
+   "d": "Modal «¡Hicieron match!» de Ducki Crush con dos patos y un corazón.",
+   "evitar": "Muestra un @ de usuario."
+  },
+  {
+   "id": "sala",
+   "ruta": "todo/stills/sala.jpg",
+   "tipo": "imagen",
+   "grupo": "capturas_app",
+   "w": 384,
+   "h": 832,
+   "d": "Una Duckisala recién abierta: 8 puestos vacíos, el chat y el botón de juegos."
+  },
+  {
+   "id": "drawing-01",
+   "ruta": "duckart/weekly/drawing-01.jpeg",
+   "tipo": "imagen",
+   "grupo": "dibujos_duckiart",
+   "w": 1024,
+   "h": 1024,
+   "d": "Dibujo ganador de DuckiArt: pato con un pan diciendo «cuack cuack»."
+  },
+  {
+   "id": "drawing-02",
+   "ruta": "duckart/weekly/drawing-02.jpeg",
+   "tipo": "imagen",
+   "grupo": "dibujos_duckiart",
+   "w": 1024,
+   "h": 1024,
+   "d": "Dibujo ganador de DuckiArt."
+  },
+  {
+   "id": "drawing-03",
+   "ruta": "duckart/weekly/drawing-03.jpeg",
+   "tipo": "imagen",
+   "grupo": "dibujos_duckiart",
+   "w": 1024,
+   "h": 1024,
+   "d": "Dibujo ganador de DuckiArt: pato blanco con una taza, en un cuadro."
+  },
+  {
+   "id": "drawing-04",
+   "ruta": "duckart/weekly/drawing-04.jpeg",
+   "tipo": "imagen",
+   "grupo": "dibujos_duckiart",
+   "w": 1024,
+   "h": 1024,
+   "d": "Dibujo ganador de DuckiArt."
+  },
+  {
+   "id": "drawing-05",
+   "ruta": "duckart/weekly/drawing-05.jpeg",
+   "tipo": "imagen",
+   "grupo": "dibujos_duckiart",
+   "w": 1024,
+   "h": 1024,
+   "d": "Dibujo ganador de DuckiArt: personaje gato con cartel."
+  },
+  {
+   "id": "drawing-06",
+   "ruta": "duckart/weekly/drawing-06.jpeg",
+   "tipo": "imagen",
+   "grupo": "dibujos_duckiart",
+   "w": 1024,
+   "h": 1024,
+   "d": "Dibujo ganador de DuckiArt."
+  },
+  {
+   "id": "accessory-backpack",
+   "ruta": "app/accessory-backpack.svg",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 459,
+   "h": 418,
+   "d": "Accesorio suelto: morral."
+  },
+  {
+   "id": "accessory-cap",
+   "ruta": "app/accessory-cap.svg",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 433,
+   "h": 299,
+   "d": "Accesorio suelto: gorra."
+  },
+  {
+   "id": "accessory-grad-cap",
+   "ruta": "app/accessory-grad-cap.svg",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 407,
+   "h": 329,
+   "d": "Accesorio suelto: birrete de graduación."
+  },
+  {
+   "id": "accessory-headphones",
+   "ruta": "app/accessory-headphones.svg",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 391,
+   "h": 406,
+   "d": "Accesorio suelto: audífonos."
+  },
+  {
+   "id": "accessory-sunglasses",
+   "ruta": "app/accessory-sunglasses.svg",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 360,
+   "h": 258,
+   "d": "Accesorio suelto: gafas de sol."
+  },
+  {
+   "id": "anonimo",
+   "ruta": "app/anonimo.png",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 271,
+   "h": 327,
+   "d": "Cabeza de pato con máscara de anónimo."
+  },
+  {
+   "id": "default-body",
+   "ruta": "app/default-body.png",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 495,
+   "h": 529,
+   "d": "Cuerpo del pato básico, sin ropa."
+  },
+  {
+   "id": "default-head",
+   "ruta": "app/default-head.png",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 271,
+   "h": 326,
+   "d": "Cabeza del pato básico, sin accesorios (el pato de todos al empezar)."
+  },
+  {
+   "id": "duck-anon",
+   "ruta": "app/duck-anon.png",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 328,
+   "h": 808,
+   "d": "Pato de cuerpo entero con máscara de anónimo."
+  },
+  {
+   "id": "duck-cap",
+   "ruta": "app/duck-cap.png",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 1280,
+   "h": 1229,
+   "d": "Pato con audífonos asomándose por un borde."
+  },
+  {
+   "id": "duck-carter",
+   "ruta": "app/duck-carter.png",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 747,
+   "h": 1860,
+   "d": "Pato cartero con gorra y bolso de cartas (cartas, mensajes, entregas)."
+  },
+  {
+   "id": "duck-confused",
+   "ruta": "app/duck-confused.png",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 187,
+   "h": 169,
+   "d": "Cara de pato confundido con un signo de pregunta (dudas, no entender, no encajar)."
+  },
+  {
+   "id": "duck-head",
+   "ruta": "app/duck-head.png",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 287,
+   "h": 283,
+   "d": "Cara del pato en primer plano, ojos grandes."
+  },
+  {
+   "id": "duck-technician",
+   "ruta": "app/duck-technician.png",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 532,
+   "h": 1183,
+   "d": "Pato técnico con overol y llave inglesa (arreglos, mantenimiento, construir)."
+  },
+  {
+   "id": "duck-waving",
+   "ruta": "app/duck-waving.png",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 738,
+   "h": 1436,
+   "d": "Pato saludando con la mano y la lengua afuera (hola, bienvenida)."
+  },
+  {
+   "id": "icon",
+   "ruta": "app/icon.png",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 1024,
+   "h": 1024,
+   "d": "Ícono de la app Ducki: el pato sobre fondo naranja, esquinas redondeadas."
+  },
+  {
+   "id": "sparkle-large",
+   "ruta": "app/sparkle-large.svg",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 45,
+   "h": 45,
+   "d": "Destello grande (brillo)."
+  },
+  {
+   "id": "sparkle-small",
+   "ruta": "app/sparkle-small.svg",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 20,
+   "h": 57,
+   "d": "Destello pequeño (brillo)."
+  },
+  {
+   "id": "wordmark-dark",
+   "ruta": "app/wordmark-dark.png",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 1913,
+   "h": 822,
+   "d": "Logo «Ducki» en letras negras (para hojas claras)."
+  },
+  {
+   "id": "wordmark",
+   "ruta": "app/wordmark.png",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 1867,
+   "h": 663,
+   "d": "Logo «Ducki» en letras blancas (para hojas oscuras)."
+  },
+  {
+   "id": "app-store",
+   "ruta": "stores/app-store.svg",
+   "tipo": "sticker",
+   "grupo": "tiendas",
+   "w": 120,
+   "h": 40,
+   "d": "Botón oficial de App Store."
+  },
+  {
+   "id": "google-play",
+   "ruta": "stores/google-play.png",
+   "tipo": "sticker",
+   "grupo": "tiendas",
+   "w": 646,
+   "h": 192,
+   "d": "Botón oficial de Google Play."
+  },
+  {
+   "id": "carta",
+   "ruta": "v0110/carta.mp4",
+   "tipo": "clip",
+   "grupo": "clips_app",
+   "w": 768,
+   "h": 1664,
+   "segundos": 15.98,
+   "d": "Escribir una carta en el casillero de alguien: se abre la hoja, se escribe con el teclado y se envía."
+  },
+  {
+   "id": "locker",
+   "ruta": "v0110/locker.mp4",
+   "tipo": "clip",
+   "grupo": "clips_app",
+   "w": 768,
+   "h": 1664,
+   "segundos": 17.98,
+   "d": "Recorrido por un casillero social: el pato, las notas, la foto; al final el menú de opciones."
+  },
+  {
+   "id": "match",
+   "ruta": "v0110/match.mp4",
+   "tipo": "clip",
+   "grupo": "clips_app",
+   "w": 768,
+   "h": 1664,
+   "segundos": 9.98,
+   "d": "Ducki Crush: marcar a alguien como crush, sale «¡Hicieron match!» y vuelve al casillero."
+  },
+  {
+   "id": "pareja",
+   "ruta": "v0110/pareja.mp4",
+   "tipo": "clip",
+   "grupo": "clips_app",
+   "w": 768,
+   "h": 1664,
+   "segundos": 16.0,
+   "d": "Casillero de pareja con dos patos vestidos; al final el feed con el banner de la Copa Ducki."
+  },
+  {
+   "id": "quien",
+   "ruta": "v0110/quien.mp4",
+   "tipo": "clip",
+   "grupo": "clips_app",
+   "w": 768,
+   "h": 1664,
+   "segundos": 11.97,
+   "d": "Juegos en sala: mapa del juego, lista de juegos y el juego ¿Quién soy?.",
+   "evitar": "Después de 3 s sale la foto de un famoso: usa solo de 0 a 3 s.",
+   "prohibido": [
+    [
+     3,
+     999
+    ]
+   ]
+  },
+  {
+   "id": "sala",
+   "ruta": "v0110/sala.mp4",
+   "tipo": "clip",
+   "grupo": "clips_app",
+   "w": 768,
+   "h": 1664,
+   "segundos": 15.98,
+   "d": "Comunidad → crear una sala → la sala con su chat.",
+   "evitar": "Entre 11 y 15 s salen nombres de WhatsApp: no uses ese tramo.",
+   "prohibido": [
+    [
+     11,
+     15
+    ]
+   ]
+  },
+  {
+   "id": "golf",
+   "ruta": "parches/games/golf.mp4",
+   "tipo": "clip",
+   "grupo": "clips_app",
+   "w": 500,
+   "h": 600,
+   "segundos": 3.0,
+   "d": "Minigolf: un tiro hacia el hoyo (3 s)."
+  },
+  {
+   "id": "kart",
+   "ruta": "parches/games/kart.mp4",
+   "tipo": "clip",
+   "grupo": "clips_app",
+   "w": 780,
+   "h": 680,
+   "segundos": 3.5,
+   "d": "Ducki Kart en plena carrera (3,5 s)."
+  },
+  {
+   "id": "tanks",
+   "ruta": "parches/games/tanks.mp4",
+   "tipo": "clip",
+   "grupo": "clips_app",
+   "w": 550,
+   "h": 650,
+   "segundos": 3.0,
+   "d": "Tanques: partida vista desde arriba (3 s)."
+  },
+  {
+   "id": "clip1",
+   "ruta": "tutorial-salas/clip1.mp4",
+   "tipo": "clip",
+   "grupo": "clips_app",
+   "w": 384,
+   "h": 832,
+   "segundos": 10.82,
+   "d": "Una sala llena: los avatares de los participantes y el chat moviéndose.",
+   "evitar": "Se leen nombres reales: úsalo pequeño (dentro de un celular)."
+  },
+  {
+   "id": "clip2",
+   "ruta": "tutorial-salas/clip2.mp4",
+   "tipo": "clip",
+   "grupo": "clips_app",
+   "w": 384,
+   "h": 832,
+   "segundos": 6.04,
+   "d": "Ducki Kart jugado dentro de una sala, con los controles en pantalla."
+  },
+  {
+   "id": "clip3",
+   "ruta": "tutorial-salas/clip3.mp4",
+   "tipo": "clip",
+   "grupo": "clips_app",
+   "w": 384,
+   "h": 832,
+   "segundos": 22.7,
+   "d": "Cómo se crea una sala: feed → Comunidad → «¿Cómo quieres hablar?» → nombre de la sala con el teclado."
+  },
+  {
+   "id": "cali",
+   "ruta": "map/cali.png",
+   "tipo": "imagen",
+   "grupo": "mapa",
+   "w": 2400,
+   "h": 3600,
+   "d": "Mapa de Cali (calles), para recortar como fondo de un mapa."
+  },
+  {
+   "id": "duckisalas-ducks",
+   "ruta": "parches/duckisalas-ducks.png",
+   "tipo": "sticker",
+   "grupo": "app",
+   "w": 600,
+   "h": 348,
+   "d": "Grupo de patos juntos con audífonos (una Duckisala, amigos hablando)."
+  }
+ ]
+}

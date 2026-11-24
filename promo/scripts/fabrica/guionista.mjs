@@ -29,6 +29,9 @@ function systemPrompt(fmt) {
     'Reglas que no se rompen:\n- ' + fun.reglas_generales.join('\n- '),
     'Funciones que puedes usar (solo estas, y solo afirmando lo que dice cada ficha):\n' + JSON.stringify(ficha, null, 1),
     'Funciones que NO se mencionan por ahora: ' + fun.funciones.filter((f) => !f.mencionar).map((f) => f.nombre).join(', ') + '.',
+    fs.existsSync(path.resolve(FAB, '..', 'ducki-app'))
+      ? 'Tienes el código de la app en ducki-app/ (solo lectura; herramientas Read, Glob y Grep). Si el encargo habla de una función o de una actualización que no está en las fichas (por ejemplo «Marketplace»), investígala ahí antes de escribir: mobile/src/features/<nombre>/ (pantallas, textos que ve el usuario), Backend/internal/<nombre>/ (reglas) y docs/. Escribe solo lo que el código confirma, con las palabras que usa la app; nunca pongas en el guion código, correos, llaves ni datos de usuarios. Para esas funciones usa "funcion": "otra" en el punto.'
+      : '',
     `Formato de hoy: «${fmt.nombre}».`,
     leer('formato.md'),
     leer('guia.md'),
@@ -59,13 +62,17 @@ async function askCli(userText, fmt) {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'guionista-'));
   const sysFile = path.join(tmp, 'system.md');
   fs.writeFileSync(sysFile, systemPrompt(fmt));
-  const env = { ...process.env };
-  delete env.ANTHROPIC_API_KEY; // an empty one would shadow the subscription token
+  // only what Claude Code needs (no Telegram, ElevenLabs or repo tokens within its reach);
+  // an empty ANTHROPIC_API_KEY would shadow the subscription token
+  const keep = ['PATH', 'HOME', 'USERPROFILE', 'APPDATA', 'LOCALAPPDATA', 'TEMP', 'TMP', 'TMPDIR', 'LANG', 'SystemRoot', 'ComSpec', 'CLAUDE_CODE_OAUTH_TOKEN'];
+  const env = Object.fromEntries(keep.filter((k) => process.env[k] !== undefined).map((k) => [k, process.env[k]]));
   const args = ['-p', '--output-format', 'json', '--json-schema', JSON.stringify(fmt.esquema()),
     '--system-prompt-file', sysFile, '--model', process.env.FABRICA_MODELO_CLI || 'sonnet',
-    '--effort', EFFORT(), '--tools', '', '--no-session-persistence'];
+    '--effort', EFFORT(), '--no-session-persistence',
+    // it may read the repo and the app's code (ducki-app/) to understand a feature; nothing else
+    '--allowedTools', 'Read,Glob,Grep', '--disallowedTools', 'Bash,Write,Edit,NotebookEdit,WebFetch,WebSearch,Task'];
   const out = await new Promise((resolve, reject) => {
-    const p = spawn(process.env.CLAUDE_BIN ?? 'claude', args, { env, stdio: ['pipe', 'pipe', 'pipe'] });
+    const p = spawn(process.env.CLAUDE_BIN ?? 'claude', args, { env, cwd: path.resolve(FAB, '..'), stdio: ['pipe', 'pipe', 'pipe'] });
     let so = '', se = '';
     p.stdout.on('data', (d) => { so += d; });
     p.stderr.on('data', (d) => { se += d; });
