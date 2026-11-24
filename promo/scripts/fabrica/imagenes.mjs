@@ -1,4 +1,4 @@
-// New resources made with AI (OpenAI's image model, with the production key): the duck in
+// New resources made with AI (OpenAI's gpt-image-2.5-sunburst, OPENAI_IMAGE_MODEL to change it; production key): the duck in
 // situations the catalog doesn't have. At most FABRICA_IMAGENES_DIA a day (1 by default).
 // Each one goes to the «Fábrica» topic with ✅ Aprobar / 🗑 Descartar; approved, it joins the
 // director's catalog (promo/public/generados/ + fabrica/catalogo/generados.json).
@@ -60,7 +60,7 @@ async function generar() {
   const prompt = pedido?.prompt ?? SIEMPRE.find((s) => !usados.has(s)) ?? SIEMPRE[Math.floor(Math.random() * SIEMPRE.length)];
   const id = `img-${hoy().replace(/-/g, '')}-${slugify(prompt).slice(0, 32)}`;
 
-  const model = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-2';
+  const model = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-2.5-sunburst';
   const pedir = async (transparente) => {
     const form = new FormData();
     form.set('model', model);
