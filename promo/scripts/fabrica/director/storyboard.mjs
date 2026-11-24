@@ -65,6 +65,9 @@ export function revisarStoryboard(sb, words, catalogo = cargarCatalogo()) {
   if (esc.length > 24) err.push(`hay ${esc.length} escenas: máximo 24`);
   if (esc[0].desde !== 0) err.push('la primera escena tiene que empezar en la palabra 0');
   if (esc[esc.length - 1].prefab !== 'fin') err.push('la última escena tiene que ser "prefab": "fin" (el cierre con las tiendas)');
+  // the prefabricated scenes look the same in every video: one at most, besides the close
+  const prefabs = esc.slice(0, -1).filter((s) => s.prefab).map((s) => s.prefab);
+  if (prefabs.length > 1) err.push(`usaste ${prefabs.length} prefabs (${prefabs.join(', ')}): máximo uno por video además de "fin". Compón esas escenas tú, con las capturas y clips de esa función`);
   const iconos = iconosValidos();
   esc.forEach((s, i) => {
     const at = `escenas[${i}]`;
@@ -93,6 +96,10 @@ export function revisarStoryboard(sb, words, catalogo = cargarCatalogo()) {
     }
     const els = s.elementos ?? [];
     if (!Array.isArray(els) || !els.length) err.push(`${at} no tiene elementos (o usa un prefab)`);
+    else if (els.length + (s.presentador ? 1 : 0) < 2) err.push(`${at} tiene una sola pieza: pon una protagonista y al menos una de apoyo`);
+    // a sheet must not sit empty while the voice already talks
+    const first = Math.min(...els.map((e) => (Number.isInteger(e.en) ? e.en : 1e9)), s.presentador ? s.presentador.en : 1e9);
+    if (els.length && first > s.desde + 3) err.push(`${at} arranca vacía: la primera pieza entra en la palabra ${first} y la escena empieza en ${s.desde}; que la protagonista entre en las primeras 3 palabras`);
     if (els.length > 9) err.push(`${at} tiene ${els.length} elementos: máximo 9, que se lea`);
     els.forEach((e, k) => {
       const ae = `${at}.elementos[${k}] (${e.tipo})`;

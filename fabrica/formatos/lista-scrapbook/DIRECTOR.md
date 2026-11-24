@@ -90,7 +90,10 @@ letra), `aparecer` (sin animación). `color` usa los nombres de las hojas más `
 
 ### Prefabs (escenas hechas a mano)
 
-Úsalos **solo** si lo que se dice en esa escena es exactamente lo que muestran:
+Se ven igual en todos los videos, así que son de reserva: **máximo uno por video además de `fin`**
+(el validador rechaza más). Lo normal es que compongas tú todas las escenas, también las que hablan
+de una función: usa su captura o su clip con tu propia composición (ver «Una escena de función
+compuesta por ti», abajo). Si usas uno, que sea porque lo que se dice es exactamente lo que muestra:
 
 | prefab | muestra | se anima cuando la voz dice |
 |---|---|---|
@@ -116,6 +119,37 @@ letra), `aparecer` (sin animación). `color` usa los nombres de las hojas más `
   captura en `celular` w 320–400 (mide 2,05 veces su ancho de alto); polaroid w 420–620;
   ícono 150–260 (con `circulo` mide 1,45 veces); título `tam` 90–170; texto `tam` 54–80.
 
+## Una escena de función compuesta por ti (ejemplo)
+
+La voz dice: «Uno, déjale una carta en su casillero, firmada o anónima, tú decides.» En vez del
+prefab `carta`:
+
+```json
+{ "desde": 16, "hoja": { "color": "kraft", "entrada": "caer", "direccion": "derecha" },
+  "elementos": [
+    { "tipo": "contador", "n": 1, "total": 3, "x": 170, "y": 190, "en": 16 },
+    { "tipo": "clip", "recurso": "v0110/carta.mp4", "marco": "celular", "w": 360, "x": 330, "y": 880, "en": 17, "desde": 2 },
+    { "tipo": "sticker", "recurso": "app/duck-carter.png", "w": 300, "x": 810, "y": 700, "en": 20, "entrada": "mano-der" },
+    { "tipo": "nota", "texto": "firmada… ¿o anónima?", "color": "rosado", "w": 330, "x": 800, "y": 1150, "en": 23 },
+    { "tipo": "garabato", "forma": "flecha", "w": 200, "h": 140, "rot": 160, "x": 590, "y": 1180, "en": 24 }
+  ] }
+```
+
+Y una escena de idea, sin ninguna función: «…sin morirte de pena.»
+
+```json
+{ "desde": 6, "hoja": { "color": "pink", "cuadricula": true, "entrada": "voltear", "direccion": "izquierda" },
+  "elementos": [
+    { "tipo": "sticker", "recurso": "app/duck-confused.png", "w": 440, "x": 540, "y": 900, "en": 6, "entrada": "golpe" },
+    { "tipo": "bocadillo", "texto": "¿y si me dice que no?", "cola": "abajo-izq", "w": 460, "x": 700, "y": 470, "en": 9 },
+    { "tipo": "icono", "nombre": "HeartCrack", "w": 170, "color": "red", "x": 230, "y": 560, "en": 12 },
+    { "tipo": "titulo", "texto": "SIN PENA", "tam": 130, "x": 540, "y": 1380, "en": 14, "entrada": "golpe" }
+  ] }
+```
+
+Fíjate: la protagonista entra en la primera palabra, cada apoyo en su palabra, y hay una idea
+visual clara por escena.
+
 ## Cómo dirigir
 
 1. **Lee el guion completo** y las palabras numeradas. Entiende la historia: quién, qué pasa, cuál
@@ -130,8 +164,10 @@ letra), `aparecer` (sin animación). `color` usa los nombres de las hojas más `
      `app/` como el pato confundido o el que saluda), íconos dibujados, bocadillos, notas, textos y
      garabatos.
    - Nunca pongas algo solo porque está disponible.
-4. **Una pieza protagonista por escena** (grande, al centro o a un lado) y de 1 a 4 de apoyo.
-   Nada de llenar por llenar; el aire también cuenta.
+4. **Una pieza protagonista por escena** (grande: 360–480 px, al centro o a un lado) y de 1 a 4 de
+   apoyo. La protagonista entra en las primeras 3 palabras de la escena: una hoja nunca se queda
+   vacía mientras la voz habla. Nada de llenar por llenar, pero tampoco escenas con un ícono suelto
+   en medio de la hoja.
 5. **Cada pieza entra en la palabra que la nombra** (`en`). Si la voz dice «escribió en anónimo»,
    el pato anónimo cae en «anónimo».
 6. El texto en pantalla es corto (máximo 5 o 6 palabras) y **suma**, no repite: los subtítulos ya
@@ -143,6 +179,12 @@ letra), `aparecer` (sin animación). `color` usa los nombres de las hojas más `
    escenas como mucho. Hojas oscuras para lo triste, la noche o el suspenso; claras para lo alegre.
 9. Respeta `evitar` y `prohibido` del catálogo.
 
+## Antes de escribir
+
+Tómate el tiempo de un buen director: mira las hojas de contacto de `fabrica/catalogo/hojas/` y las
+capturas o clips que podrías usar (con Read), y elige la mejor pieza para cada frase, no la primera
+que encuentres. Dos videos distintos no deberían verse iguales aunque hablen de lo mismo.
+
 ## Revisa tu trabajo (obligatorio)
 
 1. Escribe `storyboard.json` en la carpeta del episodio.
@@ -153,5 +195,5 @@ letra), `aparecer` (sin animación). `color` usa los nombres de las hojas más `
    pregúntate: ¿muestra lo que la voz dice en ese segundo? ¿hay algo cortado, encimado o ilegible?
    ¿algo pasa la línea roja? ¿se ve vacío o atiborrado? ¿se entiende sin sonido?
 4. Corrige y repite. Para mirar un momento puntual: `… cuadros.mjs <carpeta> 12.5,13.2`.
-5. Termina cuando la última hoja se vea bien (máximo 4 rondas). Tu último paso es dejar el
+5. Haz **al menos 2 rondas** de revisión y termina cuando la última hoja se vea bien (máximo 5). Tu último paso es dejar el
    `storyboard.json` corregido; no escribas otros archivos.
