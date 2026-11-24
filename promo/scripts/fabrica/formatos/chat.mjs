@@ -16,15 +16,18 @@ const PILARES = JSON.parse(fs.readFileSync(path.join(FAB, 'pilares.json'), 'utf8
 const nullable = (s) => ({ anyOf: [s, { type: 'null' }] });
 const TEMAS = ['claro', 'oscuro', 'papel'];
 const BURBUJAS = ['naranja', 'lima', 'rosa', 'cobalto'];
+const MAX_IA = 4;
+const MIN_IA = 2;
 
 export function esquema() {
   const mensaje = {
-    type: 'object', additionalProperties: false, required: ['de', 'tipo', 'texto', 'recurso'],
+    type: 'object', additionalProperties: false, required: ['de', 'tipo', 'texto', 'recurso', 'imagen_ia'],
     properties: {
       de: { type: 'string', enum: ['yo', 'otro', 'sistema'], description: 'yo = quien tiene el celular (derecha); otro = el contacto (izquierda); sistema = aviso centrado («Hoy 2:14 a. m.», «Ana te mandó una carta»).' },
       tipo: { type: 'string', enum: ['texto', 'sticker', 'foto'] },
       texto: nullable({ type: 'string', description: 'El mensaje (máximo 120 caracteres; corto, como se escribe en un chat: minúsculas, sin punto final).' }),
-      recurso: nullable({ type: 'string', description: 'Para sticker o foto: ruta o id del catálogo (fabrica/catalogo/catalogo.json).' }),
+      recurso: nullable({ type: 'string', description: 'Para sticker o foto: ruta o id del catálogo (fabrica/catalogo/catalogo.json). Con imagen_ia queda de respaldo.' }),
+      imagen_ia: nullable({ type: 'string', description: `Solo en stickers: un sticker NUEVO del pato hecho con IA para este momento (qué hace y su cara: «el pato llorando abrazado a un cuaderno»; sin texto escrito). Entre ${MIN_IA} y ${MAX_IA} en la historia.` }),
     },
   };
   return {
@@ -75,11 +78,13 @@ export function contexto() {
   return 'Stickers y fotos que puedes mandar en el chat (ruta: qué es):\n' + stickers.slice(0, 90).join('\n');
 }
 
-export function revisar(spec) {
+// escribiendo: only the writer is held to the minimum of new stickers; an approved older script still builds
+export function revisar(spec, _funciones, { escribiendo = false } = {}) {
   const err = [];
   const cat = cargarCatalogo();
   if (!Array.isArray(spec.lineas) || spec.lineas.length < 3 || spec.lineas.length > 9) err.push('lineas tiene que tener entre 3 y 9 momentos');
   let msgs = 0;
+  let ia = 0;
   (spec.lineas ?? []).forEach((l, k) => {
     if (!l.voz?.trim()) err.push(`lineas[${k}] sin voz`);
     if ((l.mensajes ?? []).length > 4) err.push(`lineas[${k}] tiene más de 4 mensajes`);
@@ -87,11 +92,17 @@ export function revisar(spec) {
       msgs += 1;
       if (m.tipo === 'texto' && !(m.texto ?? '').trim()) err.push(`lineas[${k}]: un mensaje de texto sin texto`);
       if ([...(m.texto ?? '')].length > 120) err.push(`lineas[${k}]: un mensaje de más de 120 caracteres`);
-      if (m.tipo !== 'texto' && !cat.buscar(m.recurso ?? '')) err.push(`lineas[${k}]: «${m.recurso}» no está en el catálogo`);
+      if (m.imagen_ia?.trim()) {
+        ia += 1;
+        if (m.tipo !== 'sticker') err.push(`lineas[${k}]: imagen_ia solo va en mensajes tipo sticker`);
+        if (m.recurso && !cat.buscar(m.recurso)) err.push(`lineas[${k}]: «${m.recurso}» no está en el catálogo`);
+      } else if (m.tipo !== 'texto' && !cat.buscar(m.recurso ?? '')) err.push(`lineas[${k}]: «${m.recurso}» no está en el catálogo`);
       if (m.tipo === 'foto' && cat.buscar(m.recurso ?? '')?.tipo === 'clip') err.push(`lineas[${k}]: «${m.recurso}» es un video, no una foto`);
     }
   });
   if (msgs < 4) err.push(`solo hay ${msgs} mensajes: una historia en chat necesita al menos 4`);
+  if (ia > MAX_IA) err.push(`como mucho ${MAX_IA} stickers nuevos con imagen_ia`);
+  if (escribiendo && ia < MIN_IA) err.push(`manda al menos ${MIN_IA} stickers nuevos del pato con imagen_ia (tipo sticker): los hace la IA para esta historia`);
   if (spec.contacto?.avatar && !cat.buscar(spec.contacto.avatar)) err.push(`el avatar «${spec.contacto.avatar}» no está en el catálogo`);
   if (!spec.cierre?.trim()) err.push('falta cierre');
   const palabras = segmentos(spec).join(' ').split(/\s+/).filter(Boolean).length;
@@ -109,16 +120,35 @@ export function aplicarTexto(spec, lines) {
   return out;
 }
 
+/** The stickers to draw with AI: [line, message] says where each one goes. */
+export function pedidosDeImagen(spec) {
+  return (spec.lineas ?? []).flatMap((l, k) => (l.mensajes ?? []).flatMap((m, j) => (m.imagen_ia?.trim() && m.tipo === 'sticker'
+    ? [{ prompt: m.imagen_ia, para: `momento ${k + 1} del chat: ${l.voz}`, k: [k, j] }] : []))).slice(0, MAX_IA);
+}
+
+/** Puts the stickers that came out into their messages (h.n = which request; a failed one keeps its fallback). */
+export function usarImagenes(spec, hechas) {
+  const out = structuredClone(spec);
+  const pedidos = pedidosDeImagen(spec);
+  for (const [j, h] of hechas.entries()) {
+    const k = pedidos[h.n ?? j]?.k;
+    if (k) out.lineas[k[0]].mensajes[k[1]].recurso = h.ruta;
+  }
+  return out;
+}
+
 /** The props of Chat.tsx: each line with its time, each message with the second it appears. */
 export function construir({ spec, words, starts, vozDur, seed, mouth, v0 = 0.15, tail = 2.2 }) {
   const cat = cargarCatalogo();
+  // a sticker whose AI drawing didn't come out (and had no fallback) sends the waving duck
+  const respaldo = cat.buscar('app/duck-waving.png');
   const lineas = spec.lineas.map((l, k) => {
     const t = k === 0 ? 0 : starts[k] - 0.05;
     const t1 = starts[k + 1] - 0.05;
     const n = l.mensajes.length;
     // messages spread over the line, the first one right away
     const mensajes = l.mensajes.map((m, j) => {
-      const rec = m.recurso ? cat.buscar(m.recurso) : null;
+      const rec = (m.recurso ? cat.buscar(m.recurso) : null) ?? (m.tipo === 'texto' ? null : respaldo);
       return { de: m.de, tipo: m.tipo, texto: m.texto, src: rec?.ruta ?? null, w0: rec?.w ?? null, h0: rec?.h ?? null, en: +(t + 0.25 + ((t1 - t - 0.6) * j) / Math.max(1, n)).toFixed(3) };
     });
     return { t: +t.toFixed(3), t1: +t1.toFixed(3), mensajes };

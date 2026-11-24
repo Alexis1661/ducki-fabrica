@@ -13,6 +13,9 @@ Formato «Historia en chat» (plantilla promo/src/fabrica/Chat.tsx):
   - `mensajes`: de 0 a 4. Escritos como se escribe en un chat de verdad: cortos, minúsculas, sin
     punto final, alguna letra repetida («holaaa»), sin emojis. Un sticker o una foto del catálogo de
     vez en cuando (un pato reaccionando, una captura) le da ritmo.
+  - **Entre 2 y 4 stickers nuevos** (`tipo: sticker` con `imagen_ia`): la IA dibuja al pato justo
+    como lo pide ese momento («el pato con la cara roja escondido detrás de un cojín»). Son las
+    reacciones que hacen reír; ponlos en los momentos fuertes, no todos seguidos.
   - `de`: `yo` (derecha, quien tiene el celular), `otro` (izquierda, el contacto), `sistema`
     (avisos centrados: «Hoy 2:14 a. m.», «Ana dejó una carta en tu casillero»).
 - La historia tiene un giro: el último o penúltimo mensaje es el remate (lo que hace reír o dar

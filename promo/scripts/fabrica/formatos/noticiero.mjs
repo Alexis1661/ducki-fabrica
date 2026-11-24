@@ -17,6 +17,7 @@ const PILARES = JSON.parse(fs.readFileSync(path.join(FAB, 'pilares.json'), 'utf8
 const PLANOS = ['presentador', 'pantalla', 'dividido'];
 const nullable = (s) => ({ anyOf: [s, { type: 'null' }] });
 const MAX_IA = 4;
+const MIN_IA = 2;
 
 export function esquema() {
   return {
@@ -47,8 +48,8 @@ export function esquema() {
             pantalla: {
               type: 'object', additionalProperties: false, required: ['recurso', 'imagen_ia', 'texto'],
               properties: {
-                recurso: nullable({ type: 'string', description: 'Imagen, clip o sticker del catálogo para la pantalla.' }),
-                imagen_ia: nullable({ type: 'string', description: `Si ningún recurso sirve: descripción de una ilustración nueva del pato para generarla con IA (máximo ${MAX_IA} en el video).` }),
+                recurso: nullable({ type: 'string', description: 'Imagen, clip o sticker del catálogo para la pantalla (si además pides imagen_ia, queda de respaldo por si la ilustración no sale).' }),
+                imagen_ia: nullable({ type: 'string', description: `Descripción de una ilustración nueva del pato hecha con IA para ESTA noticia (qué hace, dónde, con qué, su cara; sin texto escrito). Entre ${MIN_IA} y ${MAX_IA} en el video: las noticias que más se lucen con un dibujo propio.` }),
                 texto: nullable({ type: 'string', description: 'Un dato grande en la pantalla (máximo 12 caracteres): «101», «+24%», «2 A. M.».' }),
               },
             },
@@ -69,13 +70,16 @@ export function contexto() {
   return 'Recursos para la pantalla (ruta (tipo): qué es):\n' + items.slice(0, 140).join('\n');
 }
 
-export function revisar(spec) {
+// escribiendo: only the writer is held to the minimum of new drawings; an approved older script still builds
+export function revisar(spec, _funciones, { escribiendo = false } = {}) {
   const err = [];
   const cat = cargarCatalogo();
   const segs = spec.segmentos ?? [];
   if (segs.length < 3 || segs.length > 6) err.push('segmentos: de 3 a 6 noticias');
   if (segs.filter((s) => s.urgente).length > 2) err.push('como mucho dos noticias urgentes');
-  if (segs.filter((s) => s.pantalla?.imagen_ia && !s.pantalla?.recurso).length > MAX_IA) err.push(`como mucho ${MAX_IA} ilustraciones nuevas`);
+  const ia = segs.filter((s) => s.pantalla?.imagen_ia?.trim()).length;
+  if (ia > MAX_IA) err.push(`como mucho ${MAX_IA} ilustraciones nuevas (imagen_ia)`);
+  if (escribiendo && ia < Math.min(MIN_IA, segs.length)) err.push(`pide al menos ${MIN_IA} ilustraciones nuevas con imagen_ia: el video se ve vivo con dibujos hechos para estas noticias`);
   segs.forEach((s, k) => {
     if ([...(s.titular ?? '')].length > 42) err.push(`segmentos[${k}].titular pasa de 42 caracteres`);
     if ([...(s.bajada ?? '')].length > 64) err.push(`segmentos[${k}].bajada pasa de 64 caracteres`);
@@ -102,9 +106,9 @@ export function aplicarTexto(spec, lines) {
   return out;
 }
 
-/** The illustrations to generate: the screens that ask for one and have no resource. */
+/** The illustrations to generate: every screen that asks for one (its resource, if any, stays as the fallback). */
 export function pedidosDeImagen(spec) {
-  return (spec.segmentos ?? []).flatMap((s, k) => (s.pantalla?.imagen_ia && !s.pantalla?.recurso ? [{ prompt: s.pantalla.imagen_ia, para: `noticia ${k + 1}: ${s.titular}`, k }] : [])).slice(0, MAX_IA);
+  return (spec.segmentos ?? []).flatMap((s, k) => (s.pantalla?.imagen_ia?.trim() ? [{ prompt: s.pantalla.imagen_ia, para: `noticia ${k + 1}: ${s.titular}`, k }] : [])).slice(0, MAX_IA);
 }
 
 /** Puts the generated illustrations on their screens. */

@@ -116,7 +116,7 @@ async function ask(userText, fmt) {
 /** Asks, checks the result against the template and the knobs, and asks once more with the problems. */
 async function askChecked(userText, fmt) {
   const funciones = readJson(path.join(FAB, 'funciones.json'));
-  const check = (sp) => { sp.formato = fmt.id; return fmt.revisar(sp, funciones); };
+  const check = (sp) => { sp.formato = fmt.id; return fmt.revisar(sp, funciones, { escribiendo: true }); };
   let spec = await ask(userText, fmt);
   let problems = check(spec);
   if (problems.length) {

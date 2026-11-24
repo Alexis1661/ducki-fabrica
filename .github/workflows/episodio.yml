@@ -104,7 +104,8 @@ jobs:
         working-directory: .
         run: |
           # if the token cannot reach the private repo, the run goes on with the public folder
-          if git clone -q --depth 50 "https://x-access-token:${DUCKI_REPO_TOKEN}@github.com/Alexis1661/ducki-fabrica-episodios.git" /tmp/episodios; then
+          # only the last commit: older ones may carry videos from before the .gitignore
+          if git clone -q --depth 1 "https://x-access-token:${DUCKI_REPO_TOKEN}@github.com/Alexis1661/ducki-fabrica-episodios.git" /tmp/episodios; then
             rm -rf fabrica/episodios && mv /tmp/episodios fabrica/episodios
             git -C fabrica/episodios remote set-url origin "https://github.com/Alexis1661/ducki-fabrica-episodios.git"
             echo "EPISODIOS_PRIVADOS=1" >> "$GITHUB_ENV"
@@ -208,9 +209,10 @@ jobs:
       # no artifact: in a public repo anyone could download the unapproved
       # video; it only goes to the Telegram topic
 
-      # the episodes, the weekly plan and the image queue (private repo when the token reaches it)
+      # the episodes, the weekly plan and the image queue (private repo when the token reaches it);
+      # also after a failure: the voice and the images it already paid for are reused on the retry
       - name: Guardar el episodio
-        if: success()
+        if: ${{ !cancelled() }}
         working-directory: .
         env:
           CARPETA: ${{ steps.armar.outputs.carpeta }}
@@ -221,6 +223,10 @@ jobs:
             cd fabrica/episodios
             git config user.name "fabrica-bot"
             git config user.email "fabrica-bot@users.noreply.github.com"
+            # videos and mixes go to Telegram, not to git (about 75 MB per episode); voz.mp3 stays
+            # (under 1 MB) so a retry doesn't pay ElevenLabs again
+            printf '%s\n' '*.mp4' '*.wav' '*.ogg' '*.oga' '*.m4a' 'partes/' 'revision/' 'cuadro-*.jpg' > .gitignore
+            git ls-files -z -ci --exclude-standard | xargs -0 -r git rm -q --cached
             git add -A
             git diff --cached --quiet && exit 0
             git commit -q -m "$MSG"
@@ -236,9 +242,10 @@ jobs:
             git pull -q --rebase && git push -q
           fi
 
-      # the AI images (pending ones and the approved catalog) live in this public repo
+      # the AI images (pending ones and the approved catalog) live in this public repo; also after
+      # a failure, so the retry reuses them instead of paying OpenAI again
       - name: Guardar las imágenes
-        if: success()
+        if: ${{ !cancelled() }}
         working-directory: .
         run: |
           git config user.name "fabrica-bot"

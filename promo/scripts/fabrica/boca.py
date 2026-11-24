@@ -22,10 +22,15 @@ with wave.open(wav_path) as wv:
     a = np.frombuffer(wv.readframes(wv.getnframes()), dtype='<i2').astype(np.float32) / 32768
 a = a.reshape(-1, ch).mean(1)
 hop = sr // FPS
-n = len(a) // hop + 1
-rms = np.array([np.sqrt(np.mean(a[k * hop:(k + 1) * hop] ** 2) + 1e-12) for k in range(n)])
+# one window per frame, the last one partial; never an empty window (its mean is NaN, and a
+# single NaN turned the whole mouth file into invalid JSON when the audio length was an exact
+# multiple of the window)
+n = max(1, -(-len(a) // hop))
+rms = np.array([np.sqrt(np.mean(a[k * hop:(k + 1) * hop] ** 2) + 1e-12) if len(a[k * hop:(k + 1) * hop]) else 1e-6 for k in range(n)])
 db = 20 * np.log10(rms)
-lo, hi = np.percentile(db[db > -60], 20), np.percentile(db, 97)
+voiced = db[db > -60]
+lo = np.percentile(voiced, 20) if voiced.size else -60.0
+hi = np.percentile(db, 97)
 o = np.clip((db - lo) / max(1e-6, hi - lo), 0, 1)
 sm = np.zeros_like(o)
 for k in range(1, n):
@@ -57,5 +62,8 @@ else:
 loud = np.clip(0.35 + 0.9 * sm, 0, 1.15) * (sm > 0)
 mouth = np.convolve(np.clip(shape_open * loud, 0, 1), [0.25, 0.5, 0.25], mode='same')
 rnd_ = np.convolve(shape_round, [0.25, 0.5, 0.25], mode='same')
-json.dump({'fps': FPS, 'open': [round(float(x), 3) for x in mouth], 'round': [round(float(x), 3) for x in rnd_]}, open(out_path, 'w'))
+mouth = np.nan_to_num(mouth, nan=0.0, posinf=0.0, neginf=0.0)
+rnd_ = np.nan_to_num(rnd_, nan=0.0, posinf=0.0, neginf=0.0)
+# allow_nan=False: if a NaN ever slips through, fail here with a clear message, not in JSON.parse later
+json.dump({'fps': FPS, 'open': [round(float(x), 3) for x in mouth], 'round': [round(float(x), 3) for x in rnd_]}, open(out_path, 'w'), allow_nan=False)
 print('boca', n, 'cuadros')

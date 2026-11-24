@@ -16,12 +16,13 @@
 //   --revisar <carpeta>           manda a revisión un episodio ya hecho (y sigue igual)
 //
 // Llaves en RecursosVideo/fabrica/.env (ver .env.example).
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { FAB, duration, ffmpeg, loadEnv, norm, python, readJson, slugify, writeJson } from './comun.mjs';
 import { cargarFormato } from './formatos/index.mjs';
-import { palabrasWhisper, segmentStarts, vozEleven, vozSapi, wordsFromAlignment } from './voz.mjs';
+import { MODELO_VOZ, palabrasWhisper, segmentStarts, vozEleven, vozSapi, wordsFromAlignment } from './voz.mjs';
 
 function args() {
   const a = process.argv.slice(2), o = {};
@@ -109,7 +110,19 @@ export async function armarEpisodio(o) {
   let vozFile, words, starts;
   if (modo === 'eleven') {
     vozFile = path.join(dir, 'voz.mp3');
-    const al = await vozEleven(texto, vozFile);
+    // what was voiced (the voice id only as a hash: it is a secret): the same text, model and voice
+    // coming back (a run that failed after the voice) reuses the paid audio instead of paying again
+    const pedido = { texto, modelo: MODELO_VOZ(), voz: crypto.createHash('sha1').update(process.env.ELEVENLABS_VOICE_ID ?? '').digest('hex').slice(0, 10) };
+    const metaVoz = path.join(dir, 'voz.json');
+    const previa = fs.existsSync(vozFile) && fs.existsSync(metaVoz) ? readJson(metaVoz) : null;
+    let al;
+    if (previa && previa.texto === pedido.texto && previa.modelo === pedido.modelo && previa.voz === pedido.voz) {
+      al = fs.existsSync(path.join(dir, 'alineacion.json')) ? readJson(path.join(dir, 'alineacion.json')) : null;
+      console.log(`voz: reuso la de ElevenLabs ya pagada (mismo texto, ${pedido.modelo})`);
+    } else {
+      al = await vozEleven(texto, vozFile);
+      writeJson(metaVoz, pedido);
+    }
     if (al) {
       writeJson(path.join(dir, 'alineacion.json'), al);
       words = wordsFromAlignment(al);

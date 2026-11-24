@@ -119,7 +119,7 @@ export async function imagenesParaEpisodio({ dir, spec, fmt }) {
         mensaje: [
           `Guion: ${JSON.stringify(spec)}`,
           `Ya existen (no las repitas):\n${yaHay.join('\n')}`,
-          `Propón entre 1 y ${max} ilustraciones, las que más sumen (si el guion no necesita tantas, menos). Para cada una: "prompt" (descripción visual concreta en español: qué hace el pato, dónde, con qué objetos, su expresión; sin texto escrito en la imagen, sin personas reales, sin marcas), "para" (qué momento del guion ilustra) y "por_que".`,
+          `Propón entre ${Math.min(3, max)} y ${max} ilustraciones, las que más sumen, para momentos distintos del guion (el inicio, el giro, el remate). Para cada una: "prompt" (descripción visual concreta en español: qué hace el pato, dónde, con qué objetos, su expresión; sin texto escrito en la imagen, sin personas reales, sin marcas), "para" (qué momento del guion ilustra) y "por_que".`,
         ].join('\n\n'),
         esquema: { type: 'object', additionalProperties: false, required: ['imagenes'], properties: { imagenes: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['prompt', 'para', 'por_que'], properties: { prompt: { type: 'string' }, para: { type: 'string' }, por_que: { type: 'string' } } } } } },
         esfuerzo: 'low',
