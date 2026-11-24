@@ -60,17 +60,23 @@ async function generar() {
   const prompt = pedido?.prompt ?? SIEMPRE.find((s) => !usados.has(s)) ?? SIEMPRE[Math.floor(Math.random() * SIEMPRE.length)];
   const id = `img-${hoy().replace(/-/g, '')}-${slugify(prompt).slice(0, 32)}`;
 
-  const form = new FormData();
-  form.set('model', process.env.OPENAI_IMAGE_MODEL || 'gpt-image-1');
-  form.set('prompt', `${prompt}. ${ESTILO}`);
-  form.set('size', '1024x1536');
-  form.set('background', 'transparent');
-  form.set('quality', process.env.OPENAI_IMAGE_QUALITY || 'medium');
-  form.set('n', '1');
-  for (const r of REFERENCIAS) form.append('image[]', new Blob([fs.readFileSync(path.join(PUB, r))], { type: 'image/png' }), path.basename(r));
-  console.log(`imagenes: generando «${prompt.slice(0, 60)}»…`);
-  const res = await fetch('https://api.openai.com/v1/images/edits', { method: 'POST', headers: { Authorization: `Bearer ${key}` }, body: form, signal: AbortSignal.timeout(240_000) });
-  const body = await res.json().catch(() => ({}));
+  const model = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-2';
+  const pedir = async (transparente) => {
+    const form = new FormData();
+    form.set('model', model);
+    form.set('prompt', `${prompt}. ${ESTILO}${transparente ? '' : ' Fondo blanco liso.'}`);
+    form.set('size', '1024x1536');
+    if (transparente) form.set('background', 'transparent');
+    form.set('quality', process.env.OPENAI_IMAGE_QUALITY || 'medium');
+    form.set('n', '1');
+    for (const r of REFERENCIAS) form.append('image[]', new Blob([fs.readFileSync(path.join(PUB, r))], { type: 'image/png' }), path.basename(r));
+    const res = await fetch('https://api.openai.com/v1/images/edits', { method: 'POST', headers: { Authorization: `Bearer ${key}` }, body: form, signal: AbortSignal.timeout(240_000) });
+    return { res, body: await res.json().catch(() => ({})) };
+  };
+  console.log(`imagenes: generando con ${model} «${prompt.slice(0, 60)}»…`);
+  let { res, body } = await pedir(true);
+  // a model that cannot do transparent backgrounds says so before generating: ask again on white
+  if (!res.ok && /background|transparen/i.test(body.error?.message ?? '')) ({ res, body } = await pedir(false));
   if (!res.ok || !body.data?.[0]?.b64_json) {
     const why = body.error?.message ?? `HTTP ${res.status}`;
     const code = body.error?.code ?? body.error?.type ?? '';
