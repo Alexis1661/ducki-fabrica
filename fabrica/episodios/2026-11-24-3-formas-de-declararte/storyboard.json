@@ -1,0 +1,75 @@
+{
+ "escenas": [
+  {
+   "desde": 0,
+   "prefab": "intro"
+  },
+  {
+   "desde": 6,
+   "hoja": {
+    "color": "pink",
+    "cuadricula": true,
+    "entrada": "deslizar",
+    "direccion": "derecha"
+   },
+   "elementos": [
+    {
+     "tipo": "icono",
+     "nombre": "Heart",
+     "w": 260,
+     "color": "red",
+     "fondo": "sticker",
+     "x": 540,
+     "y": 800,
+     "en": 7,
+     "entrada": "pop"
+    },
+    {
+     "tipo": "titulo",
+     "texto": "SIN PENA",
+     "tam": 170,
+     "estilo": "recortes",
+     "x": 540,
+     "y": 300,
+     "en": 12,
+     "entrada": "golpe"
+    },
+    {
+     "tipo": "bocadillo",
+     "texto": "¡Qué pena!",
+     "cola": "abajo-izq",
+     "x": 790,
+     "y": 1100,
+     "w": 380,
+     "en": 13
+    },
+    {
+     "tipo": "garabato",
+     "forma": "rayas",
+     "w": 200,
+     "h": 120,
+     "color": "red",
+     "x": 300,
+     "y": 1100,
+     "en": 15
+    }
+   ]
+  },
+  {
+   "desde": 16,
+   "prefab": "carta"
+  },
+  {
+   "desde": 28,
+   "prefab": "crush"
+  },
+  {
+   "desde": 44,
+   "prefab": "sala"
+  },
+  {
+   "desde": 57,
+   "prefab": "fin"
+  }
+ ]
+}

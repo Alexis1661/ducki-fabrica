@@ -1842,73 +1842,59 @@
    "kind": "intro",
    "t": 0,
    "ev": {
-    "ducki": 3.28,
-    "fav": 4.032
+    "ducki": 0.886,
+    "fav": 1.379
    }
   },
   {
+   "kind": "libre",
+   "t": 1.97,
+   "ev": {}
+  },
+  {
    "kind": "feature",
-   "t": 5.76,
+   "t": 5.81,
    "ev": {
     "carta": 6.72,
     "firmada": 8.2,
     "anonima": 8.64
    },
-   "feature": "carta",
-   "n": 1,
-   "fav": false
+   "feature": "carta"
   },
   {
    "kind": "feature",
-   "t": 11.14,
+   "t": 11.19,
    "ev": {
     "crush": 12.14,
     "match": 16.46
    },
-   "feature": "crush",
-   "n": 2,
-   "fav": false
+   "feature": "crush"
   },
   {
    "kind": "feature",
-   "t": 17.24,
+   "t": 17.29,
    "ev": {
     "duckisala": 18.9,
     "voz": 19.84
    },
-   "feature": "sala",
-   "n": 3,
-   "fav": false
+   "feature": "sala"
   },
   {
    "kind": "fin",
-   "t": 21.34,
+   "t": 21.39,
    "ev": {
     "gratis": 21.44,
     "aqui": 23.38
    }
   }
  ],
- "N": 3,
+ "N": 0,
  "hook": {
   "title": "3 FORMAS",
   "sub": "de declararte en",
   "tag": null
  },
- "spoken": [
-  {
-   "t": 12.14,
-   "text": "crush",
-   "x": 820,
-   "y": 430
-  },
-  {
-   "t": 19.84,
-   "text": "por voz",
-   "x": 790,
-   "y": 1300
-  }
- ],
+ "spoken": [],
  "endLine": "aquí todos somos patos",
  "seed": 6064,
  "plan": {
@@ -1916,7 +1902,8 @@
    "subtitulos": "papel",
    "resaltado": "lime",
    "contador": "cinta",
-   "presentador": "centro"
+   "presentador": "centro",
+   "estructura": "historia"
   },
   "escenas": [
    {
@@ -1927,49 +1914,138 @@
     "titulo": "recortes",
     "impacto": "ninguno",
     "mano": true,
-    "nota": null
+    "nota": null,
+    "rotulo": null
    },
    {
     "entrada": "deslizar",
-    "direccion": "arriba",
+    "direccion": "derecha",
+    "hoja": "pink",
+    "cuadricula": true,
+    "titulo": "recortes",
+    "impacto": "ninguno",
+    "mano": true,
+    "nota": null,
+    "rotulo": null
+   },
+   {
+    "entrada": "deslizar",
+    "direccion": "izquierda",
     "hoja": "kraft",
     "cuadricula": false,
     "titulo": "recortes",
     "impacto": "ninguno",
     "mano": true,
-    "nota": null
+    "nota": null,
+    "rotulo": null
    },
    {
     "entrada": "deslizar",
-    "direccion": "izquierda",
+    "direccion": "abajo",
     "hoja": "pink",
     "cuadricula": false,
     "titulo": "recortes",
     "impacto": "ninguno",
     "mano": true,
-    "nota": null
+    "nota": null,
+    "rotulo": null
    },
    {
     "entrada": "deslizar",
-    "direccion": "abajo",
+    "direccion": "derecha",
     "hoja": "night",
     "cuadricula": false,
     "titulo": "recortes",
     "impacto": "ninguno",
     "mano": true,
-    "nota": null
+    "nota": null,
+    "rotulo": null
    },
    {
     "entrada": "deslizar",
-    "direccion": "derecha",
+    "direccion": "arriba",
     "hoja": "orange",
     "cuadricula": false,
     "titulo": "recortes",
     "impacto": "ninguno",
     "mano": true,
-    "nota": null
+    "nota": null,
+    "rotulo": null
    }
   ]
  },
+ "libre": [
+  {
+   "prefab": "intro",
+   "elementos": []
+  },
+  {
+   "prefab": null,
+   "camara": null,
+   "presentador": null,
+   "elementos": [
+    {
+     "tipo": "icono",
+     "nombre": "Heart",
+     "w": 260,
+     "color": "red",
+     "fondo": "sticker",
+     "x": 540,
+     "y": 800,
+     "en": 2.26,
+     "entrada": "pop",
+     "sale": null
+    },
+    {
+     "tipo": "titulo",
+     "texto": "SIN PENA",
+     "tam": 170,
+     "estilo": "recortes",
+     "x": 540,
+     "y": 300,
+     "en": 3.9,
+     "entrada": "golpe",
+     "sale": null
+    },
+    {
+     "tipo": "bocadillo",
+     "texto": "¡Qué pena!",
+     "cola": "abajo-izq",
+     "x": 790,
+     "y": 1100,
+     "w": 380,
+     "en": 4.04,
+     "sale": null
+    },
+    {
+     "tipo": "garabato",
+     "forma": "rayas",
+     "w": 200,
+     "h": 120,
+     "color": "red",
+     "x": 300,
+     "y": 1100,
+     "en": 4.6,
+     "sale": null
+    }
+   ]
+  },
+  {
+   "prefab": "carta",
+   "elementos": []
+  },
+  {
+   "prefab": "crush",
+   "elementos": []
+  },
+  {
+   "prefab": "sala",
+   "elementos": []
+  },
+  {
+   "prefab": "fin",
+   "elementos": []
+  }
+ ],
  "musica": {}
 }
