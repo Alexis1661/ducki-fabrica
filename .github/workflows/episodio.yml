@@ -239,7 +239,8 @@ jobs:
         run: |
           git config user.name "fabrica-bot"
           git config user.email "fabrica-bot@users.noreply.github.com"
-          git add -A promo/public/generados fabrica/catalogo/generados.json 2>/dev/null || true
+          # each path on its own: a missing one would make git add stage nothing at all
+          for p in promo/public/generados fabrica/catalogo/generados.json; do [ -e "$p" ] && git add -A "$p"; done
           git diff --cached --quiet && exit 0
           git commit -q -m "imágenes generadas: ${{ github.event.action || github.event_name }}"
           git pull -q --rebase && git push -q

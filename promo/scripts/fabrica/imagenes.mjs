@@ -106,7 +106,10 @@ async function generar() {
   photo.set('caption', `🖼 Imagen nueva para los videos:\n«${prompt}»${pedido ? `\n(para la idea ${pedido.idea})` : ''}\n\n✅ Aprobar la suma a los recursos del director.`);
   photo.set('reply_markup', JSON.stringify({ inline_keyboard: [[{ text: '✅ Aprobar', callback_data: `f:iok:${id.slice(0, 58)}` }, { text: '🗑 Descartar', callback_data: `f:ino:${id.slice(0, 58)}` }]] }));
   photo.set('document', new Blob([fs.readFileSync(file)], { type: 'image/png' }), `${id}.png`);
-  await telegram('sendDocument', photo);
+  const sent = await telegram('sendDocument', photo);
+  // Telegram keeps the file: if the copy here gets lost, approving it can still fetch it
+  pend[id].telegram = sent.document?.file_id ?? null;
+  writeJson(meta, pend);
   console.log(`imagenes: ${id} enviada para aprobar`);
 }
 
@@ -114,8 +117,17 @@ async function decidir(o) {
   const meta = path.join(PEND, 'pendientes.json');
   const pend = fs.existsSync(meta) ? readJson(meta) : {};
   const id = Object.keys(pend).find((k) => k.startsWith(o.imagen));
-  if (!id) throw new Error(`No encuentro la imagen pendiente ${o.imagen}`);
+  if (!id) {
+    console.log(`imagenes: no encuentro la imagen pendiente ${o.imagen}`);
+    await telegram('sendMessage', { ...destino(), text: `⚠️ No encontré la imagen ${o.imagen} (no quedó guardada). Mañana llega otra.` }).catch(() => {});
+    return;
+  }
   const file = path.join(PEND, `${id}.png`);
+  if (!fs.existsSync(file) && pend[id].telegram && o.accion === 'aprobar') {
+    const { bajarArchivo } = await import('./telegram.mjs');
+    const got = await bajarArchivo(pend[id].telegram, path.join(PEND, id));
+    if (got !== file) fs.renameSync(got, file);
+  }
   if (o.accion === 'aprobar') {
     const dest = path.join(PUB, 'generados', `${id}.png`);
     fs.renameSync(file, dest);
