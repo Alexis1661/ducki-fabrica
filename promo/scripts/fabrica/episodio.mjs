@@ -100,9 +100,15 @@ export async function armarEpisodio(o) {
   if (modo === 'eleven') {
     vozFile = path.join(dir, 'voz.mp3');
     const al = await vozEleven(texto, vozFile);
-    writeJson(path.join(dir, 'alineacion.json'), al);
-    words = wordsFromAlignment(al);
-    starts = segmentStarts(segs, words, al);
+    if (al) {
+      writeJson(path.join(dir, 'alineacion.json'), al);
+      words = wordsFromAlignment(al);
+      starts = segmentStarts(segs, words, al);
+    } else {
+      // no alignment from this model: whisper hears the timings, the script gives the words
+      words = conTextoDelGuion(palabrasWhisper(vozFile, dir), texto);
+      starts = segmentStarts(segs, words);
+    }
   } else {
     if (modo === 'sapi') { vozFile = path.join(dir, 'voz-windows.wav'); vozSapi(texto, vozFile); }
     else { vozFile = path.join(dir, `voz-original${path.extname(modo)}`); fs.copyFileSync(path.resolve(modo), vozFile); }

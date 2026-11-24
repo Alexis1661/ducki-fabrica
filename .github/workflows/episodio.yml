@@ -78,12 +78,13 @@ jobs:
           npm install -g --no-audit --no-fund @anthropic-ai/claude-code@2.1.331
 
       # word timings of a voice sent by hand
+      # also when generating: if the ElevenLabs model gives no timestamps, whisper finds them
       - name: Whisper
-        if: github.event.action == 'fabrica-voz'
+        if: github.event.action == 'fabrica-voz' || github.event.action == 'fabrica-generar'
         run: pip install -q faster-whisper
 
       - uses: actions/cache@v4
-        if: github.event.action == 'fabrica-voz'
+        if: github.event.action == 'fabrica-voz' || github.event.action == 'fabrica-generar'
         with:
           path: ~/.cache/huggingface
           key: whisper-small-v1

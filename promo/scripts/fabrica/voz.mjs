@@ -1,7 +1,9 @@
 // The voice of an episode and its word timings.
 //
-//   eleven   ElevenLabs text-to-speech with timestamps: the audio and, per character,
-//            when it is said, so words and segment starts come out exact.
+//   eleven   ElevenLabs text-to-speech (model eleven_v4 by default, ELEVENLABS_MODEL to
+//            change it) with timestamps: the audio and, per character, when it is said,
+//            so words and segment starts come out exact. If the model gives no alignment,
+//            the timings come from faster-whisper instead, without asking for the voice again.
 //   sapi     Windows' own voice (Helena, es-ES): free, robotic, only for testing the
 //            pipeline without spending; timings come from faster-whisper.
 //   <file>   an mp3/wav made elsewhere (e.g. by hand in ElevenLabs); timings from
@@ -63,22 +65,35 @@ export function segmentStarts(segments, words, al = null, joiner = '\n') {
   return out;
 }
 
+export const MODELO_VOZ = () => process.env.ELEVENLABS_MODEL || 'eleven_v4';
+
+/** The voice to outMp3; returns the character alignment, or null when the model gave none. */
 export async function vozEleven(texto, outMp3) {
   const key = process.env.ELEVENLABS_API_KEY, voice = process.env.ELEVENLABS_VOICE_ID;
   if (!key || !voice) throw new Error('Faltan ELEVENLABS_API_KEY / ELEVENLABS_VOICE_ID (secretos del repo en Actions; fabrica/.env en local)');
-  const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voice}/with-timestamps?output_format=mp3_44100_128`, {
-    method: 'POST',
-    headers: { 'xi-api-key': key, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      text: texto,
-      model_id: process.env.ELEVENLABS_MODEL ?? 'eleven_multilingual_v2',
-      voice_settings: { stability: 0.5, similarity_boost: 0.75, style: 0.35, use_speaker_boost: true },
-    }),
+  const model = MODELO_VOZ();
+  const body = JSON.stringify({
+    text: texto,
+    model_id: model,
+    voice_settings: { stability: 0.5, similarity_boost: 0.75, style: 0.35, use_speaker_boost: true },
   });
-  if (!res.ok) throw new Error(`ElevenLabs respondió ${res.status}: ${(await res.text()).slice(0, 300)}`);
-  const data = await res.json();
-  fs.writeFileSync(outMp3, Buffer.from(data.audio_base64, 'base64'));
-  return data.alignment;
+  const headers = { 'xi-api-key': key, 'Content-Type': 'application/json' };
+  const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voice}/with-timestamps?output_format=mp3_44100_128`, { method: 'POST', headers, body });
+  if (res.ok) {
+    const data = await res.json();
+    fs.writeFileSync(outMp3, Buffer.from(data.audio_base64, 'base64'));
+    const al = data.alignment ?? data.normalized_alignment ?? null;
+    console.log(`voz: ElevenLabs ${model}${al?.characters?.length ? '' : ' (sin alineación: tiempos con whisper)'}`);
+    return al?.characters?.length ? al : null;
+  }
+  const err = (await res.text()).slice(0, 300);
+  // a model without timestamps refuses the request before generating: ask for the plain audio once
+  if (res.status !== 400 && res.status !== 422) throw new Error(`ElevenLabs (${model}) respondió ${res.status}: ${err}`);
+  console.log(`voz: ${model} no dio tiempos (${res.status}: ${err.slice(0, 160)}); pido el audio sin tiempos y los saco con whisper`);
+  const plain = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voice}?output_format=mp3_44100_128`, { method: 'POST', headers, body });
+  if (!plain.ok) throw new Error(`ElevenLabs (${model}) respondió ${plain.status}: ${(await plain.text()).slice(0, 300)} (antes, con tiempos: ${res.status} ${err.slice(0, 160)})`);
+  fs.writeFileSync(outMp3, Buffer.from(await plain.arrayBuffer()));
+  return null;
 }
 
 /** Windows voice to a wav (free; for trying the pipeline). The text goes through a file to dodge quoting. */
