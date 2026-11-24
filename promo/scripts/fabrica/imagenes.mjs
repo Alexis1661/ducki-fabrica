@@ -8,7 +8,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { FAB, PROMO, loadEnv, readJson, slugify, writeJson } from './comun.mjs';
+import { FAB, PROMO, loadEnv, python, readJson, slugify, writeJson } from './comun.mjs';
 
 const PUB = path.join(PROMO, 'public');
 const PEND = path.join(PUB, 'generados', 'pendientes');
@@ -92,6 +92,8 @@ async function generar() {
   fs.mkdirSync(PEND, { recursive: true });
   const file = path.join(PEND, `${id}.png`);
   fs.writeFileSync(file, Buffer.from(body.data[0].b64_json, 'base64'));
+  // the model may hand back a plain white background: the director needs a cut-out
+  try { console.log(`imagenes: ${python(['scripts/fabrica/quitar_fondo.py', file]).trim()}`); } catch (e) { console.log(`imagenes: no pude quitar el fondo (${String(e.message).split('\n')[0]})`); }
   registro.dias[hoy()] = ya + 1;
   registro.prompts = { ...(registro.prompts ?? {}), [id]: prompt };
   writeJson(REGISTRO, registro);
