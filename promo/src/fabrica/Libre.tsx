@@ -301,10 +301,10 @@ const Presentador: React.FC<{ i: number; p: NonNullable<EscenaLibre['presentador
 type Cam = { s: number; fx: number; fy: number; dx: number; dy: number };
 const NO_CAM: Cam = { s: 1, fx: 540, fy: 860, dx: 0, dy: 0 };
 /** Slow camera moves over the whole sheet, and a punch-in on a word. */
-function camara(c: EscenaLibre['camara'], f: number, dur: number, hit: number | null): Cam {
-  if (!c) return NO_CAM;
+function camara(c: EscenaLibre['camara'], f: number, dur: number, hit: number | null, focoDef: [number, number] = [540, 860]): Cam {
+  if (!c) return { ...NO_CAM, fx: focoDef[0], fy: focoDef[1] };
   const p = Math.min(1, Math.max(0, (stepped(f) - ENTER) / Math.max(1, dur - ENTER)));
-  const [fx, fy] = c.foco ?? [540, 860];
+  const [fx, fy] = c.foco ?? focoDef;
   const cam: Cam = { s: 1, fx, fy, dx: 0, dy: 0 };
   switch (c.mover) {
     case 'acercar': cam.s = 1 + 0.1 * p; break;
@@ -324,6 +324,32 @@ function camara(c: EscenaLibre['camara'], f: number, dur: number, hit: number | 
 const CamCtx = React.createContext<Cam>(NO_CAM);
 /** Where a point of the sheet lands with the camera. */
 const enCamara = (cam: Cam, x: number, y: number) => ({ x: cam.fx + (x - cam.fx) * cam.s + cam.dx, y: cam.fy + (y - cam.fy) * cam.s + cam.dy });
+
+/**
+ * A free scene's pieces inside a box instead of a sheet (the newscast's TV): the director places
+ * them on a `lado`×`lado` canvas and they land scaled into the w×h box. Every piece keeps its own
+ * transform (an ancestor's transform makes the boiling text vanish), so the box only clips.
+ * Render it inside the scene's Sequence, like Libre.
+ */
+export const LibreEnCaja: React.FC<{ i: number; w: number; dark?: boolean; lado?: number }> = ({ i, w, dark = false, lado = 1000 }) => {
+  const f = useCurrentFrame();
+  const { ep, SC } = useEp();
+  const L = useL(i);
+  const esc = ep.libre?.[i];
+  if (!esc) return null;
+  const scene = SC[i];
+  const dur = scene.to - scene.from + ENTER;
+  const hit = esc.camara?.golpe != null ? L(esc.camara.golpe - scene.t) : null;
+  const c = camara(esc.camara, f, dur, hit, [lado / 2, lado / 2]);
+  const s = w / lado;
+  // the camera on the canvas, then the canvas into the box: still a zoom plus a shift
+  const cam: Cam = { s: s * c.s, fx: 0, fy: 0, dx: s * (c.fx * (1 - c.s) + c.dx), dy: s * (c.fy * (1 - c.s) + c.dy) };
+  return (
+    <CamCtx.Provider value={cam}>
+      {esc.elementos.map((e, k) => <Pieza key={k} e={e} i={i} k={k} dark={dark} />)}
+    </CamCtx.Provider>
+  );
+};
 
 export const Libre: React.FC<{ i: number }> = ({ i }) => {
   const f = useCurrentFrame();

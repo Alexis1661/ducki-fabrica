@@ -33,10 +33,10 @@ export const PREFABS = ['intro', 'fin', 'todo', ...ESCENAS];
 export const FORMAS = ['flecha', 'circulo', 'subrayado', 'corazon', 'estrella', 'explosion', 'rayas', 'pregunta', 'exclamacion'];
 export const MARCOS = ['polaroid', 'cinta', 'celular', 'recorte', 'ninguno'];
 export const MOVIMIENTOS = ['quieta', 'acercar', 'alejar', 'paneo-izq', 'paneo-der', 'subir', 'bajar'];
-const COLORES = ['ink', 'paper', 'cream', 'kraft', 'orange', 'hot', 'cobalt', 'lime', 'pink', 'red', 'green', 'night', 'white'];
+export const COLORES = ['ink', 'paper', 'cream', 'kraft', 'orange', 'hot', 'cobalt', 'lime', 'pink', 'red', 'green', 'night', 'white'];
 const HOJAS = ['paper', 'cream', 'kraft', 'orange', 'hot', 'cobalt', 'lime', 'pink', 'red', 'green', 'night'];
-const NOTAS = ['amarillo', 'rosado', 'verde', 'crema', 'naranja'];
-const LARGO = { titulo: 30, texto: 90, nota: 45, bocadillo: 100 };
+export const NOTAS = ['amarillo', 'rosado', 'verde', 'crema', 'naranja'];
+export const LARGO = { titulo: 30, texto: 90, nota: 45, bocadillo: 100 };
 /** Bottom of the band where the captions go: nothing may reach below this line. */
 const SUBTITULOS = 1590;
 
@@ -104,43 +104,62 @@ export function revisarStoryboard(sb, words, catalogo = cargarCatalogo()) {
     const first = Math.min(...els.map((e) => (Number.isInteger(e.en) ? e.en : 1e9)), s.presentador ? s.presentador.en : 1e9);
     if (els.length && first > s.desde + 3) err.push(`${at} arranca vacía: la primera pieza entra en la palabra ${first} y la escena empieza en ${s.desde}; que la protagonista entre en las primeras 3 palabras`);
     if (els.length > 9) err.push(`${at} tiene ${els.length} elementos: máximo 9, que se lea`);
-    els.forEach((e, k) => {
-      const ae = `${at}.elementos[${k}] (${e.tipo})`;
-      if (!TIPOS.includes(e.tipo)) { err.push(`${ae}: tipo desconocido (usa: ${TIPOS.join(', ')})`); return; }
-      within(e.en, `elementos[${k}].en`);
-      if (e.sale != null && !(Number.isInteger(e.sale) && e.sale > e.en && e.sale < nWords)) err.push(`${ae}.sale tiene que ser una palabra después de en`);
-      if (e.entrada != null && !ENTRADAS.includes(e.entrada)) err.push(`${ae}.entrada «${e.entrada}» no existe (usa: ${ENTRADAS.join(', ')})`);
-      if (e.color != null && !COLORES.includes(e.color) && !(e.tipo === 'nota' && NOTAS.includes(e.color))) err.push(`${ae}.color «${e.color}» no existe`);
-      if (!(e.x >= 0 && e.x <= 1080 && e.y >= 0 && e.y <= 1920)) err.push(`${ae}: x va de 0 a 1080 y y de 0 a 1920 (es el centro de la pieza)`);
-      if (LARGO[e.tipo] && !(e.texto ?? '').trim()) err.push(`${ae} sin texto`);
-      if (LARGO[e.tipo] && [...(e.texto ?? '')].length > LARGO[e.tipo]) err.push(`${ae}: texto de más de ${LARGO[e.tipo]} caracteres`);
-      let rec = null;
-      if (['imagen', 'clip', 'sticker'].includes(e.tipo)) {
-        rec = e.recurso ? catalogo.buscar(e.recurso) : null;
-        if (!rec) err.push(`${ae}: recurso «${e.recurso}» no está en el catálogo`);
-        else if (e.tipo === 'clip' && rec.tipo !== 'clip') err.push(`${ae}: «${e.recurso}» no es un clip`);
-        else if (e.tipo !== 'clip' && rec.tipo === 'clip') err.push(`${ae}: «${e.recurso}» es un clip: usa tipo clip`);
-        else if (e.tipo === 'sticker' && rec.tipo === 'imagen') err.push(`${ae}: «${e.recurso}» es una imagen rectangular: usa tipo imagen`);
-        if (e.marco != null && !MARCOS.includes(e.marco)) err.push(`${ae}.marco «${e.marco}» no existe (usa: ${MARCOS.join(', ')})`);
-        if (rec?.tipo === 'clip' && Number.isInteger(e.en)) {
-          // the stretch of the clip that will be on screen
-          const until = e.sale != null ? at_(e.sale).s : (next < nWords ? at_(next).s : at_(nWords - 1).e + 1.5);
-          const a0 = e.desde ?? 0, a1 = a0 + Math.max(0, until - at_(e.en).s) * (e.velocidad ?? 1);
-          for (const [a, b] of rec.prohibido ?? []) if (a0 < b && a1 > a) err.push(`${ae}: mostraría de ${a0.toFixed(1)} a ${a1.toFixed(1)} s del clip y el tramo ${a}–${b} s está prohibido (${rec.evitar ?? ''}); cambia desde, sale o velocidad`);
-          if (a1 > (rec.segundos ?? 999) + 0.3) err.push(`${ae}: el clip dura ${rec.segundos} s y se mostraría hasta el segundo ${a1.toFixed(1)}: que salga antes (sale) o empiece antes (desde)`);
-        }
+    err.push(...revisarPiezas(els, { at, within, catalogo, at_, next, nWords, iconos }));
+  });
+  return err;
+}
+
+/**
+ * Problems with the pieces of one scene. The canvas is 1080×1920 with the captions band
+ * (the scrapbook) unless `lienzo` says otherwise (the newscast's TV: 1000×1000, cut at its edges).
+ */
+export function revisarPiezas(els, { at, within, catalogo = cargarCatalogo(), at_, next, nWords, iconos = iconosValidos(),
+  lienzo = { w: 1080, h: 1920 }, subtitulos = SUBTITULOS, recortar = false, sinManos = false }) {
+  const err = [];
+  const W = lienzo.w, H = lienzo.h;
+  els.forEach((e, k) => {
+    const ae = `${at}.elementos[${k}] (${e.tipo})`;
+    if (!TIPOS.includes(e.tipo)) { err.push(`${ae}: tipo desconocido (usa: ${TIPOS.join(', ')})`); return; }
+    within(e.en, `elementos[${k}].en`);
+    if (e.sale != null && !(Number.isInteger(e.sale) && e.sale > e.en && e.sale < nWords)) err.push(`${ae}.sale tiene que ser una palabra después de en`);
+    if (e.entrada != null && !ENTRADAS.includes(e.entrada)) err.push(`${ae}.entrada «${e.entrada}» no existe (usa: ${ENTRADAS.join(', ')})`);
+    if (e.color != null && !COLORES.includes(e.color) && !(e.tipo === 'nota' && NOTAS.includes(e.color))) err.push(`${ae}.color «${e.color}» no existe`);
+    if (!(e.x >= 0 && e.x <= W && e.y >= 0 && e.y <= H)) err.push(`${ae}: x va de 0 a ${W} y y de 0 a ${H} (es el centro de la pieza)`);
+    if (sinManos && /^mano/.test(e.entrada ?? '')) err.push(`${ae}.entrada «${e.entrada}»: aquí no hay mano que la traiga (usa pop, golpe, deslizar, escribir o aparecer)`);
+    if (LARGO[e.tipo] && !(e.texto ?? '').trim()) err.push(`${ae} sin texto`);
+    if (LARGO[e.tipo] && [...(e.texto ?? '')].length > LARGO[e.tipo]) err.push(`${ae}: texto de más de ${LARGO[e.tipo]} caracteres`);
+    let rec = null;
+    if (['imagen', 'clip', 'sticker'].includes(e.tipo)) {
+      rec = e.recurso ? catalogo.buscar(e.recurso) : null;
+      if (!rec) err.push(`${ae}: recurso «${e.recurso}» no está en el catálogo`);
+      else if (e.tipo === 'clip' && rec.tipo !== 'clip') err.push(`${ae}: «${e.recurso}» no es un clip`);
+      else if (e.tipo !== 'clip' && rec.tipo === 'clip') err.push(`${ae}: «${e.recurso}» es un clip: usa tipo clip`);
+      else if (e.tipo === 'sticker' && rec.tipo === 'imagen') err.push(`${ae}: «${e.recurso}» es una imagen rectangular: usa tipo imagen`);
+      if (e.marco != null && !MARCOS.includes(e.marco)) err.push(`${ae}.marco «${e.marco}» no existe (usa: ${MARCOS.join(', ')})`);
+      if (rec?.tipo === 'clip' && Number.isInteger(e.en)) {
+        // the stretch of the clip that will be on screen
+        const until = e.sale != null ? at_(e.sale).s : (next < nWords ? at_(next).s : at_(nWords - 1).e + 1.5);
+        const a0 = e.desde ?? 0, a1 = a0 + Math.max(0, until - at_(e.en).s) * (e.velocidad ?? 1);
+        for (const [a, b] of rec.prohibido ?? []) if (a0 < b && a1 > a) err.push(`${ae}: mostraría de ${a0.toFixed(1)} a ${a1.toFixed(1)} s del clip y el tramo ${a}–${b} s está prohibido (${rec.evitar ?? ''}); cambia desde, sale o velocidad`);
+        if (a1 > (rec.segundos ?? 999) + 0.3) err.push(`${ae}: el clip dura ${rec.segundos} s y se mostraría hasta el segundo ${a1.toFixed(1)}: que salga antes (sale) o empiece antes (desde)`);
       }
-      if (e.tipo === 'pato') {
-        if (!e.cabeza && !e.cuerpo) err.push(`${ae}: pon cabeza (h000–h161) y/o cuerpo (b000–b149)`);
-        if (e.cabeza && !catalogo.buscar(e.cabeza)) err.push(`${ae}: la cabeza «${e.cabeza}» no existe`);
-        if (e.cuerpo && !catalogo.buscar(e.cuerpo)) err.push(`${ae}: el cuerpo «${e.cuerpo}» no existe`);
-      }
-      if (e.tipo === 'icono' && !iconos.has(e.nombre)) err.push(`${ae}: el ícono «${e.nombre}» no existe en lucide-react`);
-      if (e.tipo === 'garabato' && !FORMAS.includes(e.forma)) err.push(`${ae}.forma «${e.forma}» no existe (usa: ${FORMAS.join(', ')})`);
-      if (e.tipo === 'contador' && !Number.isInteger(e.n)) err.push(`${ae}: el contador necesita n`);
-      const alto = altoAprox(e, rec);
-      if (e.y > 1560 || (alto && e.y + alto / 2 > SUBTITULOS)) err.push(`${ae}: llega hasta y≈${Math.round(e.y + alto / 2)} y tapa los subtítulos (nada puede bajar de y=${SUBTITULOS})`);
-    });
+    }
+    if (e.tipo === 'pato') {
+      if (!e.cabeza && !e.cuerpo) err.push(`${ae}: pon cabeza (h000–h161) y/o cuerpo (b000–b149)`);
+      if (e.cabeza && !catalogo.buscar(e.cabeza)) err.push(`${ae}: la cabeza «${e.cabeza}» no existe`);
+      if (e.cuerpo && !catalogo.buscar(e.cuerpo)) err.push(`${ae}: el cuerpo «${e.cuerpo}» no existe`);
+    }
+    if (e.tipo === 'icono' && !iconos.has(e.nombre)) err.push(`${ae}: el ícono «${e.nombre}» no existe en lucide-react`);
+    if (e.tipo === 'garabato' && !FORMAS.includes(e.forma)) err.push(`${ae}.forma «${e.forma}» no existe (usa: ${FORMAS.join(', ')})`);
+    if (e.tipo === 'contador' && !Number.isInteger(e.n)) err.push(`${ae}: el contador necesita n`);
+    const alto = altoAprox(e, rec);
+    if (subtitulos != null && (e.y > subtitulos - 30 || (alto && e.y + alto / 2 > subtitulos))) err.push(`${ae}: llega hasta y≈${Math.round(e.y + alto / 2)} y tapa los subtítulos (nada puede bajar de y=${subtitulos})`);
+    if (recortar) {
+      // inside a frame (the TV) whatever sticks out is cut off
+      const ancho = e.w ?? 0;
+      if (alto && (e.y + alto / 2 > H + 40 || e.y - alto / 2 < -40)) err.push(`${ae}: mide unos ${Math.round(alto)} de alto y con y=${e.y} se sale del cuadro (0 a ${H}): achícala o muévela`);
+      if (ancho && (e.x + ancho / 2 > W + 40 || e.x - ancho / 2 < -40)) err.push(`${ae}: mide ${ancho} de ancho y con x=${e.x} se sale del cuadro (0 a ${W}): achícala o muévela`);
+    }
   });
   return err;
 }
@@ -166,15 +185,7 @@ export function episodioLibre({ spec, words, vozDur, funciones, seed, mouth, sto
       libre.push({ prefab: s.prefab, elementos: [] });
     } else {
       sc = { kind: 'libre', t: +t.toFixed(3), ev: {} };
-      const elementos = (s.elementos ?? []).map((e) => {
-        const out = { ...e, en: secs(words, e.en), sale: e.sale != null ? secs(words, e.sale) : null };
-        delete out.recurso;
-        if (e.recurso) {
-          const rec = catalogo.buscar(e.recurso);
-          if (rec) Object.assign(out, { src: rec.ruta, w0: rec.w, h0: rec.h });
-        }
-        return out;
-      });
+      const elementos = piezasParaEpisodio(s.elementos, words, catalogo);
       const p = s.presentador ? { ...s.presentador, en: secs(words, s.presentador.en), sale: s.presentador.sale != null ? secs(words, s.presentador.sale) : null } : null;
       const camara = s.camara ? { ...s.camara, golpe: s.camara.golpe != null ? secs(words, s.camara.golpe) : null } : null;
       libre.push({ prefab: null, camara, presentador: p, elementos });
@@ -202,6 +213,19 @@ export function episodioLibre({ spec, words, vozDur, funciones, seed, mouth, sto
     libre,
     musica: musicaDe(spec),
   };
+}
+
+/** A scene's pieces for the template: word numbers to voice seconds, catalog ids to files and sizes. */
+export function piezasParaEpisodio(elementos, words, catalogo = cargarCatalogo()) {
+  return (elementos ?? []).map((e) => {
+    const out = { ...e, en: secs(words, e.en), sale: e.sale != null ? secs(words, e.sale) : null };
+    delete out.recurso;
+    if (e.recurso) {
+      const rec = catalogo.buscar(e.recurso);
+      if (rec) Object.assign(out, { src: rec.ruta, w0: rec.w, h0: rec.h });
+    }
+    return out;
+  });
 }
 
 /** The voice's words numbered, one per line, with the script line each belongs to (for the director). */

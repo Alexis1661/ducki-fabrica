@@ -67,6 +67,35 @@ export function segmentStarts(segments, words, al = null, joiner = '\n') {
 
 export const MODELO_VOZ = () => process.env.ELEVENLABS_MODEL || 'eleven_v4';
 
+/** The text without ElevenLabs audio tags ([excited], [short pause]…), line by line. */
+export function quitarEtiquetas(s) {
+  return String(s).split('\n').map((l) => l.replace(/\s*\[[^\]\n]*\]\s*(?=[.,;:!?…])/g, '').replace(/\s*\[[^\]\n]*\]\s*/g, ' ').replace(/ {2,}/g, ' ').trim()).join('\n');
+}
+
+/**
+ * The alignment without the audio tags' characters (if the model echoes them), so its words and
+ * line starts match the plain script. Each tag takes one space with it: the one after it, or the
+ * one before it when a sign or the end of the line follows.
+ */
+export function alineacionSinEtiquetas(al) {
+  if (!al?.characters?.length || !al.characters.includes('[')) return al;
+  const ch = al.characters;
+  const keep = ch.map(() => true);
+  for (let i = 0; i < ch.length; i++) {
+    if (ch[i] !== '[') continue;
+    let j = i;
+    while (j < ch.length && ch[j] !== ']' && ch[j] !== '\n') j++;
+    if (ch[j] !== ']') continue;
+    for (let k = i; k <= j; k++) keep[k] = false;
+    if (ch[j + 1] === ' ') keep[j + 1] = false;
+    else if (i > 0 && ch[i - 1] === ' ') keep[i - 1] = false;
+    i = j;
+  }
+  const idx = ch.map((_, i) => i).filter((i) => keep[i]);
+  const pick = (arr) => idx.map((i) => arr[i]);
+  return { ...al, characters: pick(ch), character_start_times_seconds: pick(al.character_start_times_seconds), character_end_times_seconds: pick(al.character_end_times_seconds) };
+}
+
 /** The voice to outMp3; returns the character alignment, or null when the model gave none. */
 export async function vozEleven(texto, outMp3) {
   const key = process.env.ELEVENLABS_API_KEY, voice = process.env.ELEVENLABS_VOICE_ID;

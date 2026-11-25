@@ -33,10 +33,11 @@ function recientesDirector(dir, n = 6) {
     if (!fs.existsSync(f)) continue;
     let sb;
     try { sb = readJson(f); } catch { continue; }
-    const esc = sb.escenas ?? [];
+    // the scrapbook's sheets, or the newscast's TV screens
+    const esc = sb.escenas ?? sb.pantallas ?? [];
     const piezas = esc.flatMap((s) => s.elementos ?? []);
     const uniq = (xs) => [...new Set(xs.filter(Boolean))];
-    lines.push(`- ${d}: hojas ${esc.map((s) => s.prefab ? `[${s.prefab}]` : s.hoja?.color ?? '?').join(' → ')}; entradas ${uniq(esc.map((s) => s.hoja?.entrada)).join(', ')}; ` +
+    lines.push(`- ${d}: hojas ${esc.map((s) => s.prefab ? `[${s.prefab}]` : s.hoja?.color ?? s.fondo ?? '?').join(' → ')}; entradas ${uniq(esc.map((s) => s.hoja?.entrada)).join(', ')}; ` +
       `recursos ${uniq(piezas.map((e) => e.recurso)).slice(0, 10).join(', ') || '-'}; íconos ${uniq(piezas.map((e) => e.nombre)).join(', ') || '-'}; ` +
       `títulos ${uniq(piezas.filter((e) => e.tipo === 'titulo').map((e) => e.estilo ?? 'recortes')).join(', ') || '-'}; presentador en ${esc.filter((s) => s.presentador).length} escena(s)`);
   }
@@ -47,7 +48,7 @@ function recientesDirector(dir, n = 6) {
  * Writes the director's inputs into the episode folder, runs the agent, and returns the
  * storyboard it left (checked). Throws, with the reason, when there is none worth using.
  */
-export async function dirigir({ dir, spec, words, vozDur, seed, mouth, segs, starts, formato = 'lista-scrapbook' }) {
+export async function dirigir({ dir, spec, words, vozDur, seed, mouth, segs, starts, formato = 'lista-scrapbook', revisar: revisarSb = (sb) => revisarStoryboard(sb, words) }) {
   writeJson(path.join(dir, 'director-base.json'), { spec, words, vozDur, seed, mouth, segs, starts });
   fs.writeFileSync(path.join(dir, 'palabras-numeradas.txt'), palabrasNumeradas(words, segs, starts));
   fs.writeFileSync(path.join(dir, 'recientes-director.txt'), `# Cómo se vieron los últimos videos: no repitas sus combinaciones\n${recientesDirector(dir) || '(todavía no hay)'}\n`);
@@ -101,7 +102,7 @@ export async function dirigir({ dir, spec, words, vozDur, seed, mouth, segs, sta
   }
   let storyboard;
   try { storyboard = readJson(file); } catch (e) { throw new Error(`El storyboard del director no es JSON válido: ${e.message}`); }
-  const problems = revisarStoryboard(storyboard, words);
+  const problems = revisarSb(storyboard);
   if (problems.length) throw new Error(`El storyboard del director quedó con problemas:\n- ${problems.slice(0, 8).join('\n- ')}`);
   return storyboard;
 }

@@ -11,7 +11,8 @@ Formato «Ducki Noticias» (plantilla promo/src/fabrica/Noticiero.tsx):
 - `segmentos`: de 3 a 6 noticias. Cada una con su `titular` (mayúsculas, máximo 42), su `bajada` y lo
   que dice el presentador (`voz`). Al menos una con `urgente` (etiqueta «ÚLTIMA HORA»), máximo dos.
   - `plano`: alterna entre `presentador`, `pantalla` y `dividido` para que el video se mueva.
-  - `pantalla`: lo que se ve en la pantalla gigante. **Entre 2 y 4 noticias llevan `imagen_ia`**: una
+  - `pantalla`: pistas para la tele del estudio (después un director la compone y la anima noticia
+    por noticia con estas pistas). **Entre 2 y 4 noticias llevan `imagen_ia`**: una
     ilustración nueva del pato hecha para esa noticia (el pato reportero bajo la lluvia, el pato
     rodeado de 148 patos en la cafetería…); es lo que hace que el video se sienta vivo y hecho a
     medida. Las demás usan un recurso del catálogo (capturas, clips, patos) o `texto` con un dato

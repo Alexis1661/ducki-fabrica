@@ -1,15 +1,17 @@
 // Formato «Ducki Noticias»: un noticiero parodia. El pato presenta detrás de un escritorio,
-// una pantalla gigante muestra cada noticia, titulares de «ÚLTIMA HORA», cinta abajo.
+// una tele siempre encendida muestra cada noticia, titulares de «ÚLTIMA HORA», cinta abajo.
+// Lo que pasa en la tele lo compone y anima el director (DIRECTOR.md de este formato) noticia por
+// noticia, con las piezas de las escenas libres; sin director, la tele muestra el recurso fijo.
 // Plantilla: promo/src/fabrica/Noticiero.tsx; documentos: fabrica/formatos/noticiero/.
 import fs from 'node:fs';
 import path from 'node:path';
 import { FAB } from '../comun.mjs';
-import { cargarCatalogo } from '../director/storyboard.mjs';
+import { MOVIMIENTOS, cargarCatalogo, piezasParaEpisodio, revisarPiezas } from '../director/storyboard.mjs';
 
 export const id = 'noticiero';
 export const composicion = 'Noticiero';
 export const dir = path.join(FAB, 'formatos', id);
-export const director = false;
+export const director = true;
 export const publico = ['todo', 'fuentes', 'ducks', 'app', 'fabrica/piezas', 'fabrica/disfraces', 'parches/cat', 'parches/games', 'logos', 'duckart/weekly', 'screens', 'stores', 'map', 'v0110', 'tutorial-salas', 'generados'];
 
 const TIPOS = ['marca', 'humor', 'pov', 'comunidad', 'funcion', 'tendencia'];
@@ -17,6 +19,9 @@ const PILARES = JSON.parse(fs.readFileSync(path.join(FAB, 'pilares.json'), 'utf8
 const PLANOS = ['presentador', 'pantalla', 'dividido'];
 const nullable = (s) => ({ anyOf: [s, { type: 'null' }] });
 const MAX_IA = 4;
+/** The TV's canvas for the director: square, every shot scales it into its own box. */
+const LADO = 1000;
+const FONDOS = ['estudio', 'paper', 'cream', 'kraft', 'orange', 'lime', 'pink', 'cobalt', 'night', 'green', 'red', 'hot'];
 const MIN_IA = 2;
 
 export function esquema() {
@@ -139,6 +144,69 @@ export function construir({ spec, words, starts, vozDur, seed, mouth, v0 = 0.15,
     plan: { estilo: { subtitulos: 'cinta', resaltado: 'orange', contador: 'cinta', presentador: 'centro', estructura: 'historia' }, escenas: [] },
     noticiero: { segmentos: segs, ticker: spec.ticker, fin },
   };
+}
+
+/** The words [w0, w1) of each story: voice segment k+1 (segment 0 is the opening). */
+export function rangosDeNoticias(words, starts, n) {
+  const first = (t) => { const i = words.findIndex((w) => w.s >= t - 0.06); return i < 0 ? words.length : i; };
+  return Array.from({ length: n }, (_, k) => [first(starts[k + 1]), first(starts[k + 2])]);
+}
+
+/** Problems with the director's TV storyboard ({ pantallas: [...] }, one per story). */
+export function revisarStoryboard(sb, { words, starts, spec }, catalogo = cargarCatalogo()) {
+  const err = [];
+  const n = spec.segmentos.length;
+  const pant = sb?.pantallas;
+  if (!Array.isArray(pant) || pant.length !== n) return [`storyboard.pantallas tiene que ser una lista con una entrada por noticia (${n})`];
+  const R = rangosDeNoticias(words, starts, n);
+  const at_ = (w) => words[Math.min(Math.max(0, w | 0), words.length - 1)];
+  const usados = new Map();
+  pant.forEach((p, k) => {
+    const at = `pantallas[${k}] (noticia ${k + 1})`;
+    const [w0, w1] = R[k];
+    const within = (w, name) => {
+      if (!Number.isInteger(w) || w < w0 || w >= w1) err.push(`${at}.${name} (${w}) tiene que ser una palabra de esta noticia: de ${w0} a ${w1 - 1}`);
+    };
+    const plano = p.plano ?? spec.segmentos[k].plano;
+    if (!PLANOS.includes(plano)) err.push(`${at}.plano «${p.plano}» no existe (usa: ${PLANOS.join(', ')})`);
+    if (p.fondo != null && !FONDOS.includes(p.fondo)) err.push(`${at}.fondo «${p.fondo}» no existe (usa: ${FONDOS.join(', ')})`);
+    if (p.presentador) err.push(`${at}: en la tele no va el presentador (ya está en el escritorio)`);
+    if (p.camara) {
+      if (p.camara.mover != null && !MOVIMIENTOS.includes(p.camara.mover)) err.push(`${at}.camara.mover «${p.camara.mover}» no existe (usa: ${MOVIMIENTOS.join(', ')})`);
+      if (p.camara.golpe != null) within(p.camara.golpe, 'camara.golpe');
+    }
+    const els = p.elementos ?? [];
+    if (!Array.isArray(els) || els.length < 2) err.push(`${at}: la tele necesita al menos 2 piezas (una protagonista y algo que se mueva con la voz)`);
+    if (els.length > 8) err.push(`${at} tiene ${els.length} piezas: máximo 8, que se lea en una tele`);
+    const first = Math.min(...els.map((e) => (Number.isInteger(e.en) ? e.en : 1e9)));
+    if (els.length && first > w0 + 3) err.push(`${at} arranca vacía: la primera pieza entra en la palabra ${first} y la noticia empieza en ${w0}; que algo entre en las primeras 3 palabras`);
+    err.push(...revisarPiezas(els, { at, within, catalogo, at_, next: w1, nWords: words.length, lienzo: { w: LADO, h: LADO }, subtitulos: null, recortar: true, sinManos: true }));
+    els.forEach((e, j) => {
+      // in the «pantalla» shot the anchor sits over the TV's bottom-right corner
+      if (plano === 'pantalla' && e.x > 760 && e.y > 820) err.push(`${at}.elementos[${j}]: en el plano «pantalla» el presentador tapa la esquina de abajo a la derecha (x>720 y y>790): muévela`);
+      if (e.recurso) usados.set(e.recurso, [...(usados.get(e.recurso) ?? []), k + 1]);
+    });
+  });
+  for (const [r, ks] of usados) if (new Set(ks).size > 1) err.push(`«${r}» sale en las noticias ${[...new Set(ks)].join(' y ')}: cada noticia con lo suyo, no repitas recursos`);
+  return err;
+}
+
+/** The episode with the director's TV: the fixed build plus each story's pieces, shot and background. */
+export function conStoryboard({ spec, words, starts, vozDur, seed, mouth, storyboard, catalogo = cargarCatalogo() }) {
+  const ep = construir({ spec, words, starts, vozDur, seed, mouth });
+  ep.libre = ep.scenes.map(() => null);
+  const secs = (w) => +words[Math.min(Math.max(0, w), words.length - 1)].s.toFixed(3);
+  storyboard.pantallas.forEach((p, k) => {
+    const s = ep.noticiero.segmentos[k];
+    if (p.plano) s.plano = p.plano;
+    s.fondo = p.fondo ?? null;
+    ep.libre[k + 1] = {
+      prefab: null, presentador: null,
+      camara: p.camara ? { ...p.camara, golpe: p.camara.golpe != null ? secs(p.camara.golpe) : null } : null,
+      elementos: piezasParaEpisodio(p.elementos, words, catalogo),
+    };
+  });
+  return ep;
 }
 
 export function resumen(spec) {

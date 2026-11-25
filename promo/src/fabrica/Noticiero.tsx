@@ -1,25 +1,34 @@
 // «Ducki Noticias»: a parody newscast (scripts/fabrica/formatos/noticiero.mjs). The duck reads
-// the news behind a desk, a big screen shows each story, a lower third carries the headline,
+// the news behind a desk, a TV is always on with each story, a lower third carries the headline,
 // a ticker crawls below. Opens with the show's title card and closes on the app.
+// What the TV shows is free: the director composes and animates it story by story (the same
+// pieces as the scrapbook's free scenes, Libre.tsx); without a director it falls back to the
+// story's picture, clip or big figure.
 import React, { useMemo } from 'react';
 import { AbsoluteFill, Img, OffthreadVideo, Sequence, staticFile, useCurrentFrame } from 'remotion';
-import { BoilDefs, Captions, EpProvider, Episode, FONTS, FPS, HostDuck, P, Ransom, STEP, Torn, easeOut, makeCtx, makePose, pop, stepIn, stepped } from './head';
+import { BoilDefs, Captions, ENTER, EpProvider, Episode, FONTS, FPS, HostDuck, P, Ransom, Torn, easeOut, isDark, makeCtx, makePose, pop, stepIn, stepped, useEp } from './head';
 import type { FaceKey } from './head';
+import { LibreEnCaja } from './Libre';
 
 type Pantalla = { src: string | null; tipo: string | null; w0: number | null; h0: number | null; texto: string | null };
-type Seg = { t: number; titular: string; bajada: string; plano: 'presentador' | 'pantalla' | 'dividido'; urgente: boolean; pantalla: Pantalla };
+type Seg = { t: number; titular: string; bajada: string; plano: 'presentador' | 'pantalla' | 'dividido'; urgente: boolean; pantalla: Pantalla; fondo?: string | null };
 type News = { segmentos: Seg[]; ticker: string[]; fin: number };
 
 const SANS = 'Inter, "Helvetica Neue", Arial, "Liberation Sans", "DejaVu Sans", sans-serif';
 const NAVY = '#0E1430', BLUE = '#1C2C78', RED = '#E5262D';
 const FACE: FaceKey[] = [[0, { pupilS: 1.05 }]];
+const PAL = P as Record<string, string>;
+/** The TV's background when the director picks none (the show's own gradient). */
+const ESTUDIO = `linear-gradient(160deg, ${P.orange}, ${P.hot} 55%, #7B4DFF)`;
 
-/** Where the screen and the anchor go in each shot. */
+/** Where the TV (always square: the director composes on 1000×1000) and the anchor go in each shot. */
 const PLANOS = {
-  presentador: { screen: { x: 600, y: 330, w: 440, h: 560 }, anchor: { x: 330, y: 560, w: 640 } },
-  pantalla: { screen: { x: 60, y: 260, w: 960, h: 880 }, anchor: { x: 860, y: 900, w: 330 } },
-  dividido: { screen: { x: 40, y: 360, w: 520, h: 760 }, anchor: { x: 790, y: 600, w: 520 } },
+  presentador: { screen: { x: 590, y: 330, w: 460, h: 460 }, anchor: { x: 330, y: 560, w: 640 } },
+  pantalla: { screen: { x: 90, y: 250, w: 900, h: 900 }, anchor: { x: 860, y: 900, w: 330 } },
+  dividido: { screen: { x: 30, y: 400, w: 520, h: 520 }, anchor: { x: 790, y: 600, w: 520 } },
 } as const;
+/** Bottom edge of the lower third: it grows upwards, so a long headline never hides behind the ticker. */
+const LOWER_BOTTOM = 1526;
 
 const Studio: React.FC = () => {
   const f = useCurrentFrame();
@@ -51,25 +60,46 @@ const EnVivo: React.FC = () => {
   );
 };
 
-/** The big screen: a picture, a clip, a sticker on the brand gradient, or a big figure. */
-const Screen: React.FC<{ p: Pantalla; w: number; h: number; start: number }> = ({ p, w, h, start }) => {
-  const inner = (() => {
-    if (p.src && p.tipo === 'clip') {
-      return <Sequence from={start} layout="none"><OffthreadVideo src={staticFile(p.src)} muted style={{ width: w, height: h, objectFit: 'cover', objectPosition: 'top' }} /></Sequence>;
-    }
-    if (p.src && p.tipo === 'imagen') return <Img src={staticFile(p.src)} style={{ width: w, height: h, objectFit: 'cover', objectPosition: 'top' }} />;
-    return (
-      <div style={{ width: w, height: h, background: `linear-gradient(160deg, ${P.orange}, ${P.hot} 55%, #7B4DFF)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 20 }}>
-        {p.src ? <Img src={staticFile(p.src)} style={{ maxWidth: w * 0.8, maxHeight: h * (p.texto ? 0.62 : 0.86), objectFit: 'contain', filter: 'drop-shadow(0 10px 0 rgba(0,0,0,.18))' }} /> : null}
-        {p.texto ? <div style={{ fontFamily: FONTS.anton, fontSize: Math.min(w / Math.max(3, p.texto.length * 0.62), p.src ? 140 : 300), color: '#fff', textShadow: '0 8px 0 rgba(0,0,0,.25)', lineHeight: 1 }}>{p.texto}</div> : null}
-      </div>
-    );
-  })();
+/** Without a director: the story's picture, clip, or sticker on the gradient, or a big figure. */
+const Fijo: React.FC<{ p: Pantalla; w: number; h: number; start: number }> = ({ p, w, h, start }) => {
+  if (p.src && p.tipo === 'clip') {
+    return <Sequence from={start} layout="none"><OffthreadVideo src={staticFile(p.src)} muted style={{ width: w, height: h, objectFit: 'cover', objectPosition: 'top' }} /></Sequence>;
+  }
+  if (p.src && p.tipo === 'imagen') return <Img src={staticFile(p.src)} style={{ width: w, height: h, objectFit: 'cover', objectPosition: 'top' }} />;
   return (
-    <div style={{ width: w, height: h, borderRadius: 26, overflow: 'hidden', border: '10px solid #0B0F22', boxShadow: '0 0 0 4px rgba(253,166,70,.6), 0 30px 60px rgba(0,0,0,.45)', position: 'relative' }}>
-      {inner}
-      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,0) 35%)' }} />
+    <div style={{ width: w, height: h, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 20 }}>
+      {p.src ? <Img src={staticFile(p.src)} style={{ maxWidth: w * 0.8, maxHeight: h * (p.texto ? 0.62 : 0.86), objectFit: 'contain', filter: 'drop-shadow(0 10px 0 rgba(0,0,0,.18))' }} /> : null}
+      {p.texto ? <div style={{ fontFamily: FONTS.anton, fontSize: Math.min(w / Math.max(3, p.texto.length * 0.62), p.src ? 140 : 300), color: '#fff', textShadow: '0 8px 0 rgba(0,0,0,.25)', lineHeight: 1 }}>{p.texto}</div> : null}
     </div>
+  );
+};
+
+/**
+ * The TV: always on while the stories run. Its background and bezel, then the director's pieces
+ * (in their own layer: no transform above them), then the glass glare.
+ */
+const Tele: React.FC<{ seg: Seg; i: number; start: number; libre: boolean }> = ({ seg, i, start, libre }) => {
+  const box = PLANOS[seg.plano].screen;
+  const fondo = seg.fondo && seg.fondo !== 'estudio' ? PAL[seg.fondo] ?? ESTUDIO : ESTUDIO;
+  const dark = !!seg.fondo && seg.fondo !== 'estudio' && isDark(seg.fondo);
+  const { SC } = useEp();
+  const sc = SC[i];
+  const r = 20;
+  return (
+    <>
+      <div style={{ position: 'absolute', left: box.x - 10, top: box.y - 10, width: box.w + 20, height: box.h + 20, borderRadius: r + 10, background: '#0B0F22', boxShadow: '0 0 0 4px rgba(253,166,70,.6), 0 30px 60px rgba(0,0,0,.45)' }} />
+      <div style={{ position: 'absolute', left: box.x, top: box.y, width: box.w, height: box.h, borderRadius: r, overflow: 'hidden', background: fondo }}>
+        {!libre ? <Fijo p={seg.pantalla} w={box.w} h={box.h} start={start} /> : null}
+      </div>
+      {libre && sc ? (
+        <div style={{ position: 'absolute', left: box.x, top: box.y, width: box.w, height: box.h, borderRadius: r, overflow: 'hidden' }}>
+          <Sequence from={sc.from - ENTER} durationInFrames={sc.to - sc.from + ENTER + 2} layout="none">
+            <LibreEnCaja i={i} w={box.w} dark={dark} />
+          </Sequence>
+        </div>
+      ) : null}
+      <div style={{ position: 'absolute', left: box.x, top: box.y, width: box.w, height: box.h, borderRadius: r, background: 'linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,0) 35%)' }} />
+    </>
   );
 };
 
@@ -77,10 +107,10 @@ const LowerThird: React.FC<{ seg: Seg; start: number }> = ({ seg, start }) => {
   const f = useCurrentFrame();
   const k = easeOut(stepIn(f, start + 2, 6));
   return (
-    <div style={{ position: 'absolute', left: 40, right: 40, top: 1330, transform: `translateX(${(1 - k) * -1100}px)` }}>
+    <div style={{ position: 'absolute', left: 40, right: 40, bottom: 1920 - LOWER_BOTTOM, transform: `translateX(${(1 - k) * -1100}px)` }}>
       {seg.urgente ? <div style={{ display: 'inline-block', background: RED, color: '#fff', fontFamily: SANS, fontWeight: 900, fontSize: 32, letterSpacing: 3, padding: '8px 18px', marginBottom: -2 }}>ÚLTIMA HORA</div> : null}
       <div style={{ background: '#fff', padding: '14px 26px', boxShadow: '0 8px 0 rgba(0,0,0,.25)' }}>
-        <div style={{ fontFamily: FONTS.archivo, fontSize: 50, color: P.ink, lineHeight: 1.08, textTransform: 'uppercase' }}>{seg.titular}</div>
+        <div style={{ fontFamily: FONTS.archivo, fontSize: seg.titular.length > 30 ? 44 : 50, color: P.ink, lineHeight: 1.08, textTransform: 'uppercase' }}>{seg.titular}</div>
       </div>
       <div style={{ background: NAVY, padding: '10px 26px', borderLeft: `10px solid ${P.orange}` }}>
         <div style={{ fontFamily: SANS, fontWeight: 600, fontSize: 32, color: '#E9E6F2' }}>{seg.bajada}</div>
@@ -107,7 +137,7 @@ const Desk: React.FC<{ x: number; w: number }> = ({ x, w }) => (
   </div>
 );
 
-export const Noticiero: React.FC<{ episode: Episode & { noticiero?: News } }> = ({ episode }) => {
+export const Noticiero: React.FC<{ episode: Episode & { noticiero?: News; libre?: unknown[] } }> = ({ episode }) => {
   const ctx = useMemo(() => makeCtx(episode), [episode]);
   const pose = useMemo(() => makePose(ctx.chunks, ctx.SC), [ctx]);
   const frame = useCurrentFrame();
@@ -120,73 +150,72 @@ export const Noticiero: React.FC<{ episode: Episode & { noticiero?: News } }> = 
   const end = t >= news.fin;
   const plano = PLANOS[seg?.plano ?? 'presentador'];
   const segStart = seg ? T(seg.t) : 0;
-  // a quick orange wipe between stories
+  // a quick orange wipe between stories (it also covers the TV changing place)
   const wipe = seg && frame >= segStart - 4 && frame < segStart + 6 ? (frame - (segStart - 4)) / 10 : null;
   const finStart = T(news.fin);
   const anchor = end ? { x: 540, y: 600, w: 560 } : plano.anchor;
+  // scene i of story k: the intro is scene 0
+  const sceneOf = (n: number) => n + 1;
+  const libre = (n: number) => !!(episode.libre && episode.libre[sceneOf(n)]);
   return (
     <EpProvider ctx={ctx}>
-      <AbsoluteFill>
-        <BoilDefs />
-        <Studio />
-        {/* the anchor behind the desk (in front of the screen when it is the small corner) */}
-        {!intro && (end || seg?.plano !== 'pantalla') ? (
-          <>
-            <div style={{ position: 'absolute', left: anchor.x - anchor.w / 2, top: anchor.y, transform: `scale(${pop(frame, end ? finStart : segStart)})`, transformOrigin: '50% 100%' }}>
-              <HostDuck face={FACE} v0={episode.v0} width={anchor.w} pose={pose} mouth={episode.mouth} />
-            </div>
-            <Desk x={anchor.x} w={Math.max(anchor.w, 420)} />
-          </>
-        ) : null}
-        {/* the screen with the story */}
-        {seg && !end ? (
-          <div style={{ position: 'absolute', left: plano.screen.x, top: plano.screen.y, transform: `scale(${pop(frame, segStart)})`, transformOrigin: '50% 50%' }}>
-            <Screen p={seg.pantalla} w={plano.screen.w} h={plano.screen.h} start={segStart} />
-          </div>
-        ) : null}
-        {/* the end: the app on the screen */}
-        {end ? (
-          <div style={{ position: 'absolute', left: 140, top: 230, transform: `scale(${pop(frame, finStart)})` }}>
-            <div style={{ width: 800, height: 400, borderRadius: 26, background: `linear-gradient(160deg, ${P.orange}, ${P.hot})`, border: '10px solid #0B0F22', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 26, boxShadow: '0 30px 60px rgba(0,0,0,.45)' }}>
-              <Img src={staticFile('app/icon.png')} style={{ width: 170, borderRadius: 40 }} />
-              <div style={{ display: 'flex', gap: 18 }}>
-                <Img src={staticFile('stores/app-store.svg')} style={{ height: 80 }} />
-                <Img src={staticFile('stores/google-play.png')} style={{ height: 80 }} />
+        <AbsoluteFill>
+          <BoilDefs />
+          <Studio />
+          {/* the anchor behind the desk (in front of the TV when it is the small corner) */}
+          {!intro && (end || seg?.plano !== 'pantalla') ? (
+            <>
+              <div style={{ position: 'absolute', left: anchor.x - anchor.w / 2, top: anchor.y, transform: `scale(${pop(frame, end ? finStart : segStart)})`, transformOrigin: '50% 100%' }}>
+                <HostDuck face={FACE} v0={episode.v0} width={anchor.w} pose={pose} mouth={episode.mouth} />
+              </div>
+              <Desk x={anchor.x} w={Math.max(anchor.w, 420)} />
+            </>
+          ) : null}
+          {/* the TV with the story */}
+          {seg && !end ? <Tele key={k} seg={seg} i={sceneOf(k)} start={segStart} libre={libre(k)} /> : null}
+          {/* the end: the app on the screen */}
+          {end ? (
+            <div style={{ position: 'absolute', left: 140, top: 230, transform: `scale(${pop(frame, finStart)})` }}>
+              <div style={{ width: 800, height: 400, borderRadius: 26, background: `linear-gradient(160deg, ${P.orange}, ${P.hot})`, border: '10px solid #0B0F22', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 26, boxShadow: '0 30px 60px rgba(0,0,0,.45)' }}>
+                <Img src={staticFile('app/icon.png')} style={{ width: 170, borderRadius: 40 }} />
+                <div style={{ display: 'flex', gap: 18 }}>
+                  <Img src={staticFile('stores/app-store.svg')} style={{ height: 80 }} />
+                  <Img src={staticFile('stores/google-play.png')} style={{ height: 80 }} />
+                </div>
               </div>
             </div>
-          </div>
-        ) : null}
-        {!intro && !end && seg?.plano === 'pantalla' ? (
-          <>
-            <div style={{ position: 'absolute', left: anchor.x - anchor.w / 2, top: anchor.y, transform: `scale(${pop(frame, segStart + 4)})`, transformOrigin: '50% 100%' }}>
-              <HostDuck face={FACE} v0={episode.v0} width={anchor.w} pose={pose} mouth={episode.mouth} />
-            </div>
-            <div style={{ position: 'absolute', left: anchor.x - 190, top: 1240, width: 380, height: 1920 - 1240, background: 'linear-gradient(180deg, #24346F, #121A3D)', borderTop: `6px solid ${P.orange}`, borderRadius: '20px 20px 0 0' }} />
-          </>
-        ) : null}
-        {seg && !end ? <LowerThird key={k} seg={seg} start={segStart} /> : null}
-        {end ? <LowerThird key="fin" seg={{ t: news.fin, titular: 'DESCARGA DUCKI', bajada: 'gratis · aquí todos somos patos', plano: 'presentador', urgente: false, pantalla: { src: null, tipo: null, w0: null, h0: null, texto: null } }} start={finStart} /> : null}
-        {/* the show's bugs */}
-        <div style={{ position: 'absolute', left: 40, top: 120 }}><Logo scale={0.78} /></div>
-        <div style={{ position: 'absolute', right: 40, top: 128 }}><EnVivo /></div>
-        {!intro ? <Ticker items={news.ticker} /> : null}
-        {/* the title card */}
-        {intro ? (
-          <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 40 }}>
-            <div style={{ transform: `scale(${pop(frame, 2)}) rotate(-2deg)` }}><Logo scale={1.5} /></div>
-            <div style={{ transform: `scale(${pop(frame, 10)})`, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 22 }}>
-              <div style={{ background: RED, color: '#fff', fontFamily: SANS, fontWeight: 900, fontSize: 40, letterSpacing: 4, padding: '10px 26px' }}>ÚLTIMA HORA</div>
-              <Ransom text={episode.hook.title} size={Math.max(90, Math.min(150, 980 / (episode.hook.title.length * 1.0)))} seed={episode.seed} start={12} maxWidth={980} />
-              <Torn color={P.cream} seed={9} pad="10px 30px"><div style={{ fontFamily: FONTS.elite, fontSize: 50, color: P.ink }}>{episode.hook.sub}</div></Torn>
-            </div>
-            <div style={{ position: 'absolute', left: 300, top: 1150, transform: `translateY(${(1 - easeOut(stepIn(frame, 6, 10))) * 700}px)` }}>
-              <HostDuck face={FACE} v0={episode.v0} width={480} pose={pose} mouth={episode.mouth} />
-            </div>
-          </AbsoluteFill>
-        ) : null}
-        {wipe != null ? <div style={{ position: 'absolute', top: -200, bottom: -200, width: 700, left: -800 + wipe * 2700, background: P.orange, transform: 'skewX(-18deg)', boxShadow: '0 0 0 30px rgba(14,20,48,.6)' }} /> : null}
-        <Captions big={false} />
-      </AbsoluteFill>
+          ) : null}
+          {!intro && !end && seg?.plano === 'pantalla' ? (
+            <>
+              <div style={{ position: 'absolute', left: anchor.x - anchor.w / 2, top: anchor.y, transform: `scale(${pop(frame, segStart + 4)})`, transformOrigin: '50% 100%' }}>
+                <HostDuck face={FACE} v0={episode.v0} width={anchor.w} pose={pose} mouth={episode.mouth} />
+              </div>
+              <div style={{ position: 'absolute', left: anchor.x - 190, top: 1240, width: 380, height: 1920 - 1240, background: 'linear-gradient(180deg, #24346F, #121A3D)', borderTop: `6px solid ${P.orange}`, borderRadius: '20px 20px 0 0' }} />
+            </>
+          ) : null}
+          {seg && !end ? <LowerThird key={k} seg={seg} start={segStart} /> : null}
+          {end ? <LowerThird key="fin" seg={{ t: news.fin, titular: 'DESCARGA DUCKI', bajada: 'gratis · aquí todos somos patos', plano: 'presentador', urgente: false, pantalla: { src: null, tipo: null, w0: null, h0: null, texto: null } }} start={finStart} /> : null}
+          {/* the show's bugs */}
+          <div style={{ position: 'absolute', left: 40, top: 120 }}><Logo scale={0.78} /></div>
+          <div style={{ position: 'absolute', right: 40, top: 128 }}><EnVivo /></div>
+          {!intro ? <Ticker items={news.ticker} /> : null}
+          {/* the title card */}
+          {intro ? (
+            <AbsoluteFill style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 40 }}>
+              <div style={{ transform: `scale(${pop(frame, 2)}) rotate(-2deg)` }}><Logo scale={1.5} /></div>
+              <div style={{ transform: `scale(${pop(frame, 10)})`, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 22 }}>
+                <div style={{ background: RED, color: '#fff', fontFamily: SANS, fontWeight: 900, fontSize: 40, letterSpacing: 4, padding: '10px 26px' }}>ÚLTIMA HORA</div>
+                <Ransom text={episode.hook.title} size={Math.max(90, Math.min(150, 980 / (episode.hook.title.length * 1.0)))} seed={episode.seed} start={12} maxWidth={980} />
+                <Torn color={P.cream} seed={9} pad="10px 30px"><div style={{ fontFamily: FONTS.elite, fontSize: 50, color: P.ink }}>{episode.hook.sub}</div></Torn>
+              </div>
+              <div style={{ position: 'absolute', left: 300, top: 1150, transform: `translateY(${(1 - easeOut(stepIn(frame, 6, 10))) * 700}px)` }}>
+                <HostDuck face={FACE} v0={episode.v0} width={480} pose={pose} mouth={episode.mouth} />
+              </div>
+            </AbsoluteFill>
+          ) : null}
+          {wipe != null ? <div style={{ position: 'absolute', top: -200, bottom: -200, width: 700, left: -800 + wipe * 2700, background: P.orange, transform: 'skewX(-18deg)', boxShadow: '0 0 0 30px rgba(14,20,48,.6)' }} /> : null}
+          <Captions big={false} />
+        </AbsoluteFill>
     </EpProvider>
   );
 };

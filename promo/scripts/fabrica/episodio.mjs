@@ -22,7 +22,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { FAB, duration, ffmpeg, loadEnv, norm, python, readJson, slugify, writeJson } from './comun.mjs';
 import { cargarFormato } from './formatos/index.mjs';
-import { MODELO_VOZ, palabrasWhisper, segmentStarts, vozEleven, vozSapi, wordsFromAlignment } from './voz.mjs';
+import { MODELO_VOZ, alineacionSinEtiquetas, palabrasWhisper, quitarEtiquetas, segmentStarts, vozEleven, vozSapi, wordsFromAlignment } from './voz.mjs';
 
 function args() {
   const a = process.argv.slice(2), o = {};
@@ -110,18 +110,22 @@ export async function armarEpisodio(o) {
   let vozFile, words, starts;
   if (modo === 'eleven') {
     vozFile = path.join(dir, 'voz.mp3');
-    // what was voiced (the voice id only as a hash: it is a secret): the same text, model and voice
-    // coming back (a run that failed after the voice) reuses the paid audio instead of paying again
-    const pedido = { texto, modelo: MODELO_VOZ(), voz: crypto.createHash('sha1').update(process.env.ELEVENLABS_VOICE_ID ?? '').digest('hex').slice(0, 10) };
+    // what was voiced (the voice id only as a hash: it is a secret): the same words with the same
+    // model and voice coming back (a run that failed after the voice, a new look for the same
+    // script) reuse the paid audio, with or without audio tags, instead of paying again
+    const modelo = MODELO_VOZ(), hashVoz = crypto.createHash('sha1').update(process.env.ELEVENLABS_VOICE_ID ?? '').digest('hex').slice(0, 10);
     const metaVoz = path.join(dir, 'voz.json');
     const previa = fs.existsSync(vozFile) && fs.existsSync(metaVoz) ? readJson(metaVoz) : null;
     let al;
-    if (previa && previa.texto === pedido.texto && previa.modelo === pedido.modelo && previa.voz === pedido.voz) {
+    if (previa && quitarEtiquetas(previa.texto) === texto && previa.modelo === modelo && previa.voz === hashVoz) {
       al = fs.existsSync(path.join(dir, 'alineacion.json')) ? readJson(path.join(dir, 'alineacion.json')) : null;
-      console.log(`voz: reuso la de ElevenLabs ya pagada (mismo texto, ${pedido.modelo})`);
+      console.log(`voz: reuso la de ElevenLabs ya pagada (mismo texto, ${modelo})`);
     } else {
-      al = await vozEleven(texto, vozFile);
-      writeJson(metaVoz, pedido);
+      // the voice reads the script with audio tags ([excited], [whispers]…); everything else uses the plain one
+      const { etiquetarVoz } = await import('./etiquetas.mjs');
+      const textoVoz = await etiquetarVoz({ texto, spec, dir });
+      al = alineacionSinEtiquetas(await vozEleven(textoVoz, vozFile));
+      writeJson(metaVoz, { texto: textoVoz, modelo, voz: hashVoz });
     }
     if (al) {
       writeJson(path.join(dir, 'alineacion.json'), al);
@@ -154,16 +158,20 @@ export async function armarEpisodio(o) {
   if (fmt.director && (reuse || directorDisponible())) {
     const { dirigir } = await import('./director/director.mjs');
     const { episodioLibre, revisarStoryboard } = await import('./director/storyboard.mjs');
+    // a format with its own storyboard (the newscast's TV) checks and builds it itself
+    const revisarSb = fmt.revisarStoryboard ? (sb) => fmt.revisarStoryboard(sb, { words, starts, spec }) : (sb) => revisarStoryboard(sb, words);
     let storyboard;
     if (reuse) {
       storyboard = readJson(reuse);
-      const problems = revisarStoryboard(storyboard, words);
+      const problems = revisarSb(storyboard);
       if (problems.length) throw new Error(`El storyboard ${reuse} tiene problemas:\n- ${problems.join('\n- ')}`);
     } else {
-      storyboard = await dirigir({ dir, spec, words, vozDur, seed, mouth, segs, starts, formato: fmt.id });
+      storyboard = await dirigir({ dir, spec, words, vozDur, seed, mouth, segs, starts, formato: fmt.id, revisar: revisarSb });
     }
     writeJson(path.join(dir, 'storyboard.json'), storyboard);
-    episode = episodioLibre({ spec, words, vozDur, funciones, seed, mouth, storyboard });
+    episode = fmt.conStoryboard
+      ? fmt.conStoryboard({ spec, words, starts, vozDur, seed, mouth, storyboard })
+      : episodioLibre({ spec, words, vozDur, funciones, seed, mouth, storyboard });
   } else {
     if (fmt.director) console.log('director: no disponible aquí (sin CLAUDE_CODE_OAUTH_TOKEN); uso las escenas fijas del formato');
     episode = fmt.construir({ spec, words, starts, vozDur, funciones, seed, mouth });
