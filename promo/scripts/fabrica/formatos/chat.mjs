@@ -3,6 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { FAB } from '../comun.mjs';
+import { capturasRecientes } from '../recientes.mjs';
 import { cargarCatalogo } from '../director/storyboard.mjs';
 
 export const id = 'chat';
@@ -74,7 +75,9 @@ export function esquema() {
 
 export function contexto() {
   const cat = cargarCatalogo();
-  const stickers = cat.recursos.filter((r) => r.tipo === 'sticker' && r.d && !r.ruta.startsWith('logos/')).map((r) => `${r.ruta}: ${r.d}`);
+  // the captures the last videos showed are not offered: every video with its own
+  const recientes = new Set(capturasRecientes(null, undefined, cat));
+  const stickers = cat.recursos.filter((r) => r.tipo === 'sticker' && r.d && !r.ruta.startsWith('logos/') && !recientes.has(r.ruta)).map((r) => `${r.ruta}: ${r.d}`);
   return 'Stickers y fotos que puedes mandar en el chat (ruta: qué es):\n' + stickers.slice(0, 90).join('\n');
 }
 
@@ -102,6 +105,15 @@ export function revisar(spec, _funciones, { escribiendo = false } = {}) {
   });
   if (msgs < 4) err.push(`solo hay ${msgs} mensajes: una historia en chat necesita al menos 4`);
   if (ia > MAX_IA) err.push(`como mucho ${MAX_IA} stickers nuevos con imagen_ia`);
+  if (escribiendo) {
+    const recientes = new Set(capturasRecientes(null, undefined, cat));
+    for (const [k, l] of (spec.lineas ?? []).entries()) {
+      for (const m of l.mensajes ?? []) {
+        const r = m.tipo === 'foto' && m.recurso ? cat.buscar(m.recurso)?.ruta : null;
+        if (r && recientes.has(r)) err.push(`lineas[${k}]: la foto «${r}» salió en los últimos videos: usa otra`);
+      }
+    }
+  }
   if (escribiendo && ia < MIN_IA) err.push(`manda al menos ${MIN_IA} stickers nuevos del pato con imagen_ia (tipo sticker): los hace la IA para esta historia`);
   if (spec.contacto?.avatar && !cat.buscar(spec.contacto.avatar)) err.push(`el avatar «${spec.contacto.avatar}» no está en el catálogo`);
   if (!spec.cierre?.trim()) err.push('falta cierre');

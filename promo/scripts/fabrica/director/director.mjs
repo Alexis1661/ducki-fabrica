@@ -48,10 +48,11 @@ function recientesDirector(dir, n = 6) {
  * Writes the director's inputs into the episode folder, runs the agent, and returns the
  * storyboard it left (checked). Throws, with the reason, when there is none worth using.
  */
-export async function dirigir({ dir, spec, words, vozDur, seed, mouth, segs, starts, formato = 'lista-scrapbook', revisar: revisarSb = (sb) => revisarStoryboard(sb, words) }) {
-  writeJson(path.join(dir, 'director-base.json'), { spec, words, vozDur, seed, mouth, segs, starts });
+export async function dirigir({ dir, spec, words, vozDur, seed, mouth, segs, starts, formato = 'lista-scrapbook', revisar: revisarSb = (sb) => revisarStoryboard(sb, words), prohibidos = [] }) {
+  writeJson(path.join(dir, 'director-base.json'), { spec, words, vozDur, seed, mouth, segs, starts, prohibidos });
   fs.writeFileSync(path.join(dir, 'palabras-numeradas.txt'), palabrasNumeradas(words, segs, starts));
-  fs.writeFileSync(path.join(dir, 'recientes-director.txt'), `# Cómo se vieron los últimos videos: no repitas sus combinaciones\n${recientesDirector(dir) || '(todavía no hay)'}\n`);
+  fs.writeFileSync(path.join(dir, 'recientes-director.txt'), `# Cómo se vieron los últimos videos: no repitas sus combinaciones\n${recientesDirector(dir) || '(todavía no hay)'}\n` +
+    `\n# Capturas y clips PROHIBIDOS en este video (salieron en los últimos videos; el validador los rechaza, también dentro de un prefab)\n${prohibidos.length ? prohibidos.join('\n') : '(ninguno)'}\n`);
   fs.rmSync(path.join(dir, 'storyboard.json'), { force: true });
   fs.rmSync(path.join(dir, 'revision'), { recursive: true, force: true });
 

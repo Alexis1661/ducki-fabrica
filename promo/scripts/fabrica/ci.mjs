@@ -127,7 +127,10 @@ async function generar(o) {
   const dir = carpeta(o.episodio);
   const spec = readJson(path.join(dir, 'spec.json'));
   const version = Number(path.basename(dir).match(/-v(\d+)$/)?.[1] ?? 1);
-  const ep = await armarEpisodio({ specObj: spec, voz: 'eleven', salida: dir });
+  // a storyboard left on purpose (storyboard-fijo.json) keeps the video's look with a new voice:
+  // it is anchored to word numbers, so it follows the new timings
+  const fijo = path.join(dir, 'storyboard-fijo.json');
+  const ep = await armarEpisodio({ specObj: spec, voz: 'eleven', salida: dir, storyboard: fs.existsSync(fijo) ? fijo : undefined });
   salida(ep.dir);
   if (!ep.files.length) return;
   await enviarPropuesta({ dir: ep.dir, id: path.basename(ep.dir), spec: ep.spec, video: ep.files[0], version });

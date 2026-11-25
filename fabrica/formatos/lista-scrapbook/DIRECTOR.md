@@ -21,7 +21,9 @@ Trabajas solo, sin preguntar. Todo lo que escribas va en la carpeta del episodio
   momentos, grandes y protagonistas: son lo que hace que este video se vea hecho a medida.
 - `recientes-director.txt`: cómo se vieron los últimos videos (colores de hoja, entradas, recursos,
   íconos, estilos de título). **No repitas esas combinaciones**: si ayer abrió en naranja con el
-  presentador y letras recortadas, hoy abre distinto. Los recursos generados con IA
+  presentador y letras recortadas, hoy abre distinto. Al final trae las capturas y clips
+  **prohibidos** en este video (salieron hace poco): el validador los rechaza, también dentro de un
+  prefab (`publica` muestra el feed y `sala` la sala de siempre). Los recursos generados con IA
   (`generados/…` en el catálogo) son nuevos: úsalos cuando encajen.
 - `fabrica/catalogo/catalogo.json`: todos los recursos que puedes usar, con qué muestran (`d`),
   su tipo (`imagen`, `clip`, `sticker`, `pieza`), sus medidas y avisos (`evitar`, `prohibido`).

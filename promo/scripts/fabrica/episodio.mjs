@@ -117,7 +117,8 @@ export async function armarEpisodio(o) {
     const metaVoz = path.join(dir, 'voz.json');
     const previa = fs.existsSync(vozFile) && fs.existsSync(metaVoz) ? readJson(metaVoz) : null;
     let al;
-    if (previa && quitarEtiquetas(previa.texto) === texto && previa.modelo === modelo && previa.voz === hashVoz) {
+    // version 2: the expressive settings and audio tags (an older, flatter voice is made again)
+    if (previa && previa.version === 2 && quitarEtiquetas(previa.texto) === texto && previa.modelo === modelo && previa.voz === hashVoz) {
       al = fs.existsSync(path.join(dir, 'alineacion.json')) ? readJson(path.join(dir, 'alineacion.json')) : null;
       console.log(`voz: reuso la de ElevenLabs ya pagada (mismo texto, ${modelo})`);
     } else {
@@ -125,7 +126,7 @@ export async function armarEpisodio(o) {
       const { etiquetarVoz } = await import('./etiquetas.mjs');
       const textoVoz = await etiquetarVoz({ texto, spec, dir });
       al = alineacionSinEtiquetas(await vozEleven(textoVoz, vozFile));
-      writeJson(metaVoz, { texto: textoVoz, modelo, voz: hashVoz });
+      writeJson(metaVoz, { texto: textoVoz, modelo, voz: hashVoz, version: 2 });
     }
     if (al) {
       writeJson(path.join(dir, 'alineacion.json'), al);
@@ -158,15 +159,19 @@ export async function armarEpisodio(o) {
   if (fmt.director && (reuse || directorDisponible())) {
     const { dirigir } = await import('./director/director.mjs');
     const { episodioLibre, revisarStoryboard } = await import('./director/storyboard.mjs');
-    // a format with its own storyboard (the newscast's TV) checks and builds it itself
-    const revisarSb = fmt.revisarStoryboard ? (sb) => fmt.revisarStoryboard(sb, { words, starts, spec }) : (sb) => revisarStoryboard(sb, words);
+    // a format with its own storyboard (the newscast's TV) checks and builds it itself; and no
+    // capture or clip the last videos showed (the same feed post every time gets old)
+    const { capturasRecientes, revisarRepetidas } = await import('./recientes.mjs');
+    const prohibidos = capturasRecientes(dir);
+    const revisarBase = fmt.revisarStoryboard ? (sb) => fmt.revisarStoryboard(sb, { words, starts, spec }) : (sb) => revisarStoryboard(sb, words);
+    const revisarSb = (sb) => [...revisarBase(sb), ...revisarRepetidas(sb, prohibidos)];
     let storyboard;
     if (reuse) {
       storyboard = readJson(reuse);
       const problems = revisarSb(storyboard);
       if (problems.length) throw new Error(`El storyboard ${reuse} tiene problemas:\n- ${problems.join('\n- ')}`);
     } else {
-      storyboard = await dirigir({ dir, spec, words, vozDur, seed, mouth, segs, starts, formato: fmt.id, revisar: revisarSb });
+      storyboard = await dirigir({ dir, spec, words, vozDur, seed, mouth, segs, starts, formato: fmt.id, revisar: revisarSb, prohibidos });
     }
     writeJson(path.join(dir, 'storyboard.json'), storyboard);
     episode = fmt.conStoryboard

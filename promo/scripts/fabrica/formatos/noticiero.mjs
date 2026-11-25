@@ -6,6 +6,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { FAB } from '../comun.mjs';
+import { capturasRecientes } from '../recientes.mjs';
 import { MOVIMIENTOS, cargarCatalogo, piezasParaEpisodio, revisarPiezas } from '../director/storyboard.mjs';
 
 export const id = 'noticiero';
@@ -71,7 +72,9 @@ export function esquema() {
 
 export function contexto() {
   const cat = cargarCatalogo();
-  const items = cat.recursos.filter((r) => r.d && !r.ruta.startsWith('fabrica/piezas/')).map((r) => `${r.ruta} (${r.tipo}): ${r.d}${r.evitar ? ` [evitar: ${r.evitar}]` : ''}`);
+  // the captures the last videos showed are not offered: every video with its own
+  const recientes = new Set(capturasRecientes(null, undefined, cat));
+  const items = cat.recursos.filter((r) => r.d && !r.ruta.startsWith('fabrica/piezas/') && !recientes.has(r.ruta)).map((r) => `${r.ruta} (${r.tipo}): ${r.d}${r.evitar ? ` [evitar: ${r.evitar}]` : ''}`);
   return 'Recursos para la pantalla (ruta (tipo): qué es):\n' + items.slice(0, 140).join('\n');
 }
 
@@ -84,6 +87,13 @@ export function revisar(spec, _funciones, { escribiendo = false } = {}) {
   if (segs.filter((s) => s.urgente).length > 2) err.push('como mucho dos noticias urgentes');
   const ia = segs.filter((s) => s.pantalla?.imagen_ia?.trim()).length;
   if (ia > MAX_IA) err.push(`como mucho ${MAX_IA} ilustraciones nuevas (imagen_ia)`);
+  if (escribiendo) {
+    const recientes = new Set(capturasRecientes(null, undefined, cat));
+    segs.forEach((s, k) => {
+      const r = s.pantalla?.recurso ? cat.buscar(s.pantalla.recurso)?.ruta : null;
+      if (r && recientes.has(r)) err.push(`segmentos[${k}].pantalla.recurso «${r}» salió en los últimos videos: usa otro o pide una imagen_ia`);
+    });
+  }
   if (escribiendo && ia < Math.min(MIN_IA, segs.length)) err.push(`pide al menos ${MIN_IA} ilustraciones nuevas con imagen_ia: el video se ve vivo con dibujos hechos para estas noticias`);
   segs.forEach((s, k) => {
     if ([...(s.titular ?? '')].length > 42) err.push(`segmentos[${k}].titular pasa de 42 caracteres`);

@@ -96,30 +96,49 @@ export function alineacionSinEtiquetas(al) {
   return { ...al, characters: pick(ch), character_start_times_seconds: pick(al.character_start_times_seconds), character_end_times_seconds: pick(al.character_end_times_seconds) };
 }
 
+/**
+ * Voice settings. Eleven v3/v4 only take stability and similarity: lower stability is what lets
+ * the audio tags change the delivery (0.5 sounded flat), and v4 reads a bit faster
+ * (ELEVENLABS_STABILITY, ELEVENLABS_SPEED). Older models keep their style and speaker boost.
+ */
+export function ajustesVoz(model = MODELO_VOZ()) {
+  if (/^eleven_v[34]/.test(model)) {
+    return { stability: Number(process.env.ELEVENLABS_STABILITY ?? 0.3), similarity_boost: 0.75, speed: Number(process.env.ELEVENLABS_SPEED ?? 1.08) };
+  }
+  return { stability: 0.5, similarity_boost: 0.75, style: 0.35, use_speaker_boost: true };
+}
+
 /** The voice to outMp3; returns the character alignment, or null when the model gave none. */
 export async function vozEleven(texto, outMp3) {
   const key = process.env.ELEVENLABS_API_KEY, voice = process.env.ELEVENLABS_VOICE_ID;
   if (!key || !voice) throw new Error('Faltan ELEVENLABS_API_KEY / ELEVENLABS_VOICE_ID (secretos del repo en Actions; fabrica/.env en local)');
   const model = MODELO_VOZ();
-  const body = JSON.stringify({
-    text: texto,
-    model_id: model,
-    voice_settings: { stability: 0.5, similarity_boost: 0.75, style: 0.35, use_speaker_boost: true },
-  });
   const headers = { 'xi-api-key': key, 'Content-Type': 'application/json' };
-  const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voice}/with-timestamps?output_format=mp3_44100_128`, { method: 'POST', headers, body });
+  const pedir = (url, ajustes) => fetch(url, { method: 'POST', headers, body: JSON.stringify({ text: texto, model_id: model, voice_settings: ajustes }) });
+  const conTiempos = `https://api.elevenlabs.io/v1/text-to-speech/${voice}/with-timestamps?output_format=mp3_44100_128`;
+  // a setting this model doesn't take (speed, a stability value) is dropped, one step at a time
+  const { speed, ...sinVelocidad } = ajustesVoz(model);
+  const opciones = [ajustesVoz(model), ...(speed != null ? [sinVelocidad] : []), { stability: 0.5, similarity_boost: 0.75 }];
+  let ajustes, res, err = '';
+  for (const [k, op] of opciones.entries()) {
+    ajustes = op;
+    res = await pedir(conTiempos, ajustes);
+    err = res.ok ? '' : (await res.text()).slice(0, 300);
+    const otro = opciones[k + 1];
+    if (res.ok || !otro || !(res.status === 400 || res.status === 422) || !/speed|stabilit|voice_settings|setting/i.test(err)) break;
+    console.log(`voz: ${model} no aceptó ${JSON.stringify(ajustes)} (${res.status}: ${err.slice(0, 140)}); pruebo ${JSON.stringify(otro)}`);
+  }
   if (res.ok) {
     const data = await res.json();
     fs.writeFileSync(outMp3, Buffer.from(data.audio_base64, 'base64'));
     const al = data.alignment ?? data.normalized_alignment ?? null;
-    console.log(`voz: ElevenLabs ${model}${al?.characters?.length ? '' : ' (sin alineación: tiempos con whisper)'}`);
+    console.log(`voz: ElevenLabs ${model} (estabilidad ${ajustes.stability}${ajustes.speed ? `, velocidad ${ajustes.speed}` : ''})${al?.characters?.length ? '' : ' (sin alineación: tiempos con whisper)'}`);
     return al?.characters?.length ? al : null;
   }
-  const err = (await res.text()).slice(0, 300);
   // a model without timestamps refuses the request before generating: ask for the plain audio once
   if (res.status !== 400 && res.status !== 422) throw new Error(`ElevenLabs (${model}) respondió ${res.status}: ${err}`);
   console.log(`voz: ${model} no dio tiempos (${res.status}: ${err.slice(0, 160)}); pido el audio sin tiempos y los saco con whisper`);
-  const plain = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voice}?output_format=mp3_44100_128`, { method: 'POST', headers, body });
+  const plain = await pedir(`https://api.elevenlabs.io/v1/text-to-speech/${voice}?output_format=mp3_44100_128`, ajustes);
   if (!plain.ok) throw new Error(`ElevenLabs (${model}) respondió ${plain.status}: ${(await plain.text()).slice(0, 300)} (antes, con tiempos: ${res.status} ${err.slice(0, 160)})`);
   fs.writeFileSync(outMp3, Buffer.from(await plain.arrayBuffer()));
   return null;

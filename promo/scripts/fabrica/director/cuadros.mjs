@@ -22,7 +22,8 @@ try { storyboard = readJson(path.join(dir, 'storyboard.json')); } catch (e) {
 }
 const fmt = await cargarFormato(base.spec?.formato);
 // a format with its own storyboard (the newscast's TV) checks and builds it itself
-const problems = fmt.revisarStoryboard ? fmt.revisarStoryboard(storyboard, base) : revisarStoryboard(storyboard, base.words);
+const { revisarRepetidas } = await import('../recientes.mjs');
+const problems = [...(fmt.revisarStoryboard ? fmt.revisarStoryboard(storyboard, base) : revisarStoryboard(storyboard, base.words)), ...revisarRepetidas(storyboard, base.prohibidos)];
 if (problems.length) {
   console.error(`El storyboard tiene ${problems.length} problema(s); corrígelos y vuelve a correr:\n- ${problems.join('\n- ')}`);
   process.exit(1);

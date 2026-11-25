@@ -24,7 +24,9 @@ Trabajas solo, sin preguntar. Todo lo que escribas va en la carpeta del episodio
 - `palabras-numeradas.txt`: cada palabra de la voz con su **número** y su segundo, y dónde
   empieza cada línea del guion. **La línea 1 es la apertura, la línea 2 es la noticia 1, la línea 3
   la noticia 2…, y la última es el cierre.** Todo el storyboard se ancla a estos números.
-- `recientes-director.txt`: cómo se vieron los últimos videos. No repitas sus combinaciones.
+- `recientes-director.txt`: cómo se vieron los últimos videos (no repitas sus combinaciones) y, al
+  final, las capturas y clips **prohibidos** en este video porque salieron hace poco (el validador los
+  rechaza).
 - `fabrica/catalogo/catalogo.json`: los recursos (qué muestran en `d`, su tipo `imagen`, `clip`,
   `sticker`, `pieza`, medidas y avisos `evitar` / `prohibido`). Las piezas sin descripción se eligen
   **mirando sus hojas** en `fabrica/catalogo/hojas/`. Las capturas y clips puedes mirarlos en
