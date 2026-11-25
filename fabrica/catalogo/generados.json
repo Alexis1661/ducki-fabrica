@@ -1,0 +1,44 @@
+{
+ "recursos": [
+  {
+   "id": "gen-2026-11-25-noticiero-180-e6c23b",
+   "ruta": "generados/gen-2026-11-25-noticiero-180-e6c23b.png",
+   "tipo": "sticker",
+   "grupo": "generados",
+   "w": 1024,
+   "h": 1536,
+   "d": "Hecha con IA para el video 2026-11-25-noticiero-1804-patos-ranking-u-v2 (noticia 1: 101 PATOS NUEVOS EN SIETE DÍAS): El pato presentador de noticiero sosteniendo una gigantesca pancarta que dice solo el número 101, rodeado de muchos patitos que llegan corriendo felices a un estudio de televisión",
+   "episodio": "2026-11-25-noticiero-1804-patos-ranking-u-v2"
+  },
+  {
+   "id": "gen-2026-11-25-noticiero-180-e0b68a",
+   "ruta": "generados/gen-2026-11-25-noticiero-180-e0b68a.png",
+   "tipo": "sticker",
+   "grupo": "generados",
+   "w": 1024,
+   "h": 1536,
+   "d": "Hecha con IA para el video 2026-11-25-noticiero-1804-patos-ranking-u-v2 (noticia 3: JAVERIANA Y UNIVALLE, EMPATE TÉCNICO): El pato reportero con micrófono en medio de dos grupos de patos hinchas, uno con bufanda verde y otro con bufanda roja, empatados en una cinta de meta, estilo foto finish",
+   "episodio": "2026-11-25-noticiero-1804-patos-ranking-u-v2"
+  },
+  {
+   "id": "gen-2026-11-25-noticiero-180-afffb6",
+   "ruta": "generados/gen-2026-11-25-noticiero-180-afffb6.png",
+   "tipo": "sticker",
+   "grupo": "generados",
+   "w": 1024,
+   "h": 1536,
+   "d": "Hecha con IA para el video 2026-11-25-noticiero-1804-patos-ranking-u-v2 (noticia 4: ÚLTIMA HORA: LLUVIA DE LIKES EN EL FEED): El pato presentador de noticiero entregando una medalla de oro con forma de corazón a un celular que muestra una publicación, mientras una lluvia de corazones cae sobre el estudio",
+   "episodio": "2026-11-25-noticiero-1804-patos-ranking-u-v2"
+  },
+  {
+   "id": "gen-2026-11-25-noticiero-180-ed10cd",
+   "ruta": "generados/gen-2026-11-25-noticiero-180-ed10cd.png",
+   "tipo": "sticker",
+   "grupo": "generados",
+   "w": 1024,
+   "h": 1536,
+   "d": "Hecha con IA para el video 2026-11-25-noticiero-1804-patos-ranking-u-v2 (noticia 5: OCHO U, UNA SOLA BANDADA): El pato presentador en un escritorio de noticiero, detrás una pared de pantallas con los logos de ocho universidades de Cali conectados por un hilo amarillo, confeti cayendo",
+   "episodio": "2026-11-25-noticiero-1804-patos-ranking-u-v2"
+  }
+ ]
+}
